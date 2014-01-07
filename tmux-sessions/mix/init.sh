@@ -1,0 +1,1 @@
+workdir=$aqua_node

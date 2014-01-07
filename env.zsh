@@ -53,8 +53,6 @@ export PATH="/usr/sbin:$PATH" #work
 
 export PAGER="most"
 export EDITOR="vim"
-export XDG_DATA_HOME=~/conf/uzbl/data
-export XDG_CONFIG_HOME=~/conf/uzbl/config
 
 export USERWM=`which xmonad`
 export CLIENT=rxvtc

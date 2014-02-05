@@ -105,27 +105,27 @@ HISTFILE=~/.zsh_history
 ###  HISTORY  ############################
 ##########################################
 
-fake-accept-line() {
-	if [[ -n "$BUFFER" ]];
-	then
-		print -S "$BUFFER"
-	fi
-	return 0
-}
-
-zle -N fake-accept-line
-
-down-or-fake-accept-line() {
-	if (( HISTNO == HISTCMD )) && [[ "$RBUFFER" != *$'\n'* ]];
-	then
-		zle fake-accept-line
-	fi
-	zle .down-line-or-history "$@"
-}
-
-zle -N down-line-or-history 
-zle -N down-or-fake-accept-line
-bindkey -M vicmd j down-or-fake-accept-line
+#fake-accept-line() {
+#	if [[ -n "$BUFFER" ]];
+#	then
+#		print -S "$BUFFER"
+#	fi
+#	return 0
+#}
+#
+#zle -N fake-accept-line
+#
+#down-or-fake-accept-line() {
+#	if (( HISTNO == HISTCMD )) && [[ "$RBUFFER" != *$'\n'* ]];
+#	then
+#		zle fake-accept-line
+#	fi
+#	zle .down-line-or-history "$@"
+#}
+#
+#zle -N down-line-or-history 
+#zle -N down-or-fake-accept-line
+#bindkey -M vicmd j down-or-fake-accept-line
 
 
 ##########################################

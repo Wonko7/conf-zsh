@@ -18,7 +18,6 @@ alias c="dirs -c"
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias t="tree -C"
-alias ack="ack-grep"
 
 alias pix="pquery --attr iuse --attr keywords  -vn"
 
@@ -28,7 +27,7 @@ alias pix="pquery --attr iuse --attr keywords  -vn"
 
 alias cp="rsync -a --progress"
 
-alias l="ls -1 --color=auto"
+alias l="tyls -m"
 alias ll="ls -l --color=auto"
 alias la="ls -a --color=auto"
 alias lla="ls -la --color=auto"

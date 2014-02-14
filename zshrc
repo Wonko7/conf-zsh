@@ -30,6 +30,13 @@ source ~/conf/zsh/alias.zsh
 
 
 ##########################################
+###  MODIFIERS  ##########################
+##########################################
+
+autoload -U age
+
+
+##########################################
 ###  COMPLETION  #########################
 ##########################################
 
@@ -46,7 +53,6 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 # comp prompt
 unsetopt list_ambiguous	  # mode
 setopt auto_remove_slash  # remove slash if it's at then end of the line
-#setopt glob_dots	  # include '.*' in comp
 setopt chase_links	  # follow symlinks
 zstyle ':completion:*' group-name ''
 
@@ -71,6 +77,7 @@ zstyle ':completion:*:warnings' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[ye
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 # Correction
+setopt dvorak
 setopt correctall
 
 ##########################################
@@ -140,6 +147,8 @@ cd
 for i in ~/conf/zsh/*.zsh; do
   source $i
 done
+source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+
 
 
 ##########################################

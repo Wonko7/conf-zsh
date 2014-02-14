@@ -270,4 +270,3 @@ ta_mere ()
 		s=$s" "
 	done
 }
-

@@ -29,7 +29,6 @@ setopt INC_APPEND_HISTORY
 source ~/conf/zsh/alias.zsh
 
 
-
 ##########################################
 ###  COMPLETION  #########################
 ##########################################
@@ -37,22 +36,29 @@ source ~/conf/zsh/alias.zsh
 # Comp init
 autoload -Uz colors
 colors
+fpath=(~/conf/zsh/completions/src $fpath)
 autoload -U compinit
 compinit -u
-compctl -k hosts ftp lftp ncftp ssh w3m lynx links elinks nc telnet rlogin host
+
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
 # comp prompt
 unsetopt list_ambiguous	  # mode
 setopt auto_remove_slash  # remove slash if it's at then end of the line
 #setopt glob_dots	  # include '.*' in comp
 setopt chase_links	  # follow symlinks
-
 zstyle ':completion:*' group-name ''
 
 eval "$(dircolors -b)"
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
 zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+
+# fuzzy completion:
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
 
 # kill/killall
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
@@ -62,9 +68,7 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:
 zstyle ':completion:*:descriptions' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}%d%{$reset_color%}:"
 zstyle ':completion:*:warnings' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}no match found%{$reset_color%}"
 
-# zstyle ':completion::complete:*' use-cache on
-# zstyle ':completion::complete:*' cache-path ~/.zcache
-# zstyle ':completion:*:cd:*' ignore-parents parent pwd
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 # Correction
 setopt correctall

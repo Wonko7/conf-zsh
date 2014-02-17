@@ -150,7 +150,6 @@ done
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
-
 ##########################################
 ###  GREETING  ###########################
 ##########################################

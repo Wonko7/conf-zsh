@@ -14,6 +14,8 @@ tm ()
 	local first=
 	local session=$1
 
+	setopt local_options null_glob
+
 	## select session
 	if [ -z $session ]; then
 		session=def
@@ -65,6 +67,7 @@ tm ()
 				fi
 				tmux split-window -t $session:$w_nb "$S $I zsh"
 			done
+			tmux select-layout -t $session:$w_nb even-horizontal
 			w_nb=$(( $w_nb + 1 ))
 		done
 	}

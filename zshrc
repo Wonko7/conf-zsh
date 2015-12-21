@@ -4,10 +4,11 @@
 
 source ~/conf/zsh/env.zsh
 
-setopt BASH_AUTO_LIST
+setopt AUTO_LIST
 setopt CDABLE_VARS
 setopt MARK_DIRS
-setopt NULL_GLOB
+setopt NO_NULL_GLOB
+setopt NO_NO_MATCH
 setopt NO_MENU_COMPLETE
 setopt NO_AUTO_MENU
 setopt NO_CASE_GLOB
@@ -43,7 +44,7 @@ autoload -U age
 # Comp init
 autoload -Uz colors
 colors
-fpath=(~/conf/zsh/completions/src $fpath)
+fpath=(~/conf/zsh/completions/src ~/conf/zsh/gentoo-zsh-completions/src $fpath)
 autoload -U compinit
 compinit -u
 
@@ -56,15 +57,21 @@ setopt auto_remove_slash  # remove slash if it's at then end of the line
 setopt chase_links	  # follow symlinks
 zstyle ':completion:*' group-name ''
 
-eval "$(dircolors -b)"
+#eval "$(dircolors -b)"
+eval `dircolors ~/conf/zsh/dircolors-solarized/dircolors.256dark`
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
+
+zstyle ':completion:*' users ''
 
 # fuzzy completion:
-zstyle ':completion:*' completer _complete _match _approximate
-zstyle ':completion:*:match:*' original only
-zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
+# zstyle ':completion:*' completer _expand _complete _correct _prefix _match _list _approximate
+# #zstyle ':completion:*' completer _expand _prefix 
+# zstyle ':completion:*:correct:*' insert-unambiguous true
+# #bindkey '^i' complete-word
+# zstyle ':completion:*:match:*' original only
+# zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
 
 # kill/killall
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
@@ -79,6 +86,16 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 # Correction
 setopt dvorak
 setopt correctall
+
+# TODO: force rehash:
+#_force_rehash() {
+#  (( CURRENT == 1 )) && rehash
+#  return 1	# Because we didn't really complete anything
+#}
+#
+#zstyle ':completion:*' completer \
+#  _oldlist _expand _force_rehash _complete ...
+#       (where "…" is the rest of whatever you already have in that style).
 
 ##########################################
 ###  EDIT  ###############################
@@ -98,6 +115,8 @@ bindkey -M viins '^r' history-incremental-search-backward
 bindkey -M vicmd '^r' history-incremental-search-backward
 bindkey -M viins '^n' history-incremental-search-forward
 bindkey -M vicmd '^n' history-incremental-search-forward
+
+bindkey -M viins '^g' expand-or-complete-prefix
 
 ##########################################
 ###  HISTORY  ############################
@@ -143,15 +162,50 @@ HISTFILE=~/.zsh_history
 ###  SUB CONF  ###########################
 ##########################################
 
-cd
 for i in ~/conf/zsh/*.zsh; do
   source $i
 done
-source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 
+source ~/conf/zsh/env.zsh
+
+source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+#source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh
+
+#ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
+
+
+#ZSH_HIGHLIGHT_STYLES[default]=none,bg=none
+#ZSH_HIGHLIGHT_STYLES[unknown-token]=fg=red,bold,bg=none
+#ZSH_HIGHLIGHT_STYLES[reserved-word]=fg=yellow,bg=none
+#ZSH_HIGHLIGHT_STYLES[alias]=fg=green,bg=none
+#ZSH_HIGHLIGHT_STYLES[suffix-alias]=fg=green,underline,bg=none
+#ZSH_HIGHLIGHT_STYLES[builtin]=fg=green,bg=none
+#ZSH_HIGHLIGHT_STYLES[function]=fg=green,bg=none
+#ZSH_HIGHLIGHT_STYLES[command]=fg=green,bg=none
+#ZSH_HIGHLIGHT_STYLES[precommand]=fg=green,underline,bg=none
+#ZSH_HIGHLIGHT_STYLES[commandseparator]=none,bg=none
+#ZSH_HIGHLIGHT_STYLES[hashed-command]=fg=green,bg=none
+ZSH_HIGHLIGHT_STYLES[path]=fg=blue,bg=none
+#ZSH_HIGHLIGHT_STYLES[path]=underline,bg=none
+ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
+#ZSH_HIGHLIGHT_STYLES[path_prefix]=underline,bg=none
+#ZSH_HIGHLIGHT_STYLES[globbing]=fg=blue,bg=none
+#ZSH_HIGHLIGHT_STYLES[history-expansion]=fg=blue,bg=none
+#ZSH_HIGHLIGHT_STYLES[single-hyphen-option]=none,bg=none
+#ZSH_HIGHLIGHT_STYLES[double-hyphen-option]=none,bg=none
+#ZSH_HIGHLIGHT_STYLES[back-quoted-argument]=none,bg=none
+#ZSH_HIGHLIGHT_STYLES[single-quoted-argument]=fg=blue,bg=none
+#ZSH_HIGHLIGHT_STYLES[double-quoted-argument]=fg=blue,bg=none
+#ZSH_HIGHLIGHT_STYLES[dollar-quoted-argument]=fg=blue,bg=none
+#ZSH_HIGHLIGHT_STYLES[dollar-double-quoted-argument]=fg=cyan,bg=none
+#ZSH_HIGHLIGHT_STYLES[back-double-quoted-argument]=fg=cyan,bg=none
+#ZSH_HIGHLIGHT_STYLES[back-dollar-quoted-argument]=fg=cyan,bg=none
+#ZSH_HIGHLIGHT_STYLES[assign]=none,bg=none
+#ZSH_HIGHLIGHT_STYLES[redirection]=none,bg=none
+#ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold,bg=none
 
 ##########################################
-###  GREETING  ###########################
+###  GREETING/TMUX  ######################
 ##########################################
 
 bload lol

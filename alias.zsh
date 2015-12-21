@@ -17,23 +17,33 @@ alias c="dirs -c"
 
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
-alias t="tree -C"
+alias t="tree -AC"
 
 alias pix="pquery --attr iuse --attr keywords  -vn"
+alias eu="emerge --with-bdeps=y --complete-graph=y -uDNav"
 
 #if [ ! -z `which vcp` ]; then
 #	alias cp=vcp
 #fi
 
-alias cp="rsync -a --progress"
+alias cp="rsync -ha --progress"
 
 alias l="tyls -m"
 alias ll="ls -l --color=auto"
 alias la="ls -a --color=auto"
 alias lla="ls -la --color=auto"
 alias ls="ls --color=auto"
+function ds {
+	if [ -z "$@" ]; then
+		arg="."
+	else
+		arg="$@"
+	fi
+	find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
+}
 
 alias rm='rm -i'
+alias rf='rm -rf'
 alias clean='rm -f *~ *\#* *.o *.so *.a 2> /dev/null'
 alias clean-tex='rm -f *log *out *snm *toc *nav *aux'
 
@@ -42,6 +52,7 @@ alias tarx='tar -xavf '
 alias tart='tar -tavf '
 
 alias sudo='command sudo '
+alias fucking='command sudo '
 
 #alias msdb1="sudo mount /dev/sdb1 /media/sdb1"
 #alias msdb2="sudo mount /dev/sdb2 /media/sdb2"
@@ -145,10 +156,10 @@ o ()
   fi
 }
 
-alias q="/work/git/ktools/q.sh"
-alias qg="/work/git/ktools/qg.sh"
-alias ik="/work/git/ktools/install_kernel.sh"
-alias kq="sudo killall qemu"
+# alias q="/work/git/ktools/q.sh"
+# alias qg="/work/git/ktools/qg.sh"
+# alias ik="/work/git/ktools/install_kernel.sh"
+# alias kq="sudo killall qemu"
 
 nc_send ()
 {
@@ -188,7 +199,7 @@ lol ()
 		for j in `seq $(( $i * $i % $COLUMNS ))`; do
 			s="$s ";
 		done;
-		echo $s $@;
+		echo "$s $@";
 		i=$(( $i + 1 ))
 	done
 }
@@ -203,7 +214,7 @@ wtf ()
 		for j in `seq $(( $RANDOM * $RANDOM % ( $COLUMNS - $strlen ) ))`; do
 			s="$s ";
 		done;
-		echo $s $@;
+		echo "$s $@";
 		i=$(( $i + 1 ))
 	done
 }
@@ -217,7 +228,7 @@ kkt ()
 		for k in `seq $(( $j * $j % $COLUMNS ))`; do
 			s="$s ";
 		done;
-		echo $s $@;
+		echo "$s $@";
 		i=$(( $i + 1 ))
 		if [ $(( $i % 25 )) -eq 0 ]; then
 			j=$(( $j + 1 ))
@@ -236,7 +247,7 @@ rofl ()
 		for j in `seq 1 $(( $k * $i % $COLUMNS ))`; do
 			s="$s ";
 		done;
-		echo $s $@;
+		echo "$s $@";
 		#echo $i $k
 		i=$(( $i $op 1 ))
 		if [ $(( $i % ( $LINES * 4 ) )) -eq 0 ]; then
@@ -261,12 +272,16 @@ rofl ()
 
 ta_mere ()
 {
+	lol="$@   "
 	s=""
-	for i in `seq $#1 `; do
-		if [ $#s -ge $COLUMNS ]; then
-			s=""
-		fi
-		echo $s${1[$i]}
-		s=$s" "
+	while true; do
+		for i in `seq $#lol`; do
+			if [ $#s -ge $COLUMNS ]; then
+				s=""
+			fi
+			echo "$s${lol[$i]}"
+			s=$s" "
+		done
+		sleep 1
 	done
 }

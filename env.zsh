@@ -24,38 +24,38 @@ umask u=rwx,g=rwx,o=
 #export LSCOLORS=exfxcxdxbxegedabagacad
 #export DISPLAY=":0.0"
 
+if echo $TERM | grep -vq 256color; then
+	export TERM=$TERM-256color
+fi
 export BLOCK_SIZE=human-readable
 
 #export LSCOLORS=CxfxexexbxegedexexCxCx
 #export LSCOLORS=dxfxexexbxegedexexdxdx
 export MANPATH=/opt/local/man/:$MANPATH
 export MANPATH=/Users/$USER/junk/apps/man:$MANPATH
-# for gentoo:
-export EPREFIX=/opt/gentoo
 
-#export PATH="/work/local/bin:$PATH" #work
-#export PATH="/work/local/sbin:$PATH" #work
+# for gentoo:
+#export EPREFIX=/opt/gentoo
+
+export PATH="/sbin:$PATH"
+export PATH="/usr/sbin:$PATH"
 export PATH="/home/$USER/local/bin:$PATH" #perso
 export PATH="/home/$USER/local/sbin:$PATH" #perso
 export PATH="/home/$USER/work/local/bin:$PATH" #perso
 export PATH="/home/$USER/work/local/sbin:$PATH" #perso
 export PATH="/home/$USER/work/local/lib/node_modules/npm/bin/node-gyp-bin/:$PATH" #perso
-export PATH="/opt/local/bin:$PATH" #port
-export PATH="/opt/local/sbin:$PATH" #port
 export PATH="$PATH:/usr/local/bin" #mtools
 export PATH="$PATH:/usr/local/sbin" #mtools
-export PATH="/home/$USER/junk/apps/bin:$PATH" #perso
-export PATH="/home/$USER/.cabal/bin:$PATH" #perso
-export PATH="/opt/local/libexec/gnubin/:$PATH" #perso
-export PATH="/sbin:$PATH" #work
-export PATH="/usr/sbin:$PATH" #work
+#export PATH="/home/$USER/.cabal/bin:$PATH" #perso
 
+export GOPATH=$HOME/local/go
+export PATH="$PATH:$GOPATH/bin"
 
 export PAGER="most"
 export EDITOR="vim"
 
 export USERWM=`which xmonad`
-export CLIENT=rxvtc
+#export CLIENT=rxvtc
 
 export CONCURRENCY_LEVEL=3
 

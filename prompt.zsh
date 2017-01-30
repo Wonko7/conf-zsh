@@ -2,11 +2,11 @@
 
 ctime="white"
 cvcs="red"
-cpath="blue"
+cpath="240"
 cuser="white"
 chost="white"
 csept="white"
-csepb="blue"
+csepb="240"
 
 autoload -Uz colors
 autoload -Uz vcs_info
@@ -14,7 +14,7 @@ colors
 
 #zrcautoload vcs_info || vcs_info() {return 5}
 
-#for COLOR in RED GREEN YELLOW WHITE BLACK CYAN BLUE; do
+#for COLOR in RED GREEN YELLOW WHITE BLACK CYAN 240; do
 #  eval PR_$COLOR='%{$fg[${(L)COLOR}]%}'
 #  eval PR_BRIGHT_$COLOR='%{$fg_bold[${(L)COLOR}]%}'
 #done
@@ -33,19 +33,19 @@ PR_RESET="%f%k";
 # %S - path in the repository
 # %i - hash
 
-#FMT_VCS="${PR_BRIGHT_BLUE}(%s)${PR_RESET}"
+#FMT_VCS="${PR_BRIGHT_240}(%s)${PR_RESET}"
 #FMT_HASH="%i"
 #FMT_BRANCH="${PR_RED}%b${PR_WHITE}${PR_RESET}:${PR_CYAN}%5.5i${PR_BRIGHT_GREEN}%c%u${PR_RESET}"
 #FMT_ACTION="(${PR_CYAN}%a${PR_RESET}%)"   				# e.g. (rebase-i)
-#FMT_PATH_PART1="${PR_BRIGHT_BLUE}%R${PR_RESET}"
-#FMT_PATH_PART2="${PR_BRIGHT_BLUE}%S${PR_RESET}"
+#FMT_PATH_PART1="${PR_BRIGHT_240}%R${PR_RESET}"
+#FMT_PATH_PART2="${PR_BRIGHT_240}%S${PR_RESET}"
 #FMT_PATH="${FMT_PATH_PART1}${FMT_BRANCH}${FMT_PATH_PART2}"	# e.g. ~/repo/subdir
-FMT_PATH="$PR_RESET%F{white}%K{blue}%R $PR_RESET%F{blue}%K{magenta}"$'\ue0b0'$PR_RESET"%F{white}%K{magenta}"$' %b:%5.5i%c%u '"$PR_RESET%F{magenta}%K{blue}"$'\ue0b0'$PR_RESET"%F{white}%K{blue}"' %S'$PR_RESET
+FMT_PATH="$PR_RESET%F{white}%K{240}%R $PR_RESET%F{240}%K{52}"$'\ue0b0'$PR_RESET"%F{white}%K{52}"$' %b:%5.5i%c%u '"$PR_RESET%F{52}%K{240}"$'\ue0b0'$PR_RESET"%F{white}%K{240}"' %S'$PR_RESET
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories
 zstyle ':vcs_info:*:prompt:*' check-for-changes true
-zstyle ':vcs_info:*:prompt:*' unstagedstr "%F{black}✘%f"
-zstyle ':vcs_info:*:prompt:*' stagedstr   "%F{black}✘%f"
+zstyle ':vcs_info:*:prompt:*' unstagedstr "%F{red}✘%f"
+zstyle ':vcs_info:*:prompt:*' stagedstr   "%F{red}✘%f"
 zstyle ':vcs_info:*:prompt:*' actionformats ""		"${FMT_PATH}"
 zstyle ':vcs_info:*:prompt:*' formats       ""		"${FMT_PATH}"
 zstyle ':vcs_info:*:prompt:*' nvcsformats   ""		"%~"
@@ -100,8 +100,8 @@ function lprompt
   #  local user_host="${PR_BRIGHT_RED}%n${at}${PR_BRIGHT_GREEN}%m${PR_RESET}"
   #fi
 
-  local vcs_cwd="%F{white}%K{blue} "'${vcs_info_msg_1_%%.}'"%(2l..%~)%K{blue} $PR_RESET%F{blue}"$'\ue0b0'
-  local cwd="${PR_BRIGHT_BLUE}${vcs_cwd}${PR_RESET}"
+  local vcs_cwd="%F{white}%K{240} "'${vcs_info_msg_1_%%.}'"%(2l..%~)%K{240} $PR_RESET%F{240}"$'\ue0b0'
+  local cwd="${PR_BRIGHT_240}${vcs_cwd}${PR_RESET}"
   #local user="%B%{$fg[$cuser]%}%n"
   #local host="%B%{$fg[$chost]%}%m"
 
@@ -109,12 +109,12 @@ function lprompt
   #PROMPT="%K{9}%F{white} %n@%m $PR_RESET%F{9}"$'\ue0b0'" $PR_RESET"
   PROMPT="
 ${PR_RESET}${cwd}$PR_RESET
-%K{9}%F{white} %n@%m $PR_RESET%F{9}"$'\ue0b0'" $PR_RESET"
+%K{124}%F{white} %n@%m $PR_RESET%F{124}"$'\ue0b0'" $PR_RESET"
 }
 #$BG['009']
 function rprompt
 {
-  local timestamp="$PR_RESET%F{blue}"$'\ue0b2'"$PR_RESET%K{blue} %(?.%F{46}✔.%F{red}✘ %?) %F{white} %T $PR_RESET"
+  local timestamp="$PR_RESET%F{240}"$'\ue0b2'"$PR_RESET%K{240} %(?.%F{46}✔.%F{red}✘ %?) %F{white} %T $PR_RESET"
   #local timestamp=coucou
 
   RPROMPT="$timestamp"

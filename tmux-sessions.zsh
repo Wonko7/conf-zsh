@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env zsh -x
 
 SESSION_SAVE_DIR=~/conf/zsh/tmux-sessions
 
@@ -52,7 +52,7 @@ tm ()
 				I=INIT_TMUX_SESSION="$i/init.sh"
 			fi
 
-			tmux neww -t $session -n $w "$S $I zsh"
+			tmux neww -a -t $session -n $w "$S $I zsh"
 
 			if [ -z $first ]; then
 				tmux kill-window -t $session:1

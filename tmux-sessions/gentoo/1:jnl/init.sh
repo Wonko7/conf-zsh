@@ -1,2 +1,2 @@
 source  $INIT_TMUX_SESSION_CONF
-journalctl -p 6 -efb
+journalctl --no-hostname -p 6 -efb 

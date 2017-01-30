@@ -44,8 +44,8 @@ FMT_PATH="$PR_RESET%F{white}%K{blue}%R $PR_RESET%F{blue}%K{magenta}"$'\ue0b0'$PR
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories
 zstyle ':vcs_info:*:prompt:*' check-for-changes true
-zstyle ':vcs_info:*:prompt:*' unstagedstr "✘"
-zstyle ':vcs_info:*:prompt:*' stagedstr "✘"
+zstyle ':vcs_info:*:prompt:*' unstagedstr "%F{black}✘%f"
+zstyle ':vcs_info:*:prompt:*' stagedstr   "%F{black}✘%f"
 zstyle ':vcs_info:*:prompt:*' actionformats ""		"${FMT_PATH}"
 zstyle ':vcs_info:*:prompt:*' formats       ""		"${FMT_PATH}"
 zstyle ':vcs_info:*:prompt:*' nvcsformats   ""		"%~"

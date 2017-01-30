@@ -24,9 +24,9 @@ umask u=rwx,g=rwx,o=
 #export LSCOLORS=exfxcxdxbxegedabagacad
 #export DISPLAY=":0.0"
 
-if echo $TERM | grep -vq 256color; then
-	export TERM=$TERM-256color
-fi
+#if echo $TERM | grep -vq 256color; then
+#	#export TERM=$TERM-256color
+#fi
 export BLOCK_SIZE=human-readable
 
 #export LSCOLORS=CxfxexexbxegedexexCxCx

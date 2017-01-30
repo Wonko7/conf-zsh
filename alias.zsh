@@ -8,10 +8,12 @@ if [ -z $VIM_SERVER ]; then
   export VIM_SERVER=1
 fi
 
+#tor
+#alias onionshare="~/local/python/bin/python ~/local/python/lib/python2.7/site-packages/onionshare-0.8.1-py2.7.egg/onionshare/onionshare.py"
+
 #alias v="gvim --servername $VIM_SERVER --remote"
 alias v="~/conf/vim/gvim.sh"
 #alias v="~/src/scripts/mvim --servername $VIM_SERVER --remote"
-
 alias p="popd"
 alias c="dirs -c"
 
@@ -20,7 +22,11 @@ alias egrep="egrep --color=auto"
 alias t="tree -AC"
 
 alias pix="pquery --attr iuse --attr keywords  -vn"
-alias eu="emerge --with-bdeps=y --complete-graph=y -uDNav"
+alias eu="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDNaAv"
+alias euif="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDUaAv"
+alias dmesg="dmesg -He"
+
+alias ip="ip -c -h"
 
 #if [ ! -z `which vcp` ]; then
 #	alias cp=vcp
@@ -53,6 +59,9 @@ alias tart='tar -tavf '
 
 alias sudo='command sudo '
 alias fucking='command sudo '
+#alias lowCPU='command systemd-run -t --slice=lowCPU.slice'
+#alias lowCPU='systemd-run --setenv=HOME=/root -t --slice=lowCPU.slice '
+alias lowCPU='systemd-run -t --slice=lowCPU.slice '
 
 #alias msdb1="sudo mount /dev/sdb1 /media/sdb1"
 #alias msdb2="sudo mount /dev/sdb2 /media/sdb2"
@@ -68,7 +77,10 @@ wiki() { dig +short txt $1.wp.dg.cx; }
 
 alias g="git"
 
+alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}'"
 alias psack="ps aux | ack "
+alias psrg="ps aux | rg "
+
 alias psc='ps xawf -eo pid,user,cgroup,args'
 
 rppush ()
@@ -154,6 +166,12 @@ o ()
   else
     open $@
   fi
+}
+
+print_color ()
+{
+	code=$1
+	print -nP -- "$code: %F{$code}Test: %K{$code}Test%k%f " ; (( code % 8 && code < 255 )) || printf '\n'
 }
 
 # alias q="/work/git/ktools/q.sh"

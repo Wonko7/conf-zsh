@@ -207,6 +207,18 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 ##########################################
 ###  GREETING/TMUX  ######################
 ##########################################
+#
+
+print_greeting ()
+{
+	screenfetch -L
+	echo
+	echo "[32m`uname -a`"
+	echo $COLOR_PURPLE
+	curl -m 1 -s http://www.free-reseau.fr/outils/rss/67 | sed -nre "s/\s*.desc.*>(.*)<.*/\1/p" || echo $COLOR_RED free api down.
+	echo "[m"
+	fortune -a
+}
 
 bload lol
 if [ ! -z $INIT_TMUX_SESSION ]; then
@@ -214,16 +226,12 @@ if [ ! -z $INIT_TMUX_SESSION ]; then
 	local t=$INIT_TMUX_SESSION
 	unset INIT_TMUX_SESSION
 	source $t
+	print_greeting
 elif [ ! -z $LOAD_TMUX_SESSION  ]; then
 	unset INIT_TMUX_SESSION
 	local t=$LOAD_TMUX_SESSION
 	unset LOAD_TMUX_SESSION
 	tm $t
 else
-	echo "[32m`uname -a`"
-	echo "[m"
-	fortune -a
-	echo "[31m"
-	date "+%d/%m/%y	  %l:%M"
-	echo -n "[m"
+	print_greeting
 fi

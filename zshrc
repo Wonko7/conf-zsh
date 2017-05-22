@@ -13,7 +13,7 @@ setopt NO_MENU_COMPLETE
 setopt NO_AUTO_MENU
 setopt NO_CASE_GLOB
 setopt ALWAYS_TO_END
-setopt COMPLETE_IN_WORD
+setopt NO_COMPLETE_IN_WORD
 setopt SH_WORD_SPLIT
 
 setopt NO_IGNORE_EOF
@@ -25,9 +25,10 @@ setopt AUTO_PUSHD
 
 #setopt REMATCH_PCRE
 setopt INC_APPEND_HISTORY
+
 #setopt SHARE_HISTORY
 
-source ~/conf/zsh/alias.zsh
+#source ~/conf/zsh/alias.zsh
 
 
 ##########################################
@@ -124,11 +125,13 @@ bindkey -M viins '^g' expand-or-complete-prefix
 
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
 setopt HIST_NO_STORE
 setopt APPEND_HISTORY
 
-HISTSIZE=50000
-SAVEHIST=50000
+
+HISTSIZE=100000
+SAVEHIST=$HISTSIZE
 HISTFILE=~/.zsh_history
 
 ##########################################

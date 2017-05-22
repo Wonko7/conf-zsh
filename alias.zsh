@@ -22,11 +22,12 @@ alias egrep="egrep --color=auto"
 alias t="tree -AC"
 
 alias pix="pquery --attr iuse --attr keywords  -vn"
-alias eu="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDNaAv"
-alias euif="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDUaAv"
+alias eu="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDNaAv "
 alias dmesg="dmesg -He"
 
 alias ip="ip -c -h"
+
+alias sc="systemctl "
 
 #if [ ! -z `which vcp` ]; then
 #	alias cp=vcp
@@ -60,8 +61,20 @@ alias tart='tar -tavf '
 alias sudo='command sudo '
 alias fucking='command sudo '
 #alias lowCPU='command systemd-run -t --slice=lowCPU.slice'
-#alias lowCPU='systemd-run --setenv=HOME=/root -t --slice=lowCPU.slice '
-alias lowCPU='systemd-run -t --slice=lowCPU.slice '
+alias lowCPU='systemd-run --setenv=HOME=/root -t --slice=lowCPU.slice '
+#alias lowCPU='sudo systemd-run -t --slice=lowCPU.slice '
+#function lowCPU () {
+#	echo $#
+#	echo $@
+#	systemd-run -t --slice=lowCPU.slice $@
+#}
+#compdef _precommand lowCPU
+
+    # _start () {
+	#setopt localoptions noautocd
+	#_precommand "$@"
+    #}
+    #compdef _start start
 
 #alias msdb1="sudo mount /dev/sdb1 /media/sdb1"
 #alias msdb2="sudo mount /dev/sdb2 /media/sdb2"

@@ -165,11 +165,14 @@ HISTFILE=~/.zsh_history
 ###  SUB CONF  ###########################
 ##########################################
 
-for i in ~/conf/zsh/*.zsh; do
+for i in ~/conf/zsh/*.zsh ~/conf/payfit/aws/*.zsh; do
   source $i
 done
 
-source ~/conf/zsh/env.zsh
+if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
+  source /usr/bin/aws_zsh_completer.sh
+fi
+#source ~/conf/zsh/env.zsh
 
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh

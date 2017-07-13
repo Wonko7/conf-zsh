@@ -48,6 +48,10 @@ export PATH="$PATH:/usr/local/bin" #mtools
 export PATH="$PATH:/usr/local/sbin" #mtools
 #export PATH="/home/$USER/.cabal/bin:$PATH" #perso
 
+# NODE local first
+#export PATH="$PATH:./node_modules/.bin:../node_modules/.bin:./node_modules/eslint-config-payfit/node_modules/.bin"
+export PATH="./node_modules/.bin:../node_modules/.bin:./node_modules/eslint-config-payfit/node_modules/.bin:$PATH"
+
 export GOPATH=$HOME/local/go
 export PATH="$PATH:$GOPATH/bin"
 

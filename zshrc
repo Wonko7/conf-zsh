@@ -181,12 +181,13 @@ for i in kubectl kops kompose; do
 done
 #source ~/conf/zsh/env.zsh
 
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute
 
 source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
+
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh
 
 #ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
@@ -221,6 +222,7 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 #ZSH_HIGHLIGHT_STYLES[assign]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[redirection]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold,bg=none
+https://github.com/bhilburn/powerlevel9k
 
 ##########################################
 ###  GREETING/TMUX  ######################

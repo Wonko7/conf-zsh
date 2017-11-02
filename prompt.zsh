@@ -1,4 +1,5 @@
 # Prompt file
+# for code ({000..255}) { print -nP -- "$code: %F{$code}Test: %K{$code}Test%k%f " ; (( code % 8 && code < 255 )) || printf '\n'} # colors
 
 ctime="white"
 cvcs="red"

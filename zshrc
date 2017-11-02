@@ -86,7 +86,8 @@ zstyle ':completion:*:cd:*' ignore-parents parent pwd
 
 # Correction
 setopt dvorak
-setopt correctall
+unsetopt correctall
+setopt correct
 
 # TODO: force rehash:
 #_force_rehash() {
@@ -172,6 +173,12 @@ done
 if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
   source /usr/bin/aws_zsh_completer.sh
 fi
+
+for i in kubectl kops kompose; do
+  if [ -x `which $i` ]; then
+    source <($i completion zsh)
+  fi
+done
 #source ~/conf/zsh/env.zsh
 
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh

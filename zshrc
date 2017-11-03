@@ -222,7 +222,6 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 #ZSH_HIGHLIGHT_STYLES[assign]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[redirection]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold,bg=none
-https://github.com/bhilburn/powerlevel9k
 
 ##########################################
 ###  GREETING/TMUX  ######################

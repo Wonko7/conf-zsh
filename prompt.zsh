@@ -112,8 +112,8 @@ function precmd()
 prompt_command_execution_time() {
   local POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
   local POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION=2
-  # 
-  local EXECUTION_TIME_ICON=$'\uF252'
+  #   $'\uF250' $'\uF251' $'\uF252' $'\uF253' $'\uF254' ⌛ ⏳
+  local EXECUTION_TIME_ICON=$'\uF250'
 
   # Print time in human readable format
   # For that use `strftime` and convert
@@ -126,7 +126,7 @@ prompt_command_execution_time() {
   elif (( _P9K_COMMAND_DURATION > 60 )); then
     humanReadableDuration=$(TZ=GMT; strftime '%M:%S' $(( int(rint(_P9K_COMMAND_DURATION)) )))
   elif (( _P9K_COMMAND_DURATION < 0 )); then
-    humanReadableDuration="0"
+    humanReadableDuration="-"
   else
     # If the command executed in seconds, print as float.
     # Convert to float
@@ -143,7 +143,7 @@ prompt_command_execution_time() {
   #if (( _P9K_COMMAND_DURATION >= POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD )); then
   #  echo "${humanReadableDuration} $EXECUTION_TIME_ICON"
   #fi
-  echo "${humanReadableDuration} $EXECUTION_TIME_ICON"
+  echo "$EXECUTION_TIME_ICON ${humanReadableDuration}"
 }
 
 function lprompt
@@ -168,7 +168,7 @@ ${PR_RESET}${cwd}$PR_RESET
 #$BG['009']
 function rprompt
 {
-  local timestamp='$PR_RESET%F{blue}$PR_RESET%K{blue} %(?.%F{46}✔.%F{red}✘ %?) %F{magenta}%K{magenta}%F{white} $(prompt_command_execution_time)  %F{blue}%K{blue}%F{white} %T $PR_RESET'
+  local timestamp='$PR_RESET%F{blue}$PR_RESET%K{blue} %(?.%F{46}✔.%F{red}✘ %?) %F{magenta}%K{magenta}%F{white} $(prompt_command_execution_time) %F{blue}%K{blue}%F{white} %T $PR_RESET'
   #local timestamp=coucou
 
   RPROMPT="$timestamp"

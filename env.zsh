@@ -55,8 +55,8 @@ export PATH="./node_modules/.bin:../node_modules/.bin:./node_modules/eslint-conf
 export GOPATH=$HOME/local/go
 export PATH="$PATH:$GOPATH/bin"
 
-export PAGER="most"
-export EDITOR="vim"
+export PAGER="w3m"
+export EDITOR="nvim"
 
 export USERWM=`which xmonad`
 #export CLIENT=rxvtc

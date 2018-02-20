@@ -12,7 +12,7 @@ fi
 #alias onionshare="~/local/python/bin/python ~/local/python/lib/python2.7/site-packages/onionshare-0.8.1-py2.7.egg/onionshare/onionshare.py"
 
 #alias v="gvim --servername $VIM_SERVER --remote"
-alias v="~/conf/vim/gvim.sh"
+alias v="~/conf/vim/nvim.sh"
 #alias v="~/src/scripts/mvim --servername $VIM_SERVER --remote"
 alias p="popd"
 alias c="dirs -c"

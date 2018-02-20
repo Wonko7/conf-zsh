@@ -234,9 +234,9 @@ print_greeting ()
 	echo
 	echo "[32m`uname -a`"
 	echo $COLOR_PURPLE
-	curl -m 1 -s http://www.free-reseau.fr/outils/rss/67 | sed -nre "s/\s*.desc.*>(.*)<.*/\1/p" || echo $COLOR_RED free api down.
-	echo "[m"
+	#curl -m 1 -s http://www.free-reseau.fr/outils/rss/67 | sed -nre "s/\s*.desc.*>(.*)<.*/\1/p" || echo $COLOR_RED free api down.
 	fortune -a
+	echo "[m"
 }
 
 bload lol

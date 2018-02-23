@@ -196,6 +196,7 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 export FZF_COMPLETION_TRIGGER=''
 bindkey -M viins '^T' fzf-completion
 bindkey -M viins '^I' expand-or-complete
+bindkey -M vicmd '^r' history-incremental-search-backward
 
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh
 

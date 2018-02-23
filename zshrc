@@ -113,8 +113,8 @@ bindkey -M vicmd v edit-command-line
 
 setopt VI
 bindkey -M viins jj vi-cmd-mode
-bindkey -M viins '^r' history-incremental-search-backward
-bindkey -M vicmd '^r' history-incremental-search-backward
+#bindkey -M viins '^r' history-incremental-search-backward
+#bindkey -M vicmd '^r' history-incremental-search-backward
 bindkey -M viins '^n' history-incremental-search-forward
 bindkey -M vicmd '^n' history-incremental-search-forward
 
@@ -184,9 +184,18 @@ done
 bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute
 
+# plugins:
 source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
+
+# FIXME I seem to be missing something:
+#bindkey -M viins '^i' $fzf_default_completion
+#
+export FZF_COMPLETION_TRIGGER=''
+bindkey -M viins '^T' fzf-completion
+bindkey -M viins '^I' expand-or-complete
 
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh
 

@@ -37,14 +37,19 @@ export MANPATH=/Users/$USER/junk/apps/man:$MANPATH
 # for gentoo:
 #export EPREFIX=/opt/gentoo
 
-export PATH="/sbin:$PATH"
-export PATH="/usr/sbin:$PATH"
-export PATH="/home/$USER/local/bin:$PATH" #perso
-export PATH="/home/$USER/local/sbin:$PATH" #perso
-export PATH="/home/$USER/work/local/bin:$PATH" #perso
-export PATH="/home/$USER/work/local/sbin:$PATH" #perso
-export PATH="/home/$USER/work/local/lib/node_modules/npm/bin/node-gyp-bin/:$PATH" #perso
-export PATH="$PATH:/usr/local/bin" #mtools
+
+export NPM_PACKAGES="${HOME}/.npm-packages"
+
+
+PATH="/sbin:$PATH"
+PATH="/usr/sbin:$PATH"
+PATH="/home/$USER/local/bin:$PATH" #perso
+PATH="/home/$USER/local/sbin:$PATH" #perso
+PATH="/home/$USER/work/local/bin:$PATH" #perso
+PATH="/home/$USER/work/local/sbin:$PATH" #perso
+PATH="/home/$USER/work/local/lib/node_modules/npm/bin/node-gyp-bin/:$PATH" #perso
+PATH="$NPM_PACKAGES/bin:$PATH"
+PATH="$PATH:/usr/local/bin" #mtools
 export PATH="$PATH:/usr/local/sbin" #mtools
 #export PATH="/home/$USER/.cabal/bin:$PATH" #perso
 
@@ -62,6 +67,7 @@ export USERWM=`which xmonad`
 #export CLIENT=rxvtc
 
 export CONCURRENCY_LEVEL=3
+export FZF_DEFAULT_OPTS='--reverse --inline-info'
 
 LANG=en_US.UTF8
 LC_ALL="en_US.UTF8"

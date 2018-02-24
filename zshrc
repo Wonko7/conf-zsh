@@ -188,16 +188,22 @@ bindkey '^b' autosuggest-execute
 source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 
-# FIXME I seem to be missing something:
-#bindkey -M viins '^i' $fzf_default_completion
-#
 export FZF_COMPLETION_TRIGGER=''
+export FZF_DEFAULT_COMMAND='fd --type f --exclude .git'
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+#bindkey -M viins '^i' $fzf_default_completion
 bindkey -M viins '^T' fzf-completion
 bindkey -M viins '^I' expand-or-complete
 bindkey -M vicmd '^r' history-incremental-search-backward
 
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh
 
 #ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)

@@ -53,51 +53,53 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
 # comp prompt
-unsetopt list_ambiguous	  # mode
-setopt auto_remove_slash  # remove slash if it's at then end of the line
-setopt chase_links	  # follow symlinks
-zstyle ':completion:*' group-name ''
+unsetopt list_ambiguous
+# remove slash if it's at then end of the line
+setopt auto_remove_slash
+# follow symlinks
+setopt chase_links
+setopt completealiases
+setopt complete_in_word         # allow completion from within a word/phrase
 
-#eval "$(dircolors -b)"
+# Automatically update PATH entries:
+zstyle ':completion:*' rehash true
+# Use ls dircolors:
 eval `dircolors ~/conf/zsh/dircolors-solarized/dircolors.256dark`
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
+# cd:
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+# kill PID:
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+# complete users:
+zstyle ':completion:*:*:*:users' ''
+# message style:
+zstyle ':completion:*:descriptions' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}%d%{$reset_color%}:"
+zstyle ':completion:*:warnings' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}Nothing to see here%{$reset_color%}"
 zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
-
-zstyle ':completion:*' users ''
+# group matches by tag name:
+zstyle ':completion:*' group-name ''
 
 # fuzzy completion:
 # zstyle ':completion:*' completer _expand _complete _correct _prefix _match _list _approximate
-# #zstyle ':completion:*' completer _expand _prefix 
+# #zstyle ':completion:*' completer _expand _prefix
 # zstyle ':completion:*:correct:*' insert-unambiguous true
-# #bindkey '^i' complete-word
 # zstyle ':completion:*:match:*' original only
 # zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
 
-# kill/killall
-zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
-zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-
-zstyle ':completion:*:descriptions' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}%d%{$reset_color%}:"
-zstyle ':completion:*:warnings' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}no match found%{$reset_color%}"
-
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
+# poor man's fuzzy completion:
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'
+# was:
+#zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 
 # Correction
 setopt dvorak
 unsetopt correctall
 setopt correct
 
-# TODO: force rehash:
-#_force_rehash() {
-#  (( CURRENT == 1 )) && rehash
-#  return 1	# Because we didn't really complete anything
-#}
-#
-#zstyle ':completion:*' completer \
-#  _oldlist _expand _force_rehash _complete ...
-#       (where "…" is the rest of whatever you already have in that style).
 
 ##########################################
 ###  EDIT  ###############################
@@ -139,7 +141,7 @@ HISTFILE=~/.zsh_history
 ###  HISTORY  ############################
 ##########################################
 
-#fake-accept-line() {
+# fake-accept-line() {
 #	if [[ -n "$BUFFER" ]];
 #	then
 #		print -S "$BUFFER"
@@ -157,7 +159,7 @@ HISTFILE=~/.zsh_history
 #	zle .down-line-or-history "$@"
 #}
 #
-#zle -N down-line-or-history 
+#zle -N down-line-or-history
 #zle -N down-or-fake-accept-line
 #bindkey -M vicmd j down-or-fake-accept-line
 

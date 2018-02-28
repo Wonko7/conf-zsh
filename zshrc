@@ -59,7 +59,8 @@ setopt auto_remove_slash
 # follow symlinks
 setopt chase_links
 #setopt complete_aliases
-setopt complete_in_word         # allow completion from within a word/phrase
+setopt complete_in_word
+setopt always_to_end
 
 # Automatically update PATH entries:
 zstyle ':completion:*' rehash true
@@ -81,12 +82,10 @@ zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
 zstyle ':completion:*' group-name ''
 
 # fuzzy completion:
-# zstyle ':completion:*' completer _expand _complete _correct _prefix _match _list _approximate
-# #zstyle ':completion:*' completer _expand _prefix
-# zstyle ':completion:*:correct:*' insert-unambiguous true
-# zstyle ':completion:*:match:*' original only
-# zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
-
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+zstyle ':completion:*:correct:*' insert-unambiguous false
 # poor man's fuzzy completion:
 zstyle ':completion:*' matcher-list '' \
   'm:{a-z\-}={A-Z\_}' \

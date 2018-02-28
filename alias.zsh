@@ -117,15 +117,6 @@ rpinitbr ()
 	repo forall $@ -c 'echo $REPO_PROJECT: ; git checkout -b $REPO_RREV $REPO_REMOTE/$REPO_RREV --track'
 }
 
-gdist ()
-{
-	base_dir="."
-	while [ ! -d "$base_dir/.git" ]; do base_dir="$base_dir/.."; [ $(readlink -f "${base_dir}") = "/" ] && return 1; done
-	base_dir=$(readlink -f "$base_dir/")
-	git-archive --format=tar HEAD | gzip -c > `basename $base_dir`.tgz
-	echo $base_dir.tgz
-}
-
 print_color ()
 {
 	code=$1

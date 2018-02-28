@@ -45,7 +45,7 @@ autoload -U age
 # Comp init
 autoload -Uz colors
 colors
-fpath=(~/conf/zsh/completions/src ~/conf/zsh/gentoo-zsh-completions/src $fpath)
+fpath=(~/conf/zsh/completions/src ~/conf/zsh/local-completions/src $fpath)
 autoload -U compinit
 compinit -u
 

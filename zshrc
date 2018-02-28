@@ -58,7 +58,7 @@ unsetopt list_ambiguous
 setopt auto_remove_slash
 # follow symlinks
 setopt chase_links
-setopt completealiases
+setopt complete_aliases
 setopt complete_in_word         # allow completion from within a word/phrase
 
 # Automatically update PATH entries:

@@ -45,6 +45,9 @@ alias tarc='tar -cavf '
 alias tarx='tar -xavf '
 alias tart='tar -tavf '
 
+alias am="udisksctl mount --block-device "
+alias aum="udisksctl unmount --block-device "
+
 alias sudo='command sudo '
 alias lowCPU='systemd-run --setenv=HOME=/root -t --slice=lowCPU.slice '
 

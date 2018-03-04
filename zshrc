@@ -176,7 +176,8 @@ if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
 fi
 
 for i in kubectl kops kompose; do
-  if [ -x `which $i` ]; then
+
+  if [ -x "`which $i`" ]; then
     source <($i completion zsh)
   fi
 done

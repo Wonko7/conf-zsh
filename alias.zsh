@@ -1,44 +1,27 @@
 #!/usr/bin/env zsh
-#
-#alias gvim="~/src/mvim --remote-tab-silent"
-#
-if [ -z $VIM_SERVER ]; then
-  #export VIM_SERVER=`openssl rand -base64 20`
-  #export VIM_SERVER=`wmctrl -d | sed -nre "/\*/ s/^([0-9]+).*/\1/p"`
-  export VIM_SERVER=1
-fi
 
-#tor
-#alias onionshare="~/local/python/bin/python ~/local/python/lib/python2.7/site-packages/onionshare-0.8.1-py2.7.egg/onionshare/onionshare.py"
-
-#alias v="gvim --servername $VIM_SERVER --remote"
-alias v="~/conf/vim/gvim.sh"
-#alias v="~/src/scripts/mvim --servername $VIM_SERVER --remote"
+alias v="~/conf/vim/nvim.sh"
 alias p="popd"
 alias c="dirs -c"
+alias g="git"
+alias sc="systemctl "
+alias z="xscreensaver-command --lock"
 
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias t="tree -AC"
 
-alias pix="pquery --attr iuse --attr keywords  -vn"
-alias eu="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDNaAv"
-alias euif="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDUaAv"
+alias eu="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDNaAv "
 alias dmesg="dmesg -He"
 
 alias ip="ip -c -h"
 
-#if [ ! -z `which vcp` ]; then
-#	alias cp=vcp
-#fi
+alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}'"
+alias psack="ps aux | ack "
+alias psrg="ps aux | rg "
 
-alias cp="rsync -ha --progress"
+alias psc='ps xawf -eo pid,user,cgroup,args'
 
-alias l="tyls -m"
-alias ll="ls -l --color=auto"
-alias la="ls -a --color=auto"
-alias lla="ls -la --color=auto"
-alias ls="ls --color=auto"
 function ds {
 	if [ -z "$@" ]; then
 		arg="."
@@ -48,40 +31,28 @@ function ds {
 	find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
 }
 
+alias cp="rsync -ha --progress"
+
+alias ll="ls -l --color=auto"
+alias la="ls -a --color=auto"
+alias lla="ls -la --color=auto"
+alias ls="ls --color=auto"
+
 alias rm='rm -i'
 alias rf='rm -rf'
-alias clean='rm -f *~ *\#* *.o *.so *.a 2> /dev/null'
-alias clean-tex='rm -f *log *out *snm *toc *nav *aux'
 
 alias tarc='tar -cavf '
 alias tarx='tar -xavf '
 alias tart='tar -tavf '
 
+alias am="udisksctl mount --block-device "
+alias aum="udisksctl unmount --block-device "
+
 alias sudo='command sudo '
-alias fucking='command sudo '
-#alias lowCPU='command systemd-run -t --slice=lowCPU.slice'
-#alias lowCPU='systemd-run --setenv=HOME=/root -t --slice=lowCPU.slice '
-alias lowCPU='systemd-run -t --slice=lowCPU.slice '
+alias lowCPU='systemd-run --setenv=HOME=/root -t --slice=lowCPU.slice '
 
-#alias msdb1="sudo mount /dev/sdb1 /media/sdb1"
-#alias msdb2="sudo mount /dev/sdb2 /media/sdb2"
-#alias msda1="sudo mount /dev/sda1 /media/sda1"
-#alias msda2="sudo mount /dev/sda2 /media/sda2"
-#alias umsdb1="sudo umount /dev/sdb1"
-#alias umsdb2="sudo umount /dev/sdb2"
-#alias umsda1="sudo umount /dev/sda1"
-#alias umsda2="sudo umount /dev/sda2"
-alias z="xscreensaver-command --lock"
-
-wiki() { dig +short txt $1.wp.dg.cx; }
-
-alias g="git"
-
-alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}'"
-alias psack="ps aux | ack "
-alias psrg="ps aux | rg "
-
-alias psc='ps xawf -eo pid,user,cgroup,args'
+compdef _precommand sudo
+compdef _precommand lowCPU
 
 rppush ()
 {
@@ -149,64 +120,10 @@ rpinitbr ()
 	repo forall $@ -c 'echo $REPO_PROJECT: ; git checkout -b $REPO_RREV $REPO_REMOTE/$REPO_RREV --track'
 }
 
-gdist ()
-{
-  base_dir="."
-  while [ ! -d "$base_dir/.git" ]; do base_dir="$base_dir/.."; [ $(readlink -f "${base_dir}") = "/" ] && return 1; done
-  base_dir=$(readlink -f "$base_dir/")
-  git-archive --format=tar HEAD | gzip -c > `basename $base_dir`.tgz
-  echo $base_dir.tgz
-}
-
-o ()
-{
-  if [ $# -eq 0 ]
-  then
-    open .
-  else
-    open $@
-  fi
-}
-
 print_color ()
 {
 	code=$1
 	print -nP -- "$code: %F{$code}Test: %K{$code}Test%k%f " ; (( code % 8 && code < 255 )) || printf '\n'
-}
-
-# alias q="/work/git/ktools/q.sh"
-# alias qg="/work/git/ktools/qg.sh"
-# alias ik="/work/git/ktools/install_kernel.sh"
-# alias kq="sudo killall qemu"
-
-nc_send ()
-{
-	if [ "$#" -eq 2 ]; then
-		my_path="$1"
-		my_port="$2"
-	elif [ "$#" -eq 1 ]; then
-		my_path="$1"
-		my_port=6666
-	else
-		echo "nc_send \$path [\$port]"
-		return
-	fi
-	tar -czf - $my_path | pv | nc -l -p $my_port -q 5
-}
-
-nc_recv ()
-{
-	if [ "$#" -eq 2 ]; then
-		my_ip="$1"
-		my_port="$2"
-	elif [ "$#" -eq 1 ]; then
-		my_ip="$1"
-		my_port=6666
-	else
-		echo "nc_recv $ip [$port]"
-		return
-	fi
-	nc $my_ip $my_port | pv | tar -xzf -
 }
 
 lol ()

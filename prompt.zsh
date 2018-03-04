@@ -1,4 +1,5 @@
 # Prompt file
+# for code ({000..255}) { print -nP -- "$code: %F{$code}Test: %K{$code}Test%k%f " ; (( code % 8 && code < 255 )) || printf '\n'} # colors
 
 ctime="white"
 cvcs="red"
@@ -10,6 +11,10 @@ csepb="240"
 
 autoload -Uz colors
 autoload -Uz vcs_info
+autoload -Uz add-zsh-hook
+
+zmodload zsh/datetime
+zmodload zsh/mathfunc
 colors
 
 #zrcautoload vcs_info || vcs_info() {return 5}
@@ -51,6 +56,7 @@ zstyle ':vcs_info:*:prompt:*' formats       ""		"${FMT_PATH}"
 zstyle ':vcs_info:*:prompt:*' nvcsformats   ""		"%~"
 zstyle ':vcs_info:*:prompt:*' get-revision true
 
+setopt PROMPT_SUBST
 setopt AUTO_LIST
 setopt CDABLE_VARS
 setopt MARK_DIRS
@@ -82,14 +88,62 @@ fi
 
 typeset -Ag FG BG FX
 
+_P9K_TIMER_START=0x7FFFFFFF
+function powerlevel9k_preexec() {
+  _P9K_TIMER_START=$EPOCHREALTIME
+}
+
+function powerlevel9k_precmd() {
+  _P9K_COMMAND_DURATION=$((EPOCHREALTIME - _P9K_TIMER_START))
+  _P9K_TIMER_START=0x7FFFFFFF
+}
+
 function precmd()
 {
   vcs_info 'prompt'
 
-  #set b
+  #_P9K_COMMAND_DURATION=$((EPOCHREALTIME - _P9K_TIMER_START))
+  local ref
   ref="$(git branch 2> /dev/null | egrep '^\*' || echo "")"
   ref="${ref/\* /}"
   export b="$ref"
+}
+
+prompt_command_execution_time() {
+  local POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
+  local POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION=2
+  #   $'\uF250' $'\uF251' $'\uF252' $'\uF253' $'\uF254' ⌛ ⏳
+  local EXECUTION_TIME_ICON=$'\uF250'
+
+  # Print time in human readable format
+  # For that use `strftime` and convert
+  # the duration (float) to an seconds
+  # (integer).
+  # See http://unix.stackexchange.com/a/89748
+  local humanReadableDuration
+  if (( _P9K_COMMAND_DURATION > 3600 )); then
+    humanReadableDuration=$(TZ=GMT; strftime '%H:%M:%S' $(( int(rint(_P9K_COMMAND_DURATION)) )))
+  elif (( _P9K_COMMAND_DURATION > 60 )); then
+    humanReadableDuration=$(TZ=GMT; strftime '%M:%S' $(( int(rint(_P9K_COMMAND_DURATION)) )))
+  elif (( _P9K_COMMAND_DURATION < 0 )); then
+    humanReadableDuration="-"
+  else
+    # If the command executed in seconds, print as float.
+    # Convert to float
+    if [[ "${POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION}" == "0" ]]; then
+      # If user does not want microseconds, then we need to convert
+      # the duration to an integer.
+      typeset -i humanReadableDuration
+    else
+      typeset -F ${POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION} humanReadableDuration
+    fi
+    humanReadableDuration=$_P9K_COMMAND_DURATION
+  fi
+
+  #if (( _P9K_COMMAND_DURATION >= POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD )); then
+  #  echo "${humanReadableDuration} $EXECUTION_TIME_ICON"
+  #fi
+  echo "$EXECUTION_TIME_ICON ${humanReadableDuration}"
 }
 
 function lprompt
@@ -114,12 +168,13 @@ ${PR_RESET}${cwd}$PR_RESET
 #$BG['009']
 function rprompt
 {
-  local timestamp="$PR_RESET%F{240}"$'\ue0b2'"$PR_RESET%K{240} %(?.%F{46}✔.%F{red}✘ %?) %F{white} %T $PR_RESET"
-  #local timestamp=coucou
+  local timestamp='$PR_RESET%F{240}$PR_RESET%K{240} %(?.%F{46}✔.%F{red}✘ %?) %F{52}%K{52}%F{white} $(prompt_command_execution_time) %F{240}%K{240}%F{white} %T $PR_RESET'
 
   RPROMPT="$timestamp"
 }
 
+add-zsh-hook preexec powerlevel9k_preexec
+add-zsh-hook precmd powerlevel9k_precmd
 rprompt
 lprompt
 

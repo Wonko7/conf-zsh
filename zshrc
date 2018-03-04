@@ -13,7 +13,7 @@ setopt NO_MENU_COMPLETE
 setopt NO_AUTO_MENU
 setopt NO_CASE_GLOB
 setopt ALWAYS_TO_END
-setopt COMPLETE_IN_WORD
+setopt NO_COMPLETE_IN_WORD
 setopt SH_WORD_SPLIT
 
 setopt NO_IGNORE_EOF
@@ -25,9 +25,10 @@ setopt AUTO_PUSHD
 
 #setopt REMATCH_PCRE
 setopt INC_APPEND_HISTORY
+
 #setopt SHARE_HISTORY
 
-source ~/conf/zsh/alias.zsh
+#source ~/conf/zsh/alias.zsh
 
 
 ##########################################
@@ -44,7 +45,7 @@ autoload -U age
 # Comp init
 autoload -Uz colors
 colors
-fpath=(~/conf/zsh/completions/src ~/conf/zsh/gentoo-zsh-completions/src $fpath)
+fpath=(~/conf/zsh/completions/src ~/conf/zsh/local-completions/src $fpath)
 autoload -U compinit
 compinit -u
 
@@ -52,50 +53,52 @@ zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
 # comp prompt
-unsetopt list_ambiguous	  # mode
-setopt auto_remove_slash  # remove slash if it's at then end of the line
-setopt chase_links	  # follow symlinks
-zstyle ':completion:*' group-name ''
+unsetopt list_ambiguous
+# remove slash if it's at then end of the line
+setopt auto_remove_slash
+# follow symlinks
+setopt chase_links
+#setopt complete_aliases
+setopt complete_in_word
+setopt always_to_end
 
-#eval "$(dircolors -b)"
+# Automatically update PATH entries:
+zstyle ':completion:*' rehash true
+# Use ls dircolors:
 eval `dircolors ~/conf/zsh/dircolors-solarized/dircolors.256dark`
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
-zstyle ':completion:*' list-colors ''
-zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
-
-zstyle ':completion:*' users ''
-
-# fuzzy completion:
-# zstyle ':completion:*' completer _expand _complete _correct _prefix _match _list _approximate
-# #zstyle ':completion:*' completer _expand _prefix 
-# zstyle ':completion:*:correct:*' insert-unambiguous true
-# #bindkey '^i' complete-word
-# zstyle ':completion:*:match:*' original only
-# zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
-
-# kill/killall
+# cd:
+zstyle ':completion:*:cd:*' ignore-parents parent pwd
+# kill PID:
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
 zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
-zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
-
+# complete users:
+zstyle ':completion:*:*:*:users' ''
+# message style:
 zstyle ':completion:*:descriptions' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}%d%{$reset_color%}:"
-zstyle ':completion:*:warnings' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}no match found%{$reset_color%}"
+zstyle ':completion:*:warnings' format "%b%{$fg[red]%}-%{$reset_color%} %{$fg[yellow]%}Nothing to see here%{$reset_color%}"
+zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
+# group matches by tag name:
+zstyle ':completion:*' group-name ''
 
-zstyle ':completion:*:cd:*' ignore-parents parent pwd
+# fuzzy completion:
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+zstyle ':completion:*:correct:*' insert-unambiguous false
+# poor man's fuzzy completion:
+zstyle ':completion:*' matcher-list '' \
+  'm:{a-z\-}={A-Z\_}' \
+  'r:[^[:alpha:]]||[[:alpha:]]=** r:|=* m:{a-z\-}={A-Z\_}' \
+  'r:|?=** m:{a-z\-}={A-Z\_}'
+# was:
+#zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 
 # Correction
 setopt dvorak
-setopt correctall
+unsetopt correctall
+setopt correct
 
-# TODO: force rehash:
-#_force_rehash() {
-#  (( CURRENT == 1 )) && rehash
-#  return 1	# Because we didn't really complete anything
-#}
-#
-#zstyle ':completion:*' completer \
-#  _oldlist _expand _force_rehash _complete ...
-#       (where "…" is the rest of whatever you already have in that style).
 
 ##########################################
 ###  EDIT  ###############################
@@ -111,8 +114,8 @@ bindkey -M vicmd v edit-command-line
 
 setopt VI
 bindkey -M viins jj vi-cmd-mode
-bindkey -M viins '^r' history-incremental-search-backward
-bindkey -M vicmd '^r' history-incremental-search-backward
+#bindkey -M viins '^r' history-incremental-search-backward
+#bindkey -M vicmd '^r' history-incremental-search-backward
 bindkey -M viins '^n' history-incremental-search-forward
 bindkey -M vicmd '^n' history-incremental-search-forward
 
@@ -124,18 +127,20 @@ bindkey -M viins '^g' expand-or-complete-prefix
 
 setopt HIST_IGNORE_DUPS
 setopt HIST_IGNORE_SPACE
+setopt HIST_REDUCE_BLANKS
 setopt HIST_NO_STORE
 setopt APPEND_HISTORY
 
-HISTSIZE=50000
-SAVEHIST=50000
+
+HISTSIZE=100000
+SAVEHIST=$HISTSIZE
 HISTFILE=~/.zsh_history
 
 ##########################################
 ###  HISTORY  ############################
 ##########################################
 
-#fake-accept-line() {
+# fake-accept-line() {
 #	if [[ -n "$BUFFER" ]];
 #	then
 #		print -S "$BUFFER"
@@ -153,7 +158,7 @@ HISTFILE=~/.zsh_history
 #	zle .down-line-or-history "$@"
 #}
 #
-#zle -N down-line-or-history 
+#zle -N down-line-or-history
 #zle -N down-or-fake-accept-line
 #bindkey -M vicmd j down-or-fake-accept-line
 
@@ -162,13 +167,44 @@ HISTFILE=~/.zsh_history
 ###  SUB CONF  ###########################
 ##########################################
 
-for i in ~/conf/zsh/*.zsh; do
+for i in ~/conf/zsh/*.zsh ~/conf/payfit/aws/*.zsh; do
   source $i
 done
 
-source ~/conf/zsh/env.zsh
+if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
+  source /usr/bin/aws_zsh_completer.sh
+fi
 
+for i in kubectl kops kompose; do
+  if [ -x `which $i` ]; then
+    source <($i completion zsh)
+  fi
+done
+#source ~/conf/zsh/env.zsh
+
+bindkey '^l' autosuggest-accept
+bindkey '^b' autosuggest-execute
+
+# plugins:
+source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export FZF_COMPLETION_TRIGGER=''
+export FZF_DEFAULT_COMMAND='fd --type f --exclude .git'
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+
+#bindkey -M viins '^i' $fzf_default_completion
+bindkey -M viins '^T' fzf-completion
+bindkey -M viins '^I' expand-or-complete
+bindkey -M vicmd '^r' history-incremental-search-backward
+
+ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh
 
 #ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
@@ -215,9 +251,9 @@ print_greeting ()
 	echo
 	echo "[32m`uname -a`"
 	echo $COLOR_PURPLE
-	curl -m 1 -s http://www.free-reseau.fr/outils/rss/67 | sed -nre "s/\s*.desc.*>(.*)<.*/\1/p" || echo $COLOR_RED free api down.
-	echo "[m"
+	#curl -m 1 -s http://www.free-reseau.fr/outils/rss/67 | sed -nre "s/\s*.desc.*>(.*)<.*/\1/p" || echo $COLOR_RED free api down.
 	fortune -a
+	echo "[m"
 }
 
 bload lol

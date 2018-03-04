@@ -167,7 +167,7 @@ HISTFILE=~/.zsh_history
 ###  SUB CONF  ###########################
 ##########################################
 
-for i in ~/conf/zsh/*.zsh ~/conf/payfit/aws/*.zsh; do
+for i in ~/conf/zsh/*.zsh; do
   source $i
 done
 

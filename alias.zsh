@@ -1,6 +1,6 @@
 #!/usr/bin/env zsh
 
-alias v="~/conf/vim/nvim.sh"
+alias v=nvim
 alias p="popd"
 alias c="dirs -c"
 alias g="git"

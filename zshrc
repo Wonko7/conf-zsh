@@ -24,9 +24,18 @@ setopt AUTO_PUSHD
 #setopt PUSHD_IGNORE_DUPS
 
 #setopt REMATCH_PCRE
+# Expire duplicate entries first when trimming history.
 setopt INC_APPEND_HISTORY
-
-#setopt SHARE_HISTORY
+# Don't record an entry that was just recorded again.
+setopt HIST_IGNORE_DUPS
+# Delete old recorded entry if new entry is a duplicate.
+setopt HIST_IGNORE_ALL_DUPS
+# Do not display a line previously found.
+setopt HIST_FIND_NO_DUPS
+# Don't record an entry starting with a space.
+setopt HIST_IGNORE_SPACE
+ # Don't write duplicate entries in the history file
+setopt HIST_SAVE_NO_DUPS
 
 #source ~/conf/zsh/alias.zsh
 
@@ -61,6 +70,8 @@ setopt chase_links
 #setopt complete_aliases
 setopt complete_in_word
 setopt always_to_end
+# unusable with bookmarks
+unsetopt cdablevars
 
 # Automatically update PATH entries:
 zstyle ':completion:*' rehash true

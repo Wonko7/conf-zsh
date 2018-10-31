@@ -39,7 +39,6 @@ setopt HIST_SAVE_NO_DUPS
 
 #source ~/conf/zsh/alias.zsh
 
-
 ##########################################
 ###  MODIFIERS  ##########################
 ##########################################
@@ -202,8 +201,12 @@ source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
 export FZF_COMPLETION_TRIGGER=''
-export FZF_DEFAULT_COMMAND='fd --type f --exclude .git'
+export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude node_modules'
 _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"
 }
@@ -212,7 +215,7 @@ _fzf_compgen_dir() {
 }
 
 #bindkey -M viins '^i' $fzf_default_completion
-bindkey -M viins '^T' fzf-completion
+bindkey -M viins '^F' fzf-completion
 bindkey -M viins '^I' expand-or-complete
 bindkey -M vicmd '^r' history-incremental-search-backward
 
@@ -251,6 +254,11 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 #ZSH_HIGHLIGHT_STYLES[assign]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[redirection]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold,bg=none
+
+# FIXME testing stuff:
+chpwd() {
+  ls
+}
 
 ##########################################
 ###  GREETING/TMUX  ######################

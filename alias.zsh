@@ -49,7 +49,7 @@ alias am="udisksctl mount --block-device "
 alias aum="udisksctl unmount --block-device "
 
 alias sudo='command sudo '
-alias lowCPU='systemd-run --setenv=HOME=/root -t --slice=lowCPU.slice '
+alias lowCPU='systemd-run --gid=portage --setenv=HOME=/root -t --slice=lowCPU.slice '
 
 compdef _precommand sudo
 compdef _precommand lowCPU

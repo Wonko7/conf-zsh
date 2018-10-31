@@ -22,7 +22,10 @@ umask u=rwx,g=rwx,o=
 
 #export CLICOLORS=1
 #export LSCOLORS=exfxcxdxbxegedabagacad
-#export DISPLAY=":0.0"
+export DISPLAY=":0"
+export GDK_DPI_SCALE=1.5
+export GPG_TTY=$(tty)
+
 
 #if echo $TERM | grep -vq 256color; then
 #	#export TERM=$TERM-256color
@@ -64,46 +67,12 @@ export PAGER="w3m"
 export EDITOR="nvim"
 
 export USERWM=`which xmonad`
-#export CLIENT=rxvtc
 
 export CONCURRENCY_LEVEL=3
 export FZF_DEFAULT_OPTS='--reverse --inline-info'
 
-LANG=en_US.UTF8
-LC_ALL="en_US.UTF8"
-LC_CTYPE="en_US.UTF8"
-LC_NUMERIC="en_US.UTF8"
-LC_TIME="en_US.UTF8"
-LC_COLLATE="en_US.UTF8"
-LC_MONETARY="en_US.UTF8"
-LC_MESSAGES="en_US.UTF8"
-LC_PAPER="en_US.UTF8"
-LC_NAME="en_US.UTF8"
-LC_ADDRESS="en_US.UTF8"
-LC_TELEPHONE="en_US.UTF8"
-LC_MEASUREMENT="en_US.UTF8"
-LC_IDENTIFICATION="en_US.UTF8"
-## LANG=en_US.UTF-8
-## LC_ALL="en_US.UTF-8"
-## LC_CTYPE="en_US.UTF-8"
-## LC_NUMERIC="en_US.UTF-8"
-## LC_TIME="en_US.UTF-8"
-## LC_COLLATE="en_US.UTF-8"
-## LC_MONETARY="en_US.UTF-8"
-## LC_MESSAGES="en_US.UTF-8"
-## LC_PAPER="en_US.UTF-8"
-## LC_NAME="en_US.UTF-8"
-## LC_ADDRESS="en_US.UTF-8"
-## LC_TELEPHONE="en_US.UTF-8"
-## LC_MEASUREMENT="en_US.UTF-8"
-## LC_IDENTIFICATION="en_US.UTF-8"
+## because fuck you ansible.
+export ANSIBLE_NOCOWS=1
 
-
-# export PATH="$EPREFIX/bin:$EPREFIX/usr/bin:$PATH"
-# export PATH="$EPREFIX/sbin:$EPREFIX/usr/sbin:$PATH"
-#export PATH="$PATH:/opt/local/bin"
-# export PATH="$PATH:$EPREFIX/bin:$EPREFIX/usr/bin"
-# export PATH="$PATH:$EPREFIX/sbin:$EPREFIX/usr/sbin"
-# fink
-#test -r /sw/bin/init.sh && . /sw/bin/init.sh
-#export CDPATH="~"
+## because fuck you android-studio vs tiling.
+export _JAVA_AWT_WM_NONREPARENTING=1

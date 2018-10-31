@@ -104,7 +104,8 @@ function precmd()
 
   #_P9K_COMMAND_DURATION=$((EPOCHREALTIME - _P9K_TIMER_START))
   local ref
-  ref="$(git branch 2> /dev/null | egrep '^\*' || echo "")"
+  #ref="$(git branch 2> /dev/null | egrep '^\*' || echo "")"
+  ref="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
   ref="${ref/\* /}"
   export b="$ref"
 }
@@ -113,7 +114,9 @@ prompt_command_execution_time() {
   local POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=3
   local POWERLEVEL9K_COMMAND_EXECUTION_TIME_PRECISION=2
   #   $'\uF250' $'\uF251' $'\uF252' $'\uF253' $'\uF254' ⌛ ⏳
-  local EXECUTION_TIME_ICON=$'\uF250'
+  # local EXECUTION_TIME_ICON=$'\uF250'
+  local EXECUTION_TIME_ICON=""
+
 
   # Print time in human readable format
   # For that use `strftime` and convert

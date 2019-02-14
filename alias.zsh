@@ -7,6 +7,8 @@ alias g="git"
 alias sc="systemctl "
 alias z="xscreensaver-command --lock"
 
+alias h="history 0 | rg "
+
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 alias t="tree -AC"
@@ -17,9 +19,11 @@ alias dmesg="dmesg -He"
 alias ip="ip -c -h"
 
 alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}'"
+alias rgf="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --files-with-matches "
+alias rgu="rg -S --type-add 'clj:*.{clj,cljc,cljs}' "
+
 alias psack="ps aux | ack "
 alias psrg="ps aux | rg "
-
 alias psc='ps xawf -eo pid,user,cgroup,args'
 
 function ds {
@@ -31,15 +35,17 @@ function ds {
 	find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
 }
 
-alias cp="rsync -ha --progress"
-
 alias ll="ls -l --color=auto"
 alias la="ls -a --color=auto"
 alias lla="ls -la --color=auto"
 alias ls="ls --color=auto"
 
 alias rm='rm -i'
-alias rf='rm -rf'
+alias rmf='rm -rf'
+alias rms='echo Stallman was right.'
+alias rf='rm -ri'
+
+alias cp="rsync -ha --progress"
 
 alias tarc='tar -cavf '
 alias tarx='tar -xavf '
@@ -49,10 +55,20 @@ alias am="udisksctl mount --block-device "
 alias aum="udisksctl unmount --block-device "
 
 alias sudo='command sudo '
+alias sv="sudoedit"
+alias svp="sudoedit -u portage"
 alias lowCPU='systemd-run --gid=portage --setenv=HOME=/root -t --slice=lowCPU.slice '
-
 compdef _precommand sudo
 compdef _precommand lowCPU
+
+catcert ()
+{
+        address=$1
+        port=`[ -z "$2" ] && echo 443 || echo $2`
+        echo "$address:$port"
+        echo "Running: echo | openssl s_client -showcerts -servername $address -connect $address:$port 2>/dev/null | openssl x509 -inform pem -noout -text"
+        echo | openssl s_client -showcerts -servername $address -connect $address:$port 2>/dev/null | openssl x509 -inform pem -noout -text
+}
 
 rppush ()
 {

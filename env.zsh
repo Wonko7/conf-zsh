@@ -76,3 +76,11 @@ export ANSIBLE_NOCOWS=1
 
 ## because fuck you android-studio vs tiling.
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+# X stuff;
+##  XDG:
+export XDG_CONFIG_HOME=$HOME/.config
+export XDG_CACHE_HOME=$HOME/.cache
+export XDG_DATA_HOME=$HOME/.local/share
+##  KDE:
+export QT_QPA_PLATFORMTHEME="qt5ct"

@@ -26,7 +26,7 @@ autoload -Uz add-zsh-hook || return
 (( ${+zbell_duration} )) || zbell_duration=15
 
 # initialize zbell_ignore if not set
-(( ${+zbell_ignore} )) || zbell_ignore=($EDITOR $PAGER vi vim nvim emacs w3m less more most)
+(( ${+zbell_ignore} )) || zbell_ignore=($EDITOR $PAGER vi vim nvim emacs w3m less more most git g bc sv svp)
 
 # initialize it because otherwise we compare a date and an empty string
 # the first time we see the prompt. it's fine to have lastcmd empty on the
@@ -36,16 +36,15 @@ zbell_timestamp=$EPOCHSECONDS
 
 # right before we begin to execute something, store the time it started at
 zbell_begin() {
-        zbell_begin_called=1
+	zbell_begin_called=1
 	zbell_timestamp=$EPOCHSECONDS
 	zbell_lastcmd=$1
-        echo $zbell_lastcmd begin
 }
 
 # when it finishes, if it's been running longer than $zbell_duration,
 # and we dont have an ignored command in the line, then print a bell.
 zbell_end() {
-        if [ "$zbell_begin_called" != 1 ]; then
+	if [ "$zbell_begin_called" != 1 ]; then
 		return;
 	fi
 	unset zbell_begin_called
@@ -64,9 +63,9 @@ zbell_end() {
 
 	if (( ! $has_ignored_cmd )) && (( ran_long )); then
 		print -n "\a"
-                local cmd=(${(z)zbell_lastcmd})
-                local args=${cmd:1}
-                notify-send "${cmd[1]}" "${args}"
+		local cmd=(${(z)zbell_lastcmd})
+		local args=${cmd:1}
+		notify-send "${cmd[1]}" "${args}"
 	fi
 }
 

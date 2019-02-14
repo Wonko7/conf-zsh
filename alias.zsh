@@ -15,6 +15,7 @@ alias t="tree -AC"
 
 alias eu="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDNaAv "
 alias dmesg="dmesg -He"
+alias cal="cal -m"
 
 alias ip="ip -c -h"
 

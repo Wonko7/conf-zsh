@@ -36,9 +36,11 @@ function ds {
 	find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
 }
 
+alias ncdu="ncdu --confirm-quit"
+
 alias ll="ls -l --color=auto"
-alias la="ls -a --color=auto"
-alias lla="ls -la --color=auto"
+alias la="ls -A --color=auto"
+alias lla="ls -lA --color=auto"
 alias ls="ls --color=auto"
 
 alias rm='rm -i'

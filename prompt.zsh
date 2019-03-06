@@ -101,11 +101,11 @@ function powerlevel9k_precmd() {
 function precmd()
 {
   vcs_info 'prompt'
-
   #_P9K_COMMAND_DURATION=$((EPOCHREALTIME - _P9K_TIMER_START))
   local ref
   #ref="$(git branch 2> /dev/null | egrep '^\*' || echo "")"
   ref="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+
   ref="${ref/\* /}"
   export b="$ref"
 }

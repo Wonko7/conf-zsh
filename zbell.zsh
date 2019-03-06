@@ -26,7 +26,7 @@ autoload -Uz add-zsh-hook || return
 (( ${+zbell_duration} )) || zbell_duration=15
 
 # initialize zbell_ignore if not set
-(( ${+zbell_ignore} )) || zbell_ignore=($EDITOR $PAGER vi vim nvim emacs w3m less more most watch tail journalctl git g bc sv svp vlc mpv xine gxine gimp okular evince top htop powertop strace gdb mutt tmux screen dispatch-conf)
+(( ${+zbell_ignore} )) || zbell_ignore=($EDITOR $PAGER vi vim nvim emacs w3m less more most man info watch tail journalctl git g bc sv svp vlc mpv xine gxine gimp okular evince top htop powertop strace gdb mutt tmux screen dispatch-conf pass chromium)
 
 # initialize it because otherwise we compare a date and an empty string
 # the first time we see the prompt. it's fine to have lastcmd empty on the

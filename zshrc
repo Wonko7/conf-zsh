@@ -202,8 +202,9 @@ source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+#[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+#[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+alias nvm_load='$NVM_DIR/nvm.sh && $NVM_DIR/bash_completion'
 
 export FZF_COMPLETION_TRIGGER=''
 export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude node_modules'
@@ -214,10 +215,22 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
+zmodload zsh/parameter
+
+_bindkey_sudo () {
+  cmd=`eval echo $history[$HISTCMD]`
+  echo yyy $cmd
+  echo yyy $cmd
+  sudo $cmd
+}
+zle -N _bindkey_sudo
+
 #bindkey -M viins '^i' $fzf_default_completion
 bindkey -M viins '^F' fzf-completion
 bindkey -M viins '^I' expand-or-complete
 bindkey -M vicmd '^r' history-incremental-search-backward
+bindkey -M vicmd '^r' history-incremental-search-backward
+bindkey -M viins '^x' _bindkey_sudo
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh

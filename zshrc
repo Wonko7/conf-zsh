@@ -67,7 +67,7 @@ setopt auto_remove_slash
 # follow symlinks
 setopt chase_links
 #setopt complete_aliases
-setopt complete_in_word
+# setopt complete_in_word
 setopt always_to_end
 # unusable with bookmarks
 unsetopt cdablevars
@@ -107,7 +107,7 @@ zstyle ':completion:*' matcher-list '' \
 # Correction
 setopt dvorak
 unsetopt correctall
-setopt correct
+unsetopt correct
 
 
 ##########################################
@@ -144,7 +144,7 @@ setopt APPEND_HISTORY
 
 HISTSIZE=100000
 SAVEHIST=$HISTSIZE
-HISTFILE=~/.zsh_history
+HISTFILE=~/conf/zsh/history
 
 ##########################################
 ###  HISTORY  ############################
@@ -185,13 +185,6 @@ if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
   source /usr/bin/aws_zsh_completer.sh
 fi
 
-for i in kubectl kops kompose; do
-
-  if [ -x "`which $i`" ]; then
-    source <($i completion zsh)
-  fi
-done
-#source ~/conf/zsh/env.zsh
 
 bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute
@@ -205,6 +198,14 @@ export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 alias nvm_load='$NVM_DIR/nvm.sh && $NVM_DIR/bash_completion'
+if [ ! -z $kube_for_life ]; then
+  for i in kubectl kops kompose; do
+    if [ -x "`which $i`" ]; then
+      source <($i completion zsh)
+    fi
+  done
+fi
+#source ~/conf/zsh/env.zsh
 
 export FZF_COMPLETION_TRIGGER=''
 export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude node_modules'

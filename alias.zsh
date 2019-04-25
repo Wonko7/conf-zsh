@@ -6,6 +6,9 @@ alias c="dirs -c"
 alias g="git"
 alias sc="systemctl "
 alias z="xscreensaver-command --lock"
+alias mute="pactl set-sink-volume 0 20%; pactl set-sink-volume 1 20%; pactl set-sink-mute 1 true; pactl set-sink-mute 0 true"
+# might change this: 
+alias m=mute
 
 alias h="history 0 | rg "
 
@@ -20,8 +23,15 @@ alias cal="cal -m"
 alias ip="ip -c -h"
 
 alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}'"
-alias rgf="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --files-with-matches "
-alias rgu="rg -S --type-add 'clj:*.{clj,cljc,cljs}' "
+alias frg="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --files-with-matches"
+alias urg="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --unrestricted"
+function rgfd {
+  rg $1 $(fd $2)
+}
+function urgfd {
+  rg $1 $(fd -HIu $2)
+}
+
 
 alias psack="ps aux | ack "
 alias psrg="ps aux | rg "
@@ -58,11 +68,14 @@ alias am="udisksctl mount --block-device "
 alias aum="udisksctl unmount --block-device "
 
 alias sudo='command sudo '
+alias sudop='command sudo -u portage '
 alias sv="sudoedit"
 alias svp="sudoedit -u portage"
 alias lowCPU='systemd-run --gid=portage --setenv=HOME=/root -t --slice=lowCPU.slice '
 compdef _precommand sudo
 compdef _precommand lowCPU
+
+alias yt="youtube-dl -x --no-playlist "
 
 catcert ()
 {

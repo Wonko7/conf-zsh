@@ -22,6 +22,7 @@ COL_OR_TO_SHELL="${PR_RESET}%F{9}"
 if [ ! -z $REMOTE_SESSION ]; then
   COL_BL="${PR_RESET}%F{white}%K{240}"
   COL_BL_TO_MAG="${PR_RESET}%F{240}%K{52}"
+  COL_BL_TO_SHELL="${PR_RESET}%F{240}"
   COL_MAG="${PR_RESET}%F{white}%K{52}"
   COL_MAG_TO_BL="${PR_RESET}%F{52}%K{240}"
   COL_MAG_TO_SHELL="${PR_RESET}%F{52}"
@@ -37,24 +38,11 @@ fi
 # %R - repository path
 # %S - path in the repository
 # %i - hash
-
-function vcs () {
-  local subdir="%S"
-  if [ "$subdir" = "." ]; then
-    local vcs="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S${PR_RESET}"
-  else
-    local vcs="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_SHELL}${PR_RESET}"
-  fi
-
-  echo ${vcs}
-}
-
-#jFMT_PATH="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S"
+# we parse it later:
 FMT_PATH="%R
 %b
 %5.5i%c%u
 %S"
-#FMT_PATH="%R\n%b\n%5.5i%c%u\n%S"
 
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories
@@ -67,7 +55,7 @@ zstyle ':vcs_info:*:prompt:*' nvcsformats       ""		"%~"
 zstyle ':vcs_info:*:prompt:*' get-revision      true
 
 if [ $TERM = screen-256color ]; then
-	ZLE_RPROMPT_INDENT=0
+  ZLE_RPROMPT_INDENT=0
 fi
 
 # FIXME whyyyyy:
@@ -90,7 +78,10 @@ function precmd()
   local vcs=("${(f)vcs_info_msg_1_}")
   #vcs: 1 basedir, 2 branch, 3 commit + action, 4 subdir
   b=$vcs[2]
-  if [ "$vcs[4]" = "." ]; then
+
+  if [ -z $vcs[3] ]; then
+    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_SHELL}${PR_RESET}"
+  elif [ "$vcs[4]" = "." ]; then
     local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2]:$vcs[3] ${COL_MAG_TO_SHELL}${PR_RESET}"
   else
     local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2]:$vcs[3] ${COL_MAG_TO_BL}${COL_BL} $vcs[4] ${COL_BL_TO_SHELL}${PR_RESET}"

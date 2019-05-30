@@ -37,6 +37,13 @@ setopt HIST_IGNORE_SPACE
  # Don't write duplicate entries in the history file
 setopt HIST_SAVE_NO_DUPS
 
+# from prompt.zsh, shouldn't have been there: FIXME check this against complete type
+setopt PROMPT_SUBST
+setopt SH_WORD_SPLIT # FIXME check this
+
+setopt extended_glob
+setopt prompt_percent
+
 #source ~/conf/zsh/alias.zsh
 
 ##########################################
@@ -205,10 +212,9 @@ if [ ! -z $kube_for_life ]; then
     fi
   done
 fi
-#source ~/conf/zsh/env.zsh
 
 export FZF_COMPLETION_TRIGGER=''
-export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude node_modules'
+#export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude node_modules'
 _fzf_compgen_path() {
   fd --hidden --follow --exclude ".git" . "$1"
 }
@@ -218,20 +224,30 @@ _fzf_compgen_dir() {
 
 zmodload zsh/parameter
 
-_bindkey_sudo () {
-  cmd=`eval echo $history[$HISTCMD]`
-  echo yyy $cmd
-  echo yyy $cmd
-  sudo $cmd
+_bindkey_xclip () {
+  cmd=$(history | tail -n1 | sed -re 's/^\S+\s+//')
+  $cmd | xclip
+  zle reset-prompt
+  echo "$cmd | xclip"
 }
+_bindkey_sudo () {
+  cmd=$(history | tail -n1 | sed -re 's/^\S+\s+//')
+  sudo $cmd
+  zle reset-prompt
+  echo "sudo $cmd"
+}
+zle -N _bindkey_xclip
 zle -N _bindkey_sudo
 
 #bindkey -M viins '^i' $fzf_default_completion
 bindkey -M viins '^F' fzf-completion
-bindkey -M viins '^I' expand-or-complete
+bindkey -M viins '^I' expand-or-complete-prefix
+#bindkey -M viins '^I' complete-word
 bindkey -M vicmd '^r' history-incremental-search-backward
 bindkey -M vicmd '^r' history-incremental-search-backward
-bindkey -M viins '^x' _bindkey_sudo
+bindkey -M viins '^x' _bindkey_xclip
+bindkey -M viins '^b' _bindkey_sudo
+bindkey -M viins '^s' _bindkey_sudo
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh

@@ -1,10 +1,12 @@
 #!/usr/bin/env zsh
 
+## heh... why the fuck not?
+alias e="emacs -nw"
 alias v="~/conf/vim/nvim.sh"
 alias p="popd"
 alias c="dirs -c"
 alias g="git"
-alias sc="systemctl "
+alias sc="systemctl"
 alias z="xscreensaver-command --lock"
 alias mute="pactl set-sink-volume 0 20%; pactl set-sink-volume 1 20%; pactl set-sink-mute 1 true; pactl set-sink-mute 0 true"
 # might change this: 

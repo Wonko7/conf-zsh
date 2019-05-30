@@ -16,13 +16,15 @@ COL_BL_TO_MAG="${PR_RESET}%F{blue}%K{magenta}"
 COL_BL_TO_SHELL="${PR_RESET}%F{blue}"
 COL_MAG="${PR_RESET}%F{white}%K{magenta}"
 COL_MAG_TO_BL="$PR_RESET%F{magenta}%K{blue}"
+COL_MAG_TO_SHELL="$PR_RESET%F{magenta}"
 COL_OR="${PR_RESET}%K{9}%F{white}"
 COL_OR_TO_SHELL="${PR_RESET}%F{9}"
 if [ ! -z $REMOTE_SESSION ]; then
   COL_BL="${PR_RESET}%F{white}%K{240}"
   COL_BL_TO_MAG="${PR_RESET}%F{240}%K{52}"
   COL_MAG="${PR_RESET}%F{white}%K{52}"
-  COL_MAG_TO_BL="$PR_RESET%F{52}%K{240}"
+  COL_MAG_TO_BL="${PR_RESET}%F{52}%K{240}"
+  COL_MAG_TO_SHELL="${PR_RESET}%F{52}"
   COL_OR="${PR_RESET}%K{124}%F{white}"
   COL_OR_TO_SHELL="${PR_RESET}%F{124}"
 fi
@@ -36,15 +38,26 @@ fi
 # %S - path in the repository
 # %i - hash
 
-FMT_PATH="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S${PR_RESET}"
+function vcs () {
+  local subdir="%S"
+  if [ "$subdir" = "." ]; then
+    local vcs="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S${PR_RESET}"
+  else
+    local vcs="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_SHELL}${PR_RESET}"
+  fi
+
+  echo ${vcs}
+}
+
+FMT_PATH="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S"
 
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories
 zstyle ':vcs_info:*:prompt:*' check-for-changes true
 zstyle ':vcs_info:*:prompt:*' unstagedstr       "%F{black}✘%f"
 zstyle ':vcs_info:*:prompt:*' stagedstr         "%F{black}✘%f"
-zstyle ':vcs_info:*:prompt:*' actionformats     ""		"${FMT_PATH}"
-zstyle ':vcs_info:*:prompt:*' formats           ""		"${FMT_PATH}"
+zstyle ':vcs_info:*:prompt:*' actionformats     ""		"$FMT_PATH"
+zstyle ':vcs_info:*:prompt:*' formats           ""		"$FMT_PATH"
 zstyle ':vcs_info:*:prompt:*' nvcsformats       ""		"%~"
 zstyle ':vcs_info:*:prompt:*' get-revision      true
 
@@ -114,12 +127,11 @@ prompt_command_execution_time() {
 
 function lprompt
 {
-  #local vcs_cwd="%F{white}%K{blue} "'${vcs_info_msg_1_%%.}'"%(2l..%~)%K{blue} $PR_RESET%F{blue}"$'\ue0b0'
-  local vcs_cwd="${COL_BL} ${vcs_info_msg_1_%%.}%(2l..%~) ${COL_BL_TO_SHELL}${PR_RESET}"
+  local vcs_cwd="${COL_BL} \${vcs_info_msg_1_} ${COL_BL_TO_SHELL}${PR_RESET}"
 
   PROMPT="
-${PR_RESET}${vcs_cwd}$PR_RESET
-%K{9}%F{white} %n@%m $PR_RESET%F{9}"$'\ue0b0'" $PR_RESET"
+${vcs_cwd}
+${COL_OR} %n@%m ${COL_OR_TO_SHELL}$PR_RESET "
 }
 
 function rprompt

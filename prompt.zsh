@@ -49,13 +49,18 @@ function vcs () {
   echo ${vcs}
 }
 
-FMT_PATH="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S"
+#jFMT_PATH="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S"
+FMT_PATH="%R
+%b
+%5.5i%c%u
+%S"
+#FMT_PATH="%R\n%b\n%5.5i%c%u\n%S"
 
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories
-zstyle ':vcs_info:*:prompt:*' check-for-changes true
-zstyle ':vcs_info:*:prompt:*' unstagedstr       "%F{black}✘%f"
-zstyle ':vcs_info:*:prompt:*' stagedstr         "%F{black}✘%f"
+zstyle ':vcs_info:*:*:*'      check-for-changes true
+zstyle ':vcs_info:*:*:*'      unstagedstr       "%F{black}✘%f"
+zstyle ':vcs_info:*:*:*'      stagedstr         "%F{black}✘%f"
 zstyle ':vcs_info:*:prompt:*' actionformats     ""		"$FMT_PATH"
 zstyle ':vcs_info:*:prompt:*' formats           ""		"$FMT_PATH"
 zstyle ':vcs_info:*:prompt:*' nvcsformats       ""		"%~"
@@ -82,10 +87,18 @@ function precmd()
 {
   vcs_info 'prompt'
   local ref
-  ref="$(git rev-parse --abbrev-ref HEAD 2> /dev/null)"
+  local vcs=("${(f)vcs_info_msg_1_}")
+  #vcs: 1 basedir, 2 branch, 3 commit + action, 4 subdir
+  b=$vcs[2]
+  if [ "$vcs[4]" = "." ]; then
+    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2]:$vcs[3] ${COL_MAG_TO_SHELL}${PR_RESET}"
+  else
+    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2]:$vcs[3] ${COL_MAG_TO_BL}${COL_BL} $vcs[4] ${COL_BL_TO_SHELL}${PR_RESET}"
+  fi
 
-  ref="${ref/\* /}"
-  export b="$ref"
+  PROMPT="
+${vcs_prompt}
+${COL_OR} %n@%m ${COL_OR_TO_SHELL}${PR_RESET} "
 }
 
 prompt_command_execution_time() {
@@ -125,15 +138,6 @@ prompt_command_execution_time() {
   echo "$EXECUTION_TIME_ICON ${humanReadableDuration}"
 }
 
-function lprompt
-{
-  local vcs_cwd="${COL_BL} \${vcs_info_msg_1_} ${COL_BL_TO_SHELL}${PR_RESET}"
-
-  PROMPT="
-${vcs_cwd}
-${COL_OR} %n@%m ${COL_OR_TO_SHELL}$PR_RESET "
-}
-
 function rprompt
 {
   local timestamp='$PR_RESET%F{blue}$PR_RESET%K{blue} %(?.%F{46}✔.%F{red}✘ %?) %F{magenta}%K{magenta}%F{white} $(prompt_command_execution_time) %F{blue}%K{blue}%F{white} %T $PR_RESET'
@@ -144,4 +148,3 @@ function rprompt
 add-zsh-hook preexec powerlevel9k_preexec
 add-zsh-hook precmd powerlevel9k_precmd
 rprompt
-lprompt

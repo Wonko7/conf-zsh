@@ -7,7 +7,6 @@ autoload -Uz add-zsh-hook
 
 zmodload zsh/datetime
 zmodload zsh/mathfunc
-colors
 
 PR_RESET="%{${reset_color}%}";
 PR_RESET="%f%k";
@@ -18,6 +17,14 @@ COL_MAG="${PR_RESET}%F{white}%K{magenta}"
 COL_MAG_TO_BL="$PR_RESET%F{magenta}%K{blue}"
 COL_OR="${PR_RESET}%K{9}%F{white}"
 COL_OR_TO_SHELL="${PR_RESET}%F{9}"
+if [ ! -Z REMOTE_SESSION ]; then
+  COL_BL="${PR_RESET}%F{white}%K{240}"
+  COL_BL_TO_MAG="${PR_RESET}%F{240}%K{52}"
+  COL_MAG="${PR_RESET}%F{white}%K{52}"
+  COL_MAG_TO_BL="$PR_RESET%F{52}%K{240}"
+  COL_OR="${PR_RESET}%K{124}%F{white}"
+  COL_OR_TO_SHELL="${PR_RESET}%F{124}"
+fi
 
 # set formats
 # %b - branchname
@@ -28,7 +35,7 @@ COL_OR_TO_SHELL="${PR_RESET}%F{9}"
 # %S - path in the repository
 # %i - hash
 
-FMT_PATH="$PR_RESET%F{white}%K{blue}%R $PR_RESET%F{blue}%K{magenta}"$'\ue0b0'$PR_RESET"%F{white}%K{magenta}"$' %b:%5.5i%c%u '"$PR_RESET%F{magenta}%K{blue}"$'\ue0b0'$PR_RESET"%F{white}%K{blue}"' %S'$PR_RESET
+FMT_PATH="${COL_BL}%R ${COL_BL_TO_MAG}${COL_MAG} %b:%5.5i%c%u ${COL_MAG_TO_BL}${COL_BL} %S${PR_RESET}"
 
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories

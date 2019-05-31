@@ -8,6 +8,9 @@ autoload -Uz add-zsh-hook
 zmodload zsh/datetime
 zmodload zsh/mathfunc
 
+setopt PROMPT_SUBST
+setopt PROMPT_PERCENT
+
 PR_RESET="%{${reset_color}%}";
 PR_RESET="%f%k";
 
@@ -77,6 +80,7 @@ function precmd()
   local ref
   local vcs=("${(f)vcs_info_msg_1_}")
   #vcs: 1 basedir, 2 branch, 3 commit + action, 4 subdir
+  gr=$vcs[1]
   b=$vcs[2]
 
   if [ -z $vcs[3] ]; then
@@ -131,8 +135,7 @@ prompt_command_execution_time() {
 
 function rprompt
 {
-  local timestamp='$PR_RESET%F{blue}$PR_RESET%K{blue} %(?.%F{46}✔.%F{red}✘ %?) %F{magenta}%K{magenta}%F{white} $(prompt_command_execution_time) %F{blue}%K{blue}%F{white} %T $PR_RESET'
-
+  local timestamp='${COL_BL_TO_SHELL}${COL_BL} %(?.%F{46}✔.%F{red}✘ %?) ${COL_MAG_TO_BL}${COL_MAG} $(prompt_command_execution_time) ${COL_BL_TO_MAG}${COL_BL} %T $PR_RESET'
   RPROMPT="$timestamp"
 }
 

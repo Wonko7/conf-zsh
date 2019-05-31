@@ -7,14 +7,23 @@ source ~/conf/zsh/env.zsh
 setopt AUTO_LIST
 setopt CDABLE_VARS
 setopt MARK_DIRS
+
 setopt NO_NULL_GLOB
+
 setopt NO_NO_MATCH
 setopt NO_MENU_COMPLETE
 setopt NO_AUTO_MENU
 setopt NO_CASE_GLOB
 setopt ALWAYS_TO_END
-setopt NO_COMPLETE_IN_WORD
-setopt SH_WORD_SPLIT
+setopt COMPLETE_IN_WORD
+
+setopt AUTO_LIST
+setopt GLOB_COMPLETE
+setopt NO_GLOB_SUBST
+setopt LIST_AMBIGUOUS
+#setopt COMPLETE_ALIASES # FIXME check this
+
+setopt SH_WORD_SPLIT # FIXME check this
 
 setopt NO_IGNORE_EOF
 
@@ -36,13 +45,20 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_IGNORE_SPACE
  # Don't write duplicate entries in the history file
 setopt HIST_SAVE_NO_DUPS
+setopt NO_PROMPT_BANG
 
 # from prompt.zsh, shouldn't have been there: FIXME check this against complete type
-setopt PROMPT_SUBST
-setopt SH_WORD_SPLIT # FIXME check this
+setopt EXTENDED_GLOB
 
-setopt extended_glob
-setopt prompt_percent
+# comp prompt
+# remove slash if it's at then end of the line
+setopt NO_AUTO_REMOVE_SLASH
+setopt AUTO_PARAM_SLASH
+# follow symlinks
+setopt CHASE_LINKS
+setopt ALWAYS_TO_END
+# unusable with bookmarks
+setopt NO_CDABLEVARS
 
 #source ~/conf/zsh/alias.zsh
 
@@ -67,18 +83,6 @@ compinit -u
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
-# comp prompt
-unsetopt list_ambiguous
-# remove slash if it's at then end of the line
-setopt auto_remove_slash
-# follow symlinks
-setopt chase_links
-#setopt complete_aliases
-# setopt complete_in_word
-setopt always_to_end
-# unusable with bookmarks
-unsetopt cdablevars
-
 # Automatically update PATH entries:
 zstyle ':completion:*' rehash true
 # Use ls dircolors:
@@ -99,10 +103,10 @@ zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
 zstyle ':completion:*' group-name ''
 
 # fuzzy completion:
-zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*' completer _complete _match #_approximate
 zstyle ':completion:*:match:*' original only
-zstyle ':completion:*:approximate:*' max-errors 1 numeric
-zstyle ':completion:*:correct:*' insert-unambiguous false
+#zstyle ':completion:*:approximate:*' max-errors 1 numeric
+zstyle ':completion:*:correct:*' insert-unambiguous true
 # poor man's fuzzy completion:
 zstyle ':completion:*' matcher-list '' \
   'm:{a-z\-}={A-Z\_}' \
@@ -112,9 +116,9 @@ zstyle ':completion:*' matcher-list '' \
 #zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
 
 # Correction
-setopt dvorak
-unsetopt correctall
-unsetopt correct
+setopt DVORAK
+setopt NO_CORRECTALL
+setopt NO_CORRECT
 
 
 ##########################################
@@ -125,18 +129,6 @@ autoload -U edit-command-line
 zle -N edit-command-line
 bindkey -M vicmd v edit-command-line
 
-##########################################
-###  HISTORY  ############################
-##########################################
-
-setopt VI
-bindkey -M viins jj vi-cmd-mode
-#bindkey -M viins '^r' history-incremental-search-backward
-#bindkey -M vicmd '^r' history-incremental-search-backward
-bindkey -M viins '^n' history-incremental-search-forward
-bindkey -M vicmd '^n' history-incremental-search-forward
-
-bindkey -M viins '^g' expand-or-complete-prefix
 
 ##########################################
 ###  HISTORY  ############################
@@ -222,7 +214,15 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
+# whyyyy FIXME test this
 zmodload zsh/parameter
+
+
+##########################################
+###  KEYS  ###############################
+##########################################
+
+setopt VI
 
 _bindkey_xclip () {
   cmd=$(history | tail -n1 | sed -re 's/^\S+\s+//')
@@ -240,14 +240,21 @@ zle -N _bindkey_xclip
 zle -N _bindkey_sudo
 
 #bindkey -M viins '^i' $fzf_default_completion
+bindkey -M viins jj vi-cmd-mode
+bindkey -M vicmd '^n' history-incremental-search-forward
+bindkey -M vicmd '^r' history-incremental-search-backward
 bindkey -M viins '^F' fzf-completion
-bindkey -M viins '^I' expand-or-complete-prefix
-#bindkey -M viins '^I' complete-word
-bindkey -M vicmd '^r' history-incremental-search-backward
-bindkey -M vicmd '^r' history-incremental-search-backward
+bindkey -M viins '^I' complete-word
+bindkey -M viins '^g' expand-or-complete-prefix
+bindkey -M viins '^g' expand-or-complete
+#bindkey -M viins '^I' expand-or-complete-prefix
 bindkey -M viins '^x' _bindkey_xclip
 bindkey -M viins '^b' _bindkey_sudo
 bindkey -M viins '^s' _bindkey_sudo
+# FIXME: test these:
+bindkey -M vicmd '^x' _bindkey_xclip
+bindkey -M vicmd '^b' _bindkey_sudo
+bindkey -M vicmd '^s' _bindkey_sudo
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh

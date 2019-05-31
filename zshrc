@@ -10,7 +10,7 @@ setopt MARK_DIRS
 
 setopt NO_NULL_GLOB
 
-setopt NO_NO_MATCH
+setopt NO_NOMATCH
 setopt NO_MENU_COMPLETE
 setopt NO_AUTO_MENU
 setopt NO_CASE_GLOB
@@ -18,7 +18,7 @@ setopt ALWAYS_TO_END
 setopt COMPLETE_IN_WORD
 
 setopt AUTO_LIST
-setopt GLOB_COMPLETE
+setopt NO_GLOB_COMPLETE
 setopt NO_GLOB_SUBST
 setopt LIST_AMBIGUOUS
 #setopt COMPLETE_ALIASES # FIXME check this
@@ -103,7 +103,10 @@ zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
 zstyle ':completion:*' group-name ''
 
 # fuzzy completion:
-zstyle ':completion:*' completer _complete _match #_approximate
+#zstyle ':completion:*' completer _complete _prefix _approximate
+# FIXME check out keep_prefix
+# FIXME;   _all_matches _list _oldlist _menu _expand _complete _match _ignored _correct _approximate _prefix
+zstyle ':completion:*' completer _complete _prefix _history _approximate
 zstyle ':completion:*:match:*' original only
 #zstyle ':completion:*:approximate:*' max-errors 1 numeric
 zstyle ':completion:*:correct:*' insert-unambiguous true

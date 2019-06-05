@@ -46,6 +46,7 @@ setopt HIST_IGNORE_SPACE
  # Don't write duplicate entries in the history file
 setopt HIST_SAVE_NO_DUPS
 setopt NO_PROMPT_BANG
+setopt NO_BANGHIST
 
 # from prompt.zsh, shouldn't have been there: FIXME check this against complete type
 setopt EXTENDED_GLOB
@@ -102,11 +103,21 @@ zstyle ':completion:*' list-prompt %SAt %p: TAB or LOL%s
 # group matches by tag name:
 zstyle ':completion:*' group-name ''
 
-# fuzzy completion:
-#zstyle ':completion:*' completer _complete _prefix _approximate
 # FIXME check out keep_prefix
 # FIXME;   _all_matches _list _oldlist _menu _expand _complete _match _ignored _correct _approximate _prefix
-zstyle ':completion:*' completer _complete _prefix _history _approximate
+
+zle -C complete-glob list-choices compglob
+compglob () {
+    setopt localoptions globsubst
+    compset -P '*'
+    f=(echo $IPREFIX)
+    files=(${IPREFIX}*)
+    #display=(${files/${IPREFIX}/${(q)IPREFIX}})
+    #glob=(${files/${IPREFIX}/})
+    compadd ${files}
+  }
+
+zstyle ':completion:*' completer _complete _prefix _approximate
 zstyle ':completion:*:match:*' original only
 #zstyle ':completion:*:approximate:*' max-errors 1 numeric
 zstyle ':completion:*:correct:*' insert-unambiguous true
@@ -188,8 +199,8 @@ if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
 fi
 
 
-bindkey '^l' autosuggest-accept
-bindkey '^b' autosuggest-execute
+#bindkey '^l' autosuggest-accept
+bindkey '^l' autosuggest-execute
 
 # plugins:
 source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -250,6 +261,7 @@ bindkey -M viins '^F' fzf-completion
 bindkey -M viins '^I' complete-word
 bindkey -M viins '^g' expand-or-complete-prefix
 bindkey -M viins '^g' expand-or-complete
+bindkey -M viins '^g' complete-glob
 #bindkey -M viins '^I' expand-or-complete-prefix
 bindkey -M viins '^x' _bindkey_xclip
 bindkey -M viins '^b' _bindkey_sudo

@@ -9,7 +9,7 @@ alias g="git"
 alias sc="systemctl"
 alias z="xscreensaver-command --lock"
 alias mute="pactl set-sink-volume 0 20%; pactl set-sink-volume 1 20%; pactl set-sink-mute 1 true; pactl set-sink-mute 0 true"
-# might change this: 
+# might change this:
 alias m=mute
 
 alias h="history 0 | rg "
@@ -50,10 +50,17 @@ function ds {
 
 alias ncdu="ncdu --confirm-quit"
 
-alias ll="ls -l --color=auto"
-alias la="ls -A --color=auto"
-alias lla="ls -lA --color=auto"
-alias ls="ls --color=auto"
+if [ -x $(which exa) ]; then
+  alias ls="exa"
+  alias ll="exa -l --color=auto"
+  alias la="exa -A --color=auto"
+  alias lla="exa -lA --color=auto"
+else
+  alias ls="ls --color=auto"
+  alias ll="ls -l --color=auto"
+  alias la="ls -A --color=auto"
+  alias lla="ls -lA --color=auto"
+fi
 
 alias rm='rm -i'
 alias rmf='rm -rf'

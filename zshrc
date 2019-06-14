@@ -108,14 +108,14 @@ zstyle ':completion:*' group-name ''
 
 zle -C complete-glob list-choices compglob
 compglob () {
-    setopt localoptions globsubst
-    compset -P '*'
-    f=(echo $IPREFIX)
-    files=(${IPREFIX}*)
-    #display=(${files/${IPREFIX}/${(q)IPREFIX}})
-    #glob=(${files/${IPREFIX}/})
-    compadd ${files}
-  }
+  setopt localoptions globsubst
+  compset -P '*'
+  f=(echo $IPREFIX)
+  files=(${IPREFIX}*)
+  #display=(${files/${IPREFIX}/${(q)IPREFIX}})
+  #glob=(${files/${IPREFIX}/})
+  compadd ${files}
+}
 
 zstyle ':completion:*' completer _complete _prefix _approximate
 zstyle ':completion:*:match:*' original only
@@ -199,8 +199,8 @@ if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
 fi
 
 
-#bindkey '^l' autosuggest-accept
-bindkey '^l' autosuggest-execute
+bindkey '^l' autosuggest-accept
+bindkey '^b' autosuggest-execute
 
 # plugins:
 source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
@@ -259,17 +259,13 @@ bindkey -M vicmd '^n' history-incremental-search-forward
 bindkey -M vicmd '^r' history-incremental-search-backward
 bindkey -M viins '^F' fzf-completion
 bindkey -M viins '^I' complete-word
-bindkey -M viins '^g' expand-or-complete-prefix
-bindkey -M viins '^g' expand-or-complete
+#bindkey -M viins '^g' expand-or-complete-prefix
+#bindkey -M viins '^g' expand-or-complete
 bindkey -M viins '^g' complete-glob
 #bindkey -M viins '^I' expand-or-complete-prefix
 bindkey -M viins '^x' _bindkey_xclip
-bindkey -M viins '^b' _bindkey_sudo
-bindkey -M viins '^s' _bindkey_sudo
-# FIXME: test these:
-bindkey -M vicmd '^x' _bindkey_xclip
-bindkey -M vicmd '^b' _bindkey_sudo
-bindkey -M vicmd '^s' _bindkey_sudo
+bindkey -M viins '^o' _bindkey_sudo
+#bindkey -M viins '^s' _bindkey_sudo
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh

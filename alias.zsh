@@ -80,9 +80,9 @@ alias sudo='command sudo '
 alias sudop='command sudo -u portage '
 alias sv="sudoedit"
 alias svp="sudoedit -u portage"
-alias lowCPU='systemd-run --gid=portage --setenv=HOME=/root -t --slice=lowCPU.slice '
+alias lowcpu='systemd-run --gid=portage --setenv=HOME=/root -t --slice=lowCPU.slice '
 compdef _precommand sudo
-compdef _precommand lowCPU
+compdef _precommand lowcpu
 
 alias yt="youtube-dl -x --no-playlist "
 

@@ -89,6 +89,7 @@ zstyle ':completion:*' rehash true
 # Use ls dircolors:
 eval `dircolors ~/conf/zsh/dircolors-solarized/dircolors.256dark`
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+unset LS_COLORS # FIXME. trying out exa's defaults.
 # cd:
 zstyle ':completion:*:cd:*' ignore-parents parent pwd
 # kill PID:

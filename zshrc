@@ -87,8 +87,8 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 # Automatically update PATH entries:
 zstyle ':completion:*' rehash true
 # Use ls dircolors:
-eval `dircolors ~/conf/zsh/dircolors-solarized/dircolors.256dark`
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+#eval `dircolors ~/conf/zsh/dircolors-solarized/dircolors.256dark`
+zstyle ':completion:*:default' list-colors ${(s.:.)_LS_COLORS}
 unset LS_COLORS # FIXME. trying out exa's defaults.
 # cd:
 zstyle ':completion:*:cd:*' ignore-parents parent pwd

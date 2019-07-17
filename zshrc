@@ -204,7 +204,7 @@ bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute
 
 # plugins:
-source ~/conf/zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source ~/conf/zsh/autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 

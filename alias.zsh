@@ -51,7 +51,7 @@ function ds {
 
 alias ncdu="ncdu --confirm-quit"
 
-if [ -x $(which exa) ]; then
+if [ -x "$(which exa)" ]; then
   alias ls="exa"
   alias ll="exa -l --color=auto"
   alias la="exa -la --color=auto"

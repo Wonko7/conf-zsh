@@ -2,13 +2,14 @@
 
 ## heh... why the fuck not?
 alias e="emacs -nw"
-alias v="~/conf/vim/nvim.sh"
+alias v="~/conf/misc/scripts/nvim.sh"
+alias vv="VIM_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/nvim.sh"
 alias p="popd"
 alias c="dirs -c"
 alias g="git"
 alias sc="systemctl"
 alias z="xscreensaver-command --lock"
-alias mute="pactl set-sink-volume 0 20%; pactl set-sink-volume 1 20%; pactl set-sink-mute 1 true; pactl set-sink-mute 0 true"
+alias mute="pactl set-sink-volume 0 30%; pactl set-sink-volume 1 20%; pactl set-sink-mute 1 true; pactl set-sink-mute 0 true"
 # might change this:
 alias m=mute
 
@@ -53,8 +54,8 @@ alias ncdu="ncdu --confirm-quit"
 if [ -x $(which exa) ]; then
   alias ls="exa"
   alias ll="exa -l --color=auto"
-  alias la="exa -A --color=auto"
-  alias lla="exa -lA --color=auto"
+  alias la="exa -la --color=auto"
+  alias lla="exa -la --color=auto"
 else
   alias ls="ls --color=auto"
   alias ll="ls -l --color=auto"

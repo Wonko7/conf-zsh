@@ -82,6 +82,7 @@ function precmd()
   #vcs: 1 basedir, 2 branch, 3 commit + action, 4 subdir
   gr=$vcs[1]
   b=$vcs[2]
+  gs=$vcs[4]
 
   if [ -z $vcs[3] ]; then
     local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_SHELL}${PR_RESET}"

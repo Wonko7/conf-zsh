@@ -77,7 +77,7 @@ autoload -U age
 # Comp init
 autoload -Uz colors
 colors
-fpath=(~/conf/zsh/completions/src ~/conf/zsh/local-completions/src $fpath)
+fpath=(~/conf/zsh/bundle/completions/src ~/conf/zsh/local-completions/src $fpath)
 autoload -U compinit
 compinit -u
 
@@ -195,17 +195,15 @@ for i in ~/conf/zsh/*.zsh; do
   source $i
 done
 
-if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
-  source /usr/bin/aws_zsh_completer.sh
-fi
 
 
 bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute
 
 # plugins:
-source ~/conf/zsh/autosuggestions/zsh-autosuggestions.zsh
-source ~/conf/zsh/syntax-highlighting/zsh-syntax-highlighting.zsh
+source ~/conf/zsh/bundle/autosuggestions/zsh-autosuggestions.zsh
+source ~/conf/zsh/bundle/syntax-highlighting/zsh-syntax-highlighting.zsh
+
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export NVM_DIR="$HOME/.nvm"
@@ -218,6 +216,10 @@ if [ ! -z $kube_for_life ]; then
       source <($i completion zsh)
     fi
   done
+
+  if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
+    source /usr/bin/aws_zsh_completer.sh
+  fi
 fi
 
 export FZF_COMPLETION_TRIGGER=''

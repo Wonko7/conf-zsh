@@ -66,7 +66,6 @@ fi
 alias rm='rm -i'
 alias rmf='rm -rf'
 alias rms='echo Stallman was right.'
-alias rf='rm -ri'
 
 alias cp="rsync -ha --progress"
 

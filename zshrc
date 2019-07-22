@@ -76,13 +76,9 @@ autoload -U age
 # Comp init
 autoload -Uz colors
 colors
-echo ZSH_init_debug loc comp 1
 fpath=(~/conf/zsh/bundle/completions/src ~/conf/zsh/local-completions/src $fpath)
-echo ZSH_init_debug loc comp 2
 autoload -U compinit
-echo ZSH_init_debug loc comp 3
 compinit -u
-echo ZSH_init_debug loc comp 4
 
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
@@ -138,7 +134,6 @@ setopt DVORAK
 setopt NO_CORRECTALL
 setopt NO_CORRECT
 
-echo ZSH_init_debug loc comp 5
 
 ##########################################
 ###  EDIT  ###############################
@@ -195,30 +190,18 @@ HISTFILE=~/conf/zsh/history
 ###  SUB CONF  ###########################
 ##########################################
 
-echo ZSH_init_debug source 1
 for i in ~/conf/zsh/*.zsh; do
   source $i
 done
-echo ZSH_init_debug source 2
-
-
 
 bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute
-
-echo ZSH_init_debug source plug 1
 
 # plugins:
 source ~/conf/zsh/bundle/autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/bundle/syntax-highlighting/zsh-syntax-highlighting.zsh
 
-echo ZSH_init_debug source plug 2
-
-echo ZSH_init_debug source fzf 1
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-echo ZSH_init_debug source fzf 2
-
-echo ZSH_init_debug source kube 1
 
 export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -230,14 +213,11 @@ if [ ! -z $kube_for_life ]; then
       source <($i completion zsh)
     fi
   done
-echo ZSH_init_debug source kube wtf
 
   if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
     source /usr/bin/aws_zsh_completer.sh
   fi
 fi
-
-echo ZSH_init_debug source kube 2
 
 export FZF_COMPLETION_TRIGGER=''
 #export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude node_modules'
@@ -248,11 +228,9 @@ _fzf_compgen_dir() {
   fd --type d --hidden --follow --exclude ".git" . "$1"
 }
 
-echo ZSH_init_debug param 1
 # whyyyy FIXME test this
 zmodload zsh/parameter
 
-echo ZSH_init_debug param 2
 
 ##########################################
 ###  KEYS  ###############################
@@ -325,13 +303,11 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 #ZSH_HIGHLIGHT_STYLES[redirection]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold,bg=none
 
-echo ZSH_init_debug ls 1
 # FIXME testing stuff:
 chpwd() {
   ls
 }
 
-echo ZSH_init_debug ls 2
 
 ##########################################
 ###  GREETING/TMUX  ######################
@@ -340,23 +316,18 @@ echo ZSH_init_debug ls 2
 
 print_greeting ()
 {
-echo ZSH_init_debug pr 1
 	#screenfetch -L
 	~/conf/zsh/bundle/neofetch/neofetch -L
-echo ZSH_init_debug pr 2
 	echo
 	echo "[32m`uname -a`"
 	echo $COLOR_PURPLE
 	#curl -m 1 -s http://www.free-reseau.fr/outils/rss/67 | sed -nre "s/\s*.desc.*>(.*)<.*/\1/p" || echo $COLOR_RED free api down.
 	fortune -a
 	echo "[m"
-echo ZSH_init_debug pr 3
 }
 
 
-echo ZSH_init_debug end 1
 bload lol
-echo ZSH_init_debug end 2
 if [ ! -z $INIT_TMUX_SESSION ]; then
 	unset LOAD_TMUX_SESSION
 	local t=$INIT_TMUX_SESSION
@@ -369,7 +340,5 @@ elif [ ! -z $LOAD_TMUX_SESSION  ]; then
 	unset LOAD_TMUX_SESSION
 	tm $t
 else
-echo ZSH_init_debug end 4
 	print_greeting
-echo ZSH_init_debug end 5
 fi

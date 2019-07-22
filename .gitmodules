@@ -7,3 +7,6 @@
 [submodule "bundle/syntax-highlighting"]
 	path = bundle/syntax-highlighting
 	url = git@github.com:zsh-users/zsh-syntax-highlighting
+[submodule "bookmarks"]
+	path = bookmarks
+	url = git@github.com:Wonko7/private-zsh-bookmarks.git

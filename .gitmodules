@@ -13,3 +13,6 @@
 [submodule "tmux-sessions"]
 	path = tmux-sessions
 	url = git@github.com:Wonko7/private-tmux-sessions.git
+[submodule "bundle/neofetch"]
+	path = bundle/neofetch
+	url = git@github.com:dylanaraps/neofetch

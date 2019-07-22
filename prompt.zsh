@@ -88,9 +88,9 @@ function precmd()
   if [ -z $vcs[3] ]; then
     local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_SHELL}${PR_RESET}"
   elif [ "$vcs[4]" = "." ]; then
-    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2]:$vcs[3] ${COL_MAG_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2] $vcs[3] ${COL_MAG_TO_SHELL}${PR_RESET}"
   else
-    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2]:$vcs[3] ${COL_MAG_TO_BL}${COL_BL} $vcs[4] ${COL_BL_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2] $vcs[3] ${COL_MAG_TO_BL}${COL_BL} $vcs[4] ${COL_BL_TO_SHELL}${PR_RESET}"
   fi
 
   PROMPT="

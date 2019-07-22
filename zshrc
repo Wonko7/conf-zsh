@@ -195,8 +195,6 @@ for i in ~/conf/zsh/*.zsh; do
   source $i
 done
 
-
-
 bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute
 
@@ -311,6 +309,7 @@ chpwd() {
   ls
 }
 
+
 ##########################################
 ###  GREETING/TMUX  ######################
 ##########################################
@@ -318,7 +317,7 @@ chpwd() {
 
 print_greeting ()
 {
-	screenfetch -L
+	#screenfetch -L
 	echo
 	echo "[32m`uname -a`"
 	echo $COLOR_PURPLE
@@ -326,6 +325,7 @@ print_greeting ()
 	fortune -a
 	echo "[m"
 }
+
 
 bload lol
 if [ ! -z $INIT_TMUX_SESSION ]; then

@@ -1,2 +1,0 @@
-sworkdir=$tdsrv
-wworkdir=$tdweb

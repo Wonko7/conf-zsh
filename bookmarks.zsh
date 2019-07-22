@@ -99,7 +99,7 @@ bsave ()
 	fi
 
 	if [ -e "$BOOKMARK_SAVE_DIR/$1" ]; then
-		local save="$BOOKMARK_SAVE_DIR/$1/.save/`date '+%Y.%m.%d-%H:%M:%S'`" 
+		local save="$BOOKMARK_SAVE_DIR/$1/.save/`date '+%Y.%m.%d-%H:%M:%S'`"
 		mkdir -p "$save"
 		mv "$BOOKMARK_SAVE_DIR/$1"/* "$save"/
 		echo "Saved previous version of $1 in $save"
@@ -111,10 +111,11 @@ bsave ()
 
 	local i=
 	for i in $bmlist; do
-		local p="echo \$${i}"
+		local p="echo \$${i}" ## there probably was a good reason for doing this???
 		local dir="`eval $p`"
-		echo "$dir" > "$BOOKMARK_SAVE_DIR/$1/$i"
+		echo "$i=\"$dir\"" >> "$BOOKMARK_SAVE_DIR/$1/all"
 	done
+	echo "bmlist=\"$bmlist\"" >> "$BOOKMARK_SAVE_DIR/$1/all"
 }
 
 # load bookmark session
@@ -125,12 +126,7 @@ bload ()
 		return
 	fi
 
-	local i=
-	for i in "$BOOKMARK_SAVE_DIR/$1"/*; do
-		local n="`basename $i`"
-		local d="`cat $i`"
-		export $n="$d"
-	done
+	source "$BOOKMARK_SAVE_DIR/$1/all";
 }
 
 # remove bookmark session
@@ -157,4 +153,3 @@ compctl -K _bookmark_completion brm
 compctl -K _bookmark_session_completion bsave
 compctl -K _bookmark_session_completion bload
 compctl -K _bookmark_session_completion brm_session
-

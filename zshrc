@@ -5,7 +5,6 @@
 source ~/conf/zsh/env.zsh
 
 setopt AUTO_LIST
-setopt CDABLE_VARS
 setopt MARK_DIRS
 
 setopt NO_NULL_GLOB

@@ -80,7 +80,8 @@ function precmd()
   local ref
   local vcs=("${(f)vcs_info_msg_1_}")
   #vcs: 1 basedir, 2 branch, 3 commit + action, 4 subdir
-  gr=$vcs[1]
+  gR=$vcs[1]
+  gr=$(basename "$gR")
   b=$vcs[2]
   gs=$vcs[4]
 

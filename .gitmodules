@@ -10,3 +10,6 @@
 [submodule "bookmarks"]
 	path = bookmarks
 	url = git@github.com:Wonko7/private-zsh-bookmarks.git
+[submodule "tmux-sessions"]
+	path = tmux-sessions
+	url = git@github.com:Wonko7/private-tmux-sessions.git

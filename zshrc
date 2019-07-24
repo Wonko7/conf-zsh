@@ -326,14 +326,20 @@ print_greeting ()
 	echo "[m"
 }
 
+print_separator ()
+{
+  echo ${COLOR_BLUE}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
+}
+
 
 bload lol
 if [ ! -z $INIT_TMUX_SESSION ]; then
 	unset LOAD_TMUX_SESSION
 	local t=$INIT_TMUX_SESSION
 	unset INIT_TMUX_SESSION
-	source $t
 	print_greeting
+        print_separator
+	source $t
 elif [ ! -z $LOAD_TMUX_SESSION  ]; then
 	unset INIT_TMUX_SESSION
 	local t=$LOAD_TMUX_SESSION

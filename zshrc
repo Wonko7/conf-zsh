@@ -304,9 +304,9 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 #ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold,bg=none
 
 # FIXME testing stuff:
-chpwd() {
-  ls
-}
+# chpwd() {
+#   ls
+# }
 
 
 ##########################################

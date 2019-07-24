@@ -328,7 +328,9 @@ print_greeting ()
 
 print_separator ()
 {
-  echo ${COLOR_BLUE}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
+  print -nP "%F{9}"$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
+  #echo ${COLOR_CYAN}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
+  #echo ${COLOR_RED}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
 }
 
 

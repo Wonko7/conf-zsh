@@ -53,14 +53,16 @@ alias ncdu="ncdu --confirm-quit"
 
 if [ -x "$(which exa)" ]; then
   alias ls="exa"
-  alias ll="exa -l --color=auto"
-  alias la="exa -la --color=auto"
-  alias lla="exa -la --color=auto"
+  alias ll="exa -l"
+  alias la="exa -la"
+  alias lla="exa -la"
+  alias lsd="exa -la --sort=date"
 else
   alias ls="ls --color=auto"
   alias ll="ls -l --color=auto"
   alias la="ls -A --color=auto"
   alias lla="ls -lA --color=auto"
+  alias lsd="ls -lAc --color=auto"
 fi
 
 alias rm='rm -i'

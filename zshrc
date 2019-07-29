@@ -337,11 +337,31 @@ print_separator ()
 bload lol
 if [ ! -z $INIT_TMUX_SESSION ]; then
 	unset LOAD_TMUX_SESSION
-	local t=$INIT_TMUX_SESSION
+	local session=$INIT_TMUX_SESSION
 	unset INIT_TMUX_SESSION
 	print_greeting
         print_separator
-	source $t
+	local l_pwd="$session/pwd"
+	local l_history="$session/history"
+	local l_init="$session/init.sh"
+	## add source .auto-init.sh
+
+
+	if [ -e "$l_pwd" ]; then
+		cd "$(cat $l_pwd)"
+	fi
+
+	if [ -e "$l_history" ]; then
+		sed "$l_history" -re "s/\w+\s+(.*)/\1/"
+		echo yup
+		local_zsh_history=$session/history
+		#tm_history # FIXME figure out why this isn't working
+	fi
+
+	if [ -e "$l_init" ]; then
+		source "$l_init"
+	fi
+
 elif [ ! -z $LOAD_TMUX_SESSION  ]; then
 	unset INIT_TMUX_SESSION
 	local t=$LOAD_TMUX_SESSION

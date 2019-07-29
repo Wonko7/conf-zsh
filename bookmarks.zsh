@@ -113,7 +113,7 @@ bsave ()
 	for i in $bmlist; do
 		local p="echo \$${i}" ## there probably was a good reason for doing this???
 		local dir="`eval $p`"
-		echo "$i=\"$dir\"" >> "$BOOKMARK_SAVE_DIR/$1/all"
+		echo "export $i=\"$dir\"" >> "$BOOKMARK_SAVE_DIR/$1/all"
 	done
 	echo "bmlist=\"$bmlist\"" >> "$BOOKMARK_SAVE_DIR/$1/all"
 }

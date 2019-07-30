@@ -37,17 +37,17 @@ tm ()
 
 	tm_new ()
 	{
-		dir=$1
+		dir="$1"
 
 		for i in  "$dir"/*/; do
-			w=`basename $i`
-			w=`echo $w | sed -re "s/^[0-9]*://g"`
+			w=$(basename $i)
+			w=$(echo $w | sed -re "s/^[0-9]*://g")
 
 			I=INIT_TMUX_SESSION="$i"
 
 			tmux neww -a -t $session -n $w "$S $I zsh"
 
-			## FIXME wait what:
+			## FIXME I'm guessing this is because tmux creates a window, check
 			if [ -z $first ]; then
 				tmux kill-window -t $session:1
 				tmux move-window -s $session:2 -t $session:1
@@ -56,10 +56,7 @@ tm ()
 
 			## FIXME: make this use pwd hist:
 			for j in "$i"/*/; do
-				I=""
-				if [ -e "$j/init.sh" ]; then
-					I=INIT_TMUX_SESSION="$j/init.sh"
-				fi
+				I=INIT_TMUX_SESSION="$j"
 				tmux split-window -t $session:$w_nb "$S $I zsh"
 			done
 			tmux select-layout -t $session:$w_nb even-horizontal
@@ -69,13 +66,13 @@ tm ()
 		window_list=$(tmux list-windows -t $session | sed -re 's/^([[:digit:]]+:) (\w+).*/\1\2/')
 		echo window_list: $window_list
 
-		echo yup loading things:
-		for w in $window_list; do
-			local id=$(echo $w | cut -d: -f1)
-			local name=$(echo $w | cut -d: -f2)
-			tmux select-window -t "$session:$id"
-			tmux send-keys -t "$session:$id.0" SPACE tm_history ENTER
-		done
+		## echo yup loading things:
+		## for w in $window_list; do
+		## 	local id=$(echo $w | cut -d: -f1)
+		## 	local name=$(echo $w | cut -d: -f2)
+		## 	tmux select-window -t "$session:$id"
+		## 	tmux send-keys -t "$session:$id.0" SPACE tm_history ENTER
+		## done
 		}
 
 	## make windows
@@ -143,5 +140,5 @@ tm_history ()
 	do
 		l=$(print -r "$l" | sed -re "s/\w+\s+(.*)/\1/")
 		print -rS "$l"
-	done < $local_zsh_history
+	done < $__local_zsh_history
 }

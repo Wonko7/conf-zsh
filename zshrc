@@ -344,24 +344,19 @@ if [ ! -z $INIT_TMUX_SESSION ]; then
 	local l_pwd="$session/pwd"
 	local l_history="$session/history"
 	local l_init="$session/init.sh"
-	## add source .auto-init.sh
-
 
 	if [ -e "$l_pwd" ]; then
 		cd "$(cat $l_pwd)"
 	fi
 
 	if [ -e "$l_history" ]; then
-		sed "$l_history" -re "s/\w+\s+(.*)/\1/"
-		echo yup
-		local_zsh_history=$session/history
-		#tm_history # FIXME figure out why this isn't working
+		__local_zsh_history=$session/history
+		#tm_history
 	fi
 
 	if [ -e "$l_init" ]; then
 		source "$l_init"
 	fi
-
 elif [ ! -z $LOAD_TMUX_SESSION  ]; then
 	unset INIT_TMUX_SESSION
 	local t=$LOAD_TMUX_SESSION
@@ -370,3 +365,16 @@ elif [ ! -z $LOAD_TMUX_SESSION  ]; then
 else
 	print_greeting
 fi
+
+function zle-line-init zle-load-history
+{
+	if [ ! -z "$__local_zsh_history" ]; then
+		echo Called!
+		tm_history
+		unset __local_zsh_history
+	fi
+	#zle -D zle-load-history
+}
+
+zle -N zle-line-init
+zle -N zle-load-history

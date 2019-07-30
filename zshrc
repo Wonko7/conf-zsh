@@ -2,6 +2,8 @@
 ###  OPTIONS  ############################
 ##########################################
 
+autoload -Uz add-zsh-hook
+
 source ~/conf/zsh/env.zsh
 
 setopt AUTO_LIST
@@ -335,45 +337,49 @@ print_separator ()
 
 
 bload lol
-if [ ! -z $INIT_TMUX_SESSION ]; then
+if [ ! -z "$INIT_TMUX_SESSION" ]; then
 	unset LOAD_TMUX_SESSION
-	local session=$INIT_TMUX_SESSION
+	local session="$INIT_TMUX_SESSION"
 	unset INIT_TMUX_SESSION
 	print_greeting
         print_separator
 	local l_pwd="$session/pwd"
 	local l_history="$session/history"
 	local l_init="$session/init.sh"
+	local dir
+	__tmux_session="$session"
 
 	if [ -e "$l_pwd" ]; then
-		cd "$(cat $l_pwd)"
+		dir=$(cat "$l_pwd")
+		cd "$dir"
 	fi
 
 	if [ -e "$l_history" ]; then
-		__local_zsh_history=$session/history
-		#tm_history
+		__local_zsh_history="$l_history"
+		#tm_history # is overwritten or something. had to go with zle-line-init hack.
 	fi
 
 	if [ -e "$l_init" ]; then
 		source "$l_init"
 	fi
-elif [ ! -z $LOAD_TMUX_SESSION  ]; then
-	unset INIT_TMUX_SESSION
-	local t=$LOAD_TMUX_SESSION
+elif [ ! -z "$LOAD_TMUX_SESSION"  ]; then
+	unset INIT_TMUX_SESSION # probably wasn't set, just playing it safe?
+	local t="$LOAD_TMUX_SESSION"
 	unset LOAD_TMUX_SESSION
-	tm $t
+	tm "$t"
 else
 	print_greeting
 fi
 
-function _load-history
+function _tm-load-history
 {
 	if [ ! -z "$__local_zsh_history" ]; then
-		echo Called!
 		tm_history
 		unset __local_zsh_history
+		#zle reset-prompt
+		zle send-break # ugly but works
 	fi
 	zle -D zle-line-init
 }
 
-zle -N zle-line-init _load-history
+zle -N zle-line-init _tm-load-history

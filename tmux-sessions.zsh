@@ -5,21 +5,20 @@ SESSION_SAVE_DIR=~/conf/zsh/tmux-sessions
 
 tm ()
 {
-	local dir=
-	local i=
-	local w=
+	local dir
+	local i
+	local w
 	local w_nb=1
-	local I=
-	local S=
-	local first=
+	local I
+	local first
 	local session=$1
 
 	setopt local_options null_glob
 
 	## select session
-	local s="$SESSION_SAVE_DIR/$session"
+	local session_dir="$SESSION_SAVE_DIR/$session"
 
-	if [ ! -d "$s" ]; then
+	if [ ! -d "$session_dir" ]; then
 		echo $COLOR_DARK_RED No such session: $COLOR_NEUTRAL $session
 		return 1
 	fi
@@ -29,116 +28,103 @@ tm ()
 		tmux attach -t $session
 	fi
 
+	## create session:
 	tmux new -d -s $session
 
-	if [ -e "$s"/init.sh ]; then
-		S=INIT_TMUX_SESSION_CONF="$s"/init.sh
-	fi
+	## create windows:
+	for window_dir in  "$session_dir"/*/; do
+		w=$(basename "$window_dir")
+		w=$(echo "$w" | cut -d: -f2)
+		echo "creating $w"
 
-	tm_new ()
-	{
-		dir="$1"
+		escaped_window_dir=echo $window_dir
+		I=INIT_TMUX_SESSION=\""$window_dir"\"
 
-		for i in  "$dir"/*/; do
-			w=$(basename $i)
-			w=$(echo $w | sed -re "s/^[0-9]*://g")
+		tmux neww -a -t "$session" -n "$w" "$I zsh"
+		echo tmux neww -a -t "$session" -n "$w" "$I zsh"
 
-			I=INIT_TMUX_SESSION="$i"
+		## FIXME I'm guessing this is because tmux creates a window, check
+		if [ -z "$first" ]; then
+			tmux kill-window -t "$session":1
+			tmux move-window -s "$session":2 -t "$session":1
+			first=not
+		fi
 
-			tmux neww -a -t $session -n $w "$S $I zsh"
-
-			## FIXME I'm guessing this is because tmux creates a window, check
-			if [ -z $first ]; then
-				tmux kill-window -t $session:1
-				tmux move-window -s $session:2 -t $session:1
-				first=not
-			fi
-
-			## FIXME: make this use pwd hist:
-			for j in "$i"/*/; do
-				I=INIT_TMUX_SESSION="$j"
-				tmux split-window -t $session:$w_nb "$S $I zsh"
-			done
-			tmux select-layout -t $session:$w_nb even-horizontal
-			w_nb=$(( $w_nb + 1 ))
+		## FIXME: make panes save pwd hist:
+		for j in "$window_dir"/*/; do
+			I=INIT_TMUX_SESSION="$j"
+			tmux split-window -t "$session:$w_nb" "$I zsh"
 		done
+		tmux select-layout -t "$session:$w_nb" even-horizontal
+		w_nb=$(( $w_nb + 1 ))
+	done
 
-		window_list=$(tmux list-windows -t $session | sed -re 's/^([[:digit:]]+:) (\w+).*/\1\2/')
-		echo window_list: $window_list
-
-		## echo yup loading things:
-		## for w in $window_list; do
-		## 	local id=$(echo $w | cut -d: -f1)
-		## 	local name=$(echo $w | cut -d: -f2)
-		## 	tmux select-window -t "$session:$id"
-		## 	tmux send-keys -t "$session:$id.0" SPACE tm_history ENTER
-		## done
-		}
-
-	## make windows
-	tm_new $s;
-
-	## end
 	tmux attach -t $session
 }
 
 tm_save ()
 {
 	local session=$(tmux display-message -p '#S')
-	local s="$SESSION_SAVE_DIR/$session"
-	local save="$s/.save/`date '+%F_%T'`"
+	local session_dir="$SESSION_SAVE_DIR/$session"
+	local save="$session_dir/.save/`date '+%F_%T'`"
+	local w
+	local i
 
 	setopt local_options null_glob
 
-	echo s: $s
-	echo session: $session
-	echo save: $save
+	echo "session:	$session"
+	echo "session data:	$session_dir"
+	echo "backup:		$save"
+	echo
 
-	if [ -d "$s" ]; then
+	OIFS="$IFS"
+	local IFS=$'\n'
+
+	window_list=$(tmux list-windows -t $session -F "#{window_index}:#{window_name}")
+
+	echo sending ctrl-c:
+	for w in $window_list; do
+		local id="$(echo $w | cut -d: -f1)"
+		local name="$(echo $w | cut -d: -f2)"
+		tmux send-keys -t "$session:$id".0 C-C
+		echo GOT cc "$w" "$id" "$name"
+	done
+
+	if [ -d "$session_dir" ]; then
 		mkdir -p "$save"
-		mv "$s"/* "$save"/
+		mv "$session_dir"/* "$save"/
 		echo "Saved previous version of $session in $save"
 	else
-		mkdir -p "$s"
+		mkdir -p "$session_dir"
 	fi
 
-	echo saving $session
-
-	window_list=$(tmux list-windows -t $session | sed -re 's/^([[:digit:]]+:) (\w+).*/\1\2/')
-
-	#echo sending C-C:
-	#for w in $window_list; do
-	#	local id=$(echo $w | cut -d: -f1)
-	#	local name=$(echo $w | cut -d: -f2)
-	#	tmux select-window -t $session:$id
-	#	tmux send-keys -t $session:$id.0 C-C
-	#done
-
+	i=0
 	for w in $window_list; do
-		local id=$(echo $w | cut -d: -f1)
-		local name=$(echo $w | cut -d: -f2)
-		local s_dir="$s/$id:$name"
-		echo $s_dir
-		#tmux  $session:$id.0 C-c history \> ${s_dir}.history ENTER
-		mkdir -p "${s_dir}"
-		tmux select-window -t $session:$id
-		tmux send-keys -t $session:$id.0 SPACE history \> ${s_dir}/history ENTER
-		tmux send-keys -t $session:$id.0 SPACE pwd \> ${s_dir}/pwd ENTER
-		# FIXME test this!
-		echo checking "$save/$id:$name/init.sh"
-		if [ -e "$save/$id:$name/init.sh" ]; then
-			echo yes!
-			cp "$save/$id:$name/init.sh" ${s_dir}/
-		fi
+		i=$(( i + 1 ))
+		local id="$(echo $w | cut -d: -f1)"
+		local name="$(echo $w | cut -d: -f2)"
+		local window_dir="$session_dir/$i:$name" # not using id because there can be gaps in tmux windows
+		echo mkdir -p "$window_dir"
+		mkdir -p "$window_dir"
+		tmux send-keys -t "$session:$id".0 SPACE fc SPACE -ln \> \""$window_dir"\"/history ENTER
+		tmux send-keys -t "$session:$id".0 SPACE pwd \> \""$window_dir"\"/pwd ENTER
+		for init in "$save/"*":$name/init.sh"; do
+			echo $session $name OVERWRITING init with $init
+			echo $session $name OVERWRITING init with $init >> "$session_dir/log"
+			cp "$init" "$window_dir"/init.sh
+		done
+		echo saved $name to $window_dir
 	done
+
+	IFS="$OIFS"
+	local IFS=$'\n'
 }
 
 tm_history ()
 {
-	local l
-	while read -r l
+	local line
+	while read -r line
 	do
-		l=$(print -r "$l" | sed -re "s/\w+\s+(.*)/\1/")
-		print -rS "$l"
-	done < $__local_zsh_history
+		print -rS "$line"
+	done < "$__local_zsh_history"
 }

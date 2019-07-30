@@ -366,15 +366,14 @@ else
 	print_greeting
 fi
 
-function zle-line-init zle-load-history
+function _load-history
 {
 	if [ ! -z "$__local_zsh_history" ]; then
 		echo Called!
 		tm_history
 		unset __local_zsh_history
 	fi
-	#zle -D zle-load-history
+	zle -D zle-line-init
 }
 
-zle -N zle-line-init
-zle -N zle-load-history
+zle -N zle-line-init _load-history

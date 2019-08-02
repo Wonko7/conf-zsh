@@ -37,7 +37,6 @@ tm ()
 		w=$(echo "$w" | cut -d: -f2)
 		echo "creating $w"
 
-		escaped_window_dir=echo $window_dir
 		I=INIT_TMUX_SESSION=\""$window_dir"\"
 
 		tmux neww -a -t "$session" -n "$w" "$I zsh"

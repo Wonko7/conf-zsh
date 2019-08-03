@@ -22,7 +22,7 @@ COL_MAG_TO_BL="$PR_RESET%F{magenta}%K{blue}"
 COL_MAG_TO_SHELL="$PR_RESET%F{magenta}"
 COL_OR="${PR_RESET}%K{9}%F{white}"
 COL_OR_TO_SHELL="${PR_RESET}%F{9}"
-if [ ! -z $REMOTE_SESSION ]; then
+if [ "$REMOTE_SESSION" = 1 ]; then
   COL_BL="${PR_RESET}%F{white}%K{240}"
   COL_BL_TO_MAG="${PR_RESET}%F{240}%K{52}"
   COL_BL_TO_SHELL="${PR_RESET}%F{240}"

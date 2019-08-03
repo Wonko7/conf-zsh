@@ -88,6 +88,22 @@ compdef _precommand lowcpu
 
 alias yt="youtube-dl -x --no-playlist "
 
+detect_remote_session ()
+{
+	if [ -z "$SSH_CLIENT" ]; then
+		echo 1
+		export REMOTE_SESSION=0
+	else
+		echo 2
+		export REMOTE_SESSION=1
+	fi
+	echo $SSH_CLIENT
+
+	tmux setenv REMOTE_SESSION $REMOTE_SESSION
+	tmux source-file ~/.tmux.conf
+	source ~/conf/zsh/prompt.zsh
+}
+
 catcert ()
 {
         address=$1
@@ -97,73 +113,7 @@ catcert ()
         echo | openssl s_client -showcerts -servername $address -connect $address:$port 2>/dev/null | openssl x509 -inform pem -noout -text
 }
 
-rppush ()
-{
-	repo forall $@ -c 'echo $REPO_PROJECT: ; git push $REPO_REMOTE $REPO_RREV:$REPO_RREV; echo'
-}
-
-rpfetch ()
-{
-	nb=$#
-	projects=""
-	remote=""
-	while [ $nb -gt 0 ]; do
-		if [ "$1" = "--remote" -o "$1" = "-r" ]; then
-			shift
-			remote=$1
-			nb=$(( $nb - 1 ))
-		else
-			projects="$projects $1"
-		fi
-		shift
-		nb=$(( $nb - 1 ))
-	done
-
-	if [ ! -z "$remote" ]; then
-		repo forall $projects -c 'echo $REPO_PROJECT: ; '"git fetch $remote; echo"
-	else
-		repo forall $projects -c 'echo $REPO_PROJECT: ; git fetch $REPO_REMOTE; echo'
-	fi
-}
-
-rpmerge ()
-{
-	nb=$#
-	projects=""
-	remote=""
-	while [ $nb -gt 0 ]; do
-		if [ "$1" = "--remote" -o "$1" = "-r" ]; then
-			shift
-			remote=$1
-			nb=$(( $nb - 1 ))
-			echo r:$1
-		else
-			if [ -z $projects ]; then
-				projects=$1
-			else
-				projects="$projects $1"
-			fi
-		fi
-		shift
-		nb=$(( $nb - 1 ))
-	done
-
-	if [ ! -z "$remote" ]; then
-		echo repo forall $projects -c 'echo $REPO_PROJECT:; git merge '"$remote"'/$REPO_RREV; echo'
-		#repo forall $projects -c 'echo $REPO_PROJECT: ; git merge '"$remote"'/$REPO_RREV; echo'
-		repo forall $projects -c 'echo $REPO_PROJECT:'
-	else
-		#echo repo forall $@ -c 'echo $REPO_PROJECT: ; git merge $REPO_REMOTE/$REPO_RREV; echo'
-		repo forall $@ -c 'echo $REPO_PROJECT: ; git merge $REPO_REMOTE/$REPO_RREV; echo'
-	fi
-}
-
-rpinitbr ()
-{
-	repo forall $@ -c 'echo $REPO_PROJECT: ; git checkout -b $REPO_RREV $REPO_REMOTE/$REPO_RREV --track'
-}
-
-print_color ()
+print_colors ()
 {
 	code=$1
 	print -nP -- "$code: %F{$code}Test: %K{$code}Test%k%f " ; (( code % 8 && code < 255 )) || printf '\n'

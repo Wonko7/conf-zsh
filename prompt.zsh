@@ -14,6 +14,9 @@ setopt PROMPT_PERCENT
 PR_RESET="%{${reset_color}%}";
 PR_RESET="%f%k";
 
+COL_BLACK="${PR_RESET}%F{white}%K{black}"
+COL_BLACK_TO_SHELL="${PR_RESET}%F{black}"
+COL_BLACK_TO_MAG="${PR_RESET}%F{black}%K{magenta}"
 COL_BL="${PR_RESET}%F{white}%K{blue}"
 COL_BL_TO_MAG="${PR_RESET}%F{blue}%K{magenta}"
 COL_BL_TO_SHELL="${PR_RESET}%F{blue}"
@@ -21,6 +24,7 @@ COL_MAG="${PR_RESET}%F{white}%K{magenta}"
 COL_MAG_TO_BL="$PR_RESET%F{magenta}%K{blue}"
 COL_MAG_TO_SHELL="$PR_RESET%F{magenta}"
 COL_OR="${PR_RESET}%K{9}%F{white}"
+COL_OR_TO_MAG="${PR_RESET}%F{9}%K{magenta}"
 COL_OR_TO_SHELL="${PR_RESET}%F{9}"
 if [ "$REMOTE_SESSION" = 1 ]; then
   COL_BL="${PR_RESET}%F{white}%K{240}"
@@ -85,12 +89,21 @@ function precmd()
   b=$vcs[2]
   gs=$vcs[4]
 
-  if [ -z $vcs[3] ]; then
-    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_SHELL}${PR_RESET}"
-  elif [ "$vcs[4]" = "." ]; then
-    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2] $vcs[3] ${COL_MAG_TO_SHELL}${PR_RESET}"
+  local bookmark=$(sed -nre "s|^export (.*)=\"$gR\"$|\1|p" "$BOOKMARK_SAVE_DIR/$BOOKMARK_SESSION/all" 2> /dev/null | head -n 1)
+
+
+  if [ ! -z "$bookmark" ]; then
+    local root="${COL_MAG} ${COL_MAG_TO_BL}${COL_BL} $bookmark "
   else
-    local vcs_prompt="${COL_BL} $vcs[1] ${COL_BL_TO_MAG}${COL_MAG} $vcs[2] $vcs[3] ${COL_MAG_TO_BL}${COL_BL} $vcs[4] ${COL_BL_TO_SHELL}${PR_RESET}"
+    local root="${COL_BL} $gR "
+  fi
+
+  if [ -z $vcs[3] ]; then
+    local vcs_prompt="${root} ${COL_BL_TO_SHELL}${PR_RESET}"
+  elif [ "$vcs[4]" = "." ]; then
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $vcs[3] ${COL_MAG_TO_SHELL}${PR_RESET}"
+  else
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $vcs[3] ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
   fi
 
   PROMPT="

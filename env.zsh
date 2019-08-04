@@ -18,6 +18,8 @@ COLOR_DARK_PURPLE="\033[0;35;11m"
 COLOR_DARK_CYAN="\033[0;36;11m"
 COLOR_DARK_BLACK="\033[0;30;11m" # hehe. dark black.
 
+export BOOKMARK_SAVE_DIR=~/conf/zsh/bookmarks/
+
 #umask 002
 umask u=rwx,g=rwx,o=
 

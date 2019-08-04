@@ -29,7 +29,7 @@ tm ()
 	fi
 
 	## create session:
-	tmux new -d -s $session
+	__tmux_session="$session" REMOTE_SESSION="$REMOTE_SESSION" tmux new -d -s $session
 
 	## create windows:
 	for window_dir in  "$session_dir"/*/; do

@@ -4,7 +4,7 @@ if [ -z "$bmlist" ]; then
 	bmlist=""
 fi
 
-BOOKMARK_SAVE_DIR=~/conf/zsh/bookmarks
+export BOOKMARK_SAVE_DIR=~/conf/zsh/bookmarks
 BOOKMARK_ERROR_COLOR=$COLOR_DARK_RED
 BOOKMARK_BM_COLUMN_COLOR=$COLOR_RED
 BOOKMARK_SYM_COLUMN_COLOR=$COLOR_BLUE
@@ -125,6 +125,7 @@ bload ()
 		echo $BOOKMARK_ERROR_COLOR Please give a session name. $COLOR_NEUTRAL
 		return
 	fi
+	export BOOKMARK_SESSION="$1"
 
 	source "$BOOKMARK_SAVE_DIR/$1/all";
 }

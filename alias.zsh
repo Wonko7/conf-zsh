@@ -88,6 +88,19 @@ compdef _precommand lowcpu
 
 alias yt="youtube-dl -x --no-playlist "
 
+force_session ()
+{
+	if [ "$1" = "remote" ]; then
+		export REMOTE_SESSION=1
+	else
+		export REMOTE_SESSION=0
+	fi
+
+	tmux setenv REMOTE_SESSION $REMOTE_SESSION
+	tmux source-file ~/.tmux.conf
+	source ~/conf/zsh/prompt.zsh
+}
+
 detect_remote_session ()
 {
 	if [ -z "$SSH_CLIENT" ]; then

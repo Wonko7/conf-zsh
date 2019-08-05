@@ -92,6 +92,10 @@ function precmd()
   gs=$vcs[4]
   local utf8_state=$vcs[5]
 
+  if [ ! -z $utf8_state ]; then
+    utf8_state=" $utf8_state"
+  fi
+
   if [ "$gR" = "%~" ]; then
     # FIXME not sure if this is a good idea:
     gR=$PWD
@@ -104,17 +108,17 @@ function precmd()
 
   if [ ! -z "$bookmark" ]; then
     local br=$(dirname "$gR")
-    local root="${COL_MAG} $br ${COL_MAG_TO_BL}${COL_BL} $bookmark "
+    local root="${COL_MAG} $br ${COL_MAG_TO_BL}${COL_BL} $bookmark"
   else
-    local root="${COL_BL} $gR "
+    local root="${COL_BL} $gR"
   fi
 
   if [ -z $h ]; then
     local vcs_prompt="${root} ${COL_BL_TO_SHELL}${PR_RESET}"
   elif [ "$gs" = "." ]; then
-    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h $utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h$utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
   else
-    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h $utf8_state ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h$utf8_state ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
   fi
 
   PROMPT="

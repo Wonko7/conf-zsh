@@ -159,7 +159,7 @@ setopt APPEND_HISTORY
 
 HISTSIZE=100000
 SAVEHIST=$HISTSIZE
-HISTFILE=~/conf/zsh/history
+HISTFILE=~/conf/zsh/history/$(hostname).history
 
 ##########################################
 ###  HISTORY  ############################

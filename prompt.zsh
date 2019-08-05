@@ -48,7 +48,8 @@ fi
 # we parse it later:
 FMT_PATH="%R
 %b
-%5.5i%c%u
+%5.5i
+%c%u
 %S"
 
 # check-for-changes can be really slow.
@@ -83,11 +84,13 @@ function precmd()
   vcs_info 'prompt'
   local ref
   local vcs=("${(f)vcs_info_msg_1_}")
-  #vcs: 1 basedir, 2 branch, 3 commit + action, 4 subdir
+  #vcs: 1 basedir, 2 branch, 3 commit, 4 cleanliness, 5 subdir
   gR=$vcs[1]
   gr=$(basename "$gR")
   b=$vcs[2]
-  gs=$vcs[4]
+  h=$vcs[3]
+  local utf8_state=$vcs[4]
+  gs=$vcs[5]
 
   if [ "$gR" = "%~" ]; then
     # FIXME not sure if this is a good idea:
@@ -100,20 +103,19 @@ function precmd()
   #echo $gr $gR $b $gs
   #echo $bookmark
 
-
-
   if [ ! -z "$bookmark" ]; then
-    local root="${COL_MAG} ${COL_MAG_TO_BL}${COL_BL} $bookmark "
+    local br=$(dirname "$gR")
+    local root="${COL_MAG} $br ${COL_MAG_TO_BL}${COL_BL} $bookmark "
   else
     local root="${COL_BL} $gR "
   fi
 
-  if [ -z $vcs[3] ]; then
+  if [ -z $h ]; then
     local vcs_prompt="${root} ${COL_BL_TO_SHELL}${PR_RESET}"
-  elif [ "$vcs[4]" = "." ]; then
-    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $vcs[3] ${COL_MAG_TO_SHELL}${PR_RESET}"
+  elif [ "$gs" = "." ]; then
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h $utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
   else
-    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $vcs[3] ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h $utf8_state ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
   fi
 
   PROMPT="

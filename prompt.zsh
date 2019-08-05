@@ -89,7 +89,17 @@ function precmd()
   b=$vcs[2]
   gs=$vcs[4]
 
+  if [ "$gR" = "%~" ]; then
+    # FIXME not sure if this is a good idea:
+    gR=$PWD
+  fi
+
   local bookmark=$(sed -nre "s|^export (.*)=\"$gR\"$|\1|p" "$BOOKMARK_SAVE_DIR/$BOOKMARK_SESSION/all" 2> /dev/null | head -n 1)
+
+  #echo sed -nre \""s|^export (.*)=\"$gR\"$|\1|p"\" \""$BOOKMARK_SAVE_DIR/$BOOKMARK_SESSION/all"\"
+  #echo $gr $gR $b $gs
+  #echo $bookmark
+
 
 
   if [ ! -z "$bookmark" ]; then

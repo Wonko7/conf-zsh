@@ -49,8 +49,8 @@ fi
 FMT_PATH="%R
 %b
 %5.5i
-%c%u
-%S"
+%S
+%c%u"
 
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories
@@ -84,13 +84,13 @@ function precmd()
   vcs_info 'prompt'
   local ref
   local vcs=("${(f)vcs_info_msg_1_}")
-  #vcs: 1 basedir, 2 branch, 3 commit, 4 cleanliness, 5 subdir
+  #vcs: 1 basedir, 2 branch, 3 commit,  4 subdir, 5 cleanliness
   gR=$vcs[1]
   gr=$(basename "$gR")
   b=$vcs[2]
   h=$vcs[3]
-  local utf8_state=$vcs[4]
-  gs=$vcs[5]
+  gs=$vcs[4]
+  local utf8_state=$vcs[5]
 
   if [ "$gR" = "%~" ]; then
     # FIXME not sure if this is a good idea:
@@ -100,7 +100,6 @@ function precmd()
   local bookmark=$(sed -nre "s|^export (.*)=\"$gR\"$|\1|p" "$BOOKMARK_SAVE_DIR/$BOOKMARK_SESSION/all" 2> /dev/null | head -n 1)
 
   #echo sed -nre \""s|^export (.*)=\"$gR\"$|\1|p"\" \""$BOOKMARK_SAVE_DIR/$BOOKMARK_SESSION/all"\"
-  #echo $gr $gR $b $gs
   #echo $bookmark
 
   if [ ! -z "$bookmark" ]; then

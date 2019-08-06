@@ -371,15 +371,15 @@ else
 	print_greeting
 fi
 
-function _tm-load-history
-{
-	if [ ! -z "$__local_zsh_history" ]; then
-		tm_history
-		unset __local_zsh_history
-		#zle reset-prompt
-		zle send-break # ugly but works
-	fi
-	zle -D zle-line-init
-}
+## function _tm-load-history
+## {
+## 	if [ ! -z "$__local_zsh_history" ]; then
+## 		tm_read_history
+## 		unset __local_zsh_history
+## 		#zle reset-prompt
+## 		zle send-break # ugly but works
+## 	fi
+## 	zle -D zle-line-init
+## }
 
-zle -N zle-line-init _tm-load-history
+#zle -N zle-line-init _tm-load-history

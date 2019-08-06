@@ -40,7 +40,6 @@ tm ()
 		I=INIT_TMUX_SESSION=\""$window_dir"\"
 
 		tmux neww -a -t "$session" -n "$w" "$I zsh"
-		echo tmux neww -a -t "$session" -n "$w" "$I zsh"
 
 		## FIXME I'm guessing this is because tmux creates a window, check
 		if [ -z "$first" ]; then
@@ -86,7 +85,6 @@ tm_save ()
 		local id="$(echo $w | cut -d: -f1)"
 		local name="$(echo $w | cut -d: -f2)"
 		tmux send-keys -t "$session:$id".0 C-C
-		echo GOT cc "$w" "$id" "$name"
 	done
 
 	if [ -d "$session_dir" ]; then
@@ -103,7 +101,6 @@ tm_save ()
 		local id="$(echo $w | cut -d: -f1)"
 		local name="$(echo $w | cut -d: -f2)"
 		local window_dir="$session_dir/$i:$name" # not using id because there can be gaps in tmux windows
-		echo mkdir -p "$window_dir"
 		mkdir -p "$window_dir"
 		tmux send-keys -t "$session:$id".0 SPACE fc SPACE -ln \> \""$window_dir"\"/history ENTER
 		tmux send-keys -t "$session:$id".0 SPACE pwd \> \""$window_dir"\"/pwd ENTER
@@ -119,7 +116,30 @@ tm_save ()
 	local IFS=$'\n'
 }
 
-tm_history ()
+tm_pane_history () {
+	cat "$__local_zsh_history"
+}
+
+tm_load_pane_history ()
+{
+	local line
+	while read -r line
+	do
+		print -rS "$line"
+	done < "$__local_zsh_history"
+}
+
+tm_filter_history () {
+	local filter_path="$__tmux_session/history_filter"
+
+	if [ -r "$filter_path" ]; then
+		filter=$(cat "$filter_path")
+		echo $filter
+		egrep -i "$filter" $HISTFILE | tail -n 10 | sed -re "s/^\w+\s+(.*)/\1/"
+	fi
+}
+
+tm_load_filter_history ()
 {
 	local line
 	while read -r line

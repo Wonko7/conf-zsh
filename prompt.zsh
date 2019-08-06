@@ -55,7 +55,8 @@ FMT_PATH="%R
 # check-for-changes can be really slow.
 # you should disable it, if you work with large repositories
 zstyle ':vcs_info:*:*:*'      check-for-changes true
-zstyle ':vcs_info:*:*:*'      unstagedstr       "%F{black}✘%f"
+# 🌩 🗲 🗱🟉 🌩 💡
+zstyle ':vcs_info:*:*:*'      unstagedstr       "%F{black}👾%f"
 zstyle ':vcs_info:*:*:*'      stagedstr         "%F{black}✘%f"
 zstyle ':vcs_info:*:prompt:*' actionformats     ""		"$FMT_PATH"
 zstyle ':vcs_info:*:prompt:*' formats           ""		"$FMT_PATH"
@@ -103,9 +104,6 @@ function precmd()
 
   local bookmark=$(sed -nre "s|^export (.*)=\"$gR\"$|\1|p" "$BOOKMARK_SAVE_DIR/$BOOKMARK_SESSION/all" 2> /dev/null | head -n 1)
 
-  #echo sed -nre \""s|^export (.*)=\"$gR\"$|\1|p"\" \""$BOOKMARK_SAVE_DIR/$BOOKMARK_SESSION/all"\"
-  #echo $bookmark
-
   if [ ! -z "$bookmark" ]; then
     local br=$(dirname "$gR")
     local root="${COL_MAG} $br ${COL_MAG_TO_BL}${COL_BL} $bookmark"
@@ -116,7 +114,7 @@ function precmd()
   if [ -z $h ]; then
     local vcs_prompt="${root} ${COL_BL_TO_SHELL}${PR_RESET}"
   elif [ "$gs" = "." ]; then
-    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h$utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b %F{black}$h$utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
   else
     local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h$utf8_state ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
   fi

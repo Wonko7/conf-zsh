@@ -151,14 +151,13 @@ bindkey -M vicmd v edit-command-line
 ##########################################
 
 setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_NO_STORE
 setopt APPEND_HISTORY
 
-
-HISTSIZE=100000
-SAVEHIST=$HISTSIZE
+SAVEHIST=100000
 HISTFILE=~/conf/zsh/history/$(hostname).history
 
 ##########################################
@@ -337,31 +336,23 @@ print_separator ()
 
 
 bload lol
-if [ ! -z "$INIT_TMUX_SESSION" ]; then
-	unset LOAD_TMUX_SESSION
-	local session="$INIT_TMUX_SESSION"
-	unset INIT_TMUX_SESSION
+if [ ! -z "$__tmux_session" ]; then
 	print_greeting
         print_separator
-	local l_pwd="$session/pwd"
-	local l_history="$session/history"
-	local l_init="$session/init.sh"
+
+	export __tmux_session_path="$__tmux_session_path"
+        export __tmux_session="$__tmux_session"
+        export __tmux_window="$__tmux_window"
+
+	local l_pwd="$__tmux_session_path/pwd"
 	local dir
-	__tmux_session="$session"
 
 	if [ -e "$l_pwd" ]; then
 		dir=$(cat "$l_pwd")
 		cd "$dir"
 	fi
+	# history & init.sh are taken care of in line-init.
 
-	if [ -e "$l_history" ]; then
-		__local_zsh_history="$l_history"
-		#tm_history # is overwritten or something. had to go with zle-line-init hack.
-	fi
-
-	if [ -e "$l_init" ]; then
-		source "$l_init"
-	fi
 elif [ ! -z "$LOAD_TMUX_SESSION"  ]; then
 	unset INIT_TMUX_SESSION # probably wasn't set, just playing it safe?
 	local t="$LOAD_TMUX_SESSION"
@@ -371,15 +362,19 @@ else
 	print_greeting
 fi
 
-## function _tm-load-history
-## {
-## 	if [ ! -z "$__local_zsh_history" ]; then
-## 		tm_read_history
-## 		unset __local_zsh_history
-## 		#zle reset-prompt
-## 		zle send-break # ugly but works
-## 	fi
-## 	zle -D zle-line-init
-## }
+# exec source init.sh without fucking history up:
+function _tm-exec-init
+{
+	local l_init="$__tmux_session_path/init.sh"
 
-#zle -N zle-line-init _tm-load-history
+	tm_load_history
+	if [ -r "$l_init" ]; then
+		source "$l_init"
+		zle -D zle-line-init
+		zle send-break # ugly but works
+	fi
+	zle -D zle-line-init
+	echo should never be called again
+}
+
+zle -N zle-line-init _tm-exec-init

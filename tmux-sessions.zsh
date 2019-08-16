@@ -29,17 +29,17 @@ tm ()
 	fi
 
 	## create session:
-	__tmux_session="$session" REMOTE_SESSION="$REMOTE_SESSION" tmux new -d -s $session
+	tmux new -d -s $session
 
 	## create windows:
 	for window_dir in  "$session_dir"/*/; do
-		w=$(basename "$window_dir")
-		w=$(echo "$w" | cut -d: -f2)
-		echo "creating $w"
+		w=$(basename "$window_dir" | cut -d: -f2)
 
-		I=INIT_TMUX_SESSION=\""$window_dir"\"
+		P=__tmux_session_path=\""$window_dir"\"
+		S=__tmux_session=\""$session"\"
+		W=__tmux_window=\""$w"\"
 
-		tmux neww -a -t "$session" -n "$w" "$I zsh"
+		tmux neww -a -t "$session" -n "$w" "$S $P $W zsh"
 
 		## FIXME I'm guessing this is because tmux creates a window, check
 		if [ -z "$first" ]; then
@@ -50,8 +50,8 @@ tm ()
 
 		## FIXME: make panes save pwd hist:
 		for j in "$window_dir"/*/; do
-			I=INIT_TMUX_SESSION="$j"
-			tmux split-window -t "$session:$w_nb" "$I zsh"
+			P=__tmux_session_path="$j"
+			tmux split-window -t "$session:$w_nb" "$S $P $W zsh"
 		done
 		tmux select-layout -t "$session:$w_nb" even-horizontal
 		w_nb=$(( $w_nb + 1 ))
@@ -80,7 +80,6 @@ tm_save ()
 
 	window_list=$(tmux list-windows -t $session -F "#{window_index}:#{window_name}")
 
-	echo sending ctrl-c:
 	for w in $window_list; do
 		local id="$(echo $w | cut -d: -f1)"
 		local name="$(echo $w | cut -d: -f2)"
@@ -116,10 +115,6 @@ tm_save ()
 	local IFS=$'\n'
 }
 
-tm_pane_history () {
-	cat "$__local_zsh_history"
-}
-
 tm_load_pane_history ()
 {
 	local line
@@ -127,23 +122,42 @@ tm_load_pane_history ()
 	do
 		print -rS "$line"
 	done < "$__local_zsh_history"
+
+	echo "loaded pane history"
 }
 
-tm_filter_history () {
-	local filter_path="$__tmux_session/history_filter"
-
-	if [ -r "$filter_path" ]; then
-		filter=$(cat "$filter_path")
-		echo $filter
-		egrep -i "$filter" $HISTFILE | tail -n 10 | sed -re "s/^\w+\s+(.*)/\1/"
-	fi
-}
-
-tm_load_filter_history ()
-{
+tm_load_filter_history () {
+	# fill history with 10 mru filtered commands:
+	local filter_path="$__tmux_session_path/history_filter"
 	local line
-	while read -r line
-	do
+	echo $__tmux_session_path
+
+
+	filter=$(cat "$filter_path" 2> /dev/null)
+	if [ -z "$filter" ]; then
+		filter="(vlc|mpv).*"$(echo "$__tmux_window" | sed -re 's/\s+/.{,5}/g')
+	fi
+	egrep -i "$filter" $HISTFILE | tail -n 10 | while read -r line; do
 		print -rS "$line"
-	done < "$__local_zsh_history"
+	done
+
+	echo "loaded $filter history"
+}
+
+tm_load_history ()
+{
+	local filter_history_path="$__tmux_session_path/filter_history"
+	local pane_history_path="$__tmux_session_path/pane_history"
+	local session_dir="$SESSION_SAVE_DIR/$__tmux_session/global_history_settings"
+	local needs_refresh=no
+
+	if [ -r "$pane_history_path" ]; then
+		tm_load_pane_history
+		needs_refresh=yes
+	fi
+	if [ -r "$filter_history_path" ]; then
+		tm_load_filter_history
+		needs_refresh=yes
+	fi
+	#zle send-break # ugly but works
 }

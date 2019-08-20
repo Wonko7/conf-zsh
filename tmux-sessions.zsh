@@ -1,4 +1,4 @@
-#!/usr/bin/env zsh -x
+#!/usr/bin/env zsh
 
 SESSION_SAVE_DIR=~/conf/zsh/tmux-sessions
 
@@ -24,24 +24,24 @@ tm ()
 	fi
 
 	## attach or create:
-	if tmux has-session -t=$session; then
-		tmux attach -t $session
+	if tmux has-session -t="$session"; then
+		tmux attach -t "$session"
 	fi
 
 	## create session:
-	tmux new -d -s $session
+	tmux new -d -s "$session"
 
 	## create windows:
 	for window_dir in  "$session_dir"/*/; do
 		w=$(basename "$window_dir" | cut -d: -f2)
 
-		P=__tmux_session_path=\""$window_dir"\"
-		S=__tmux_session=\""$session"\"
-		W=__tmux_window=\""$w"\"
+		S=__tmux_session=\"$session\"
+		W=__tmux_window=\"$w\"
+		P=__tmux_session_path=\"$window_dir\"
 
-		tmux neww -a -t "$session" -n "$w" "$S $P $W zsh"
+		tmux neww -a -t "$session" -n "$w" "$S $W $P zsh"
 
-		## FIXME I'm guessing this is because tmux creates a window, check
+		## FIXME this is because tmux creates a default window in a new session, could make this cleaner.
 		if [ -z "$first" ]; then
 			tmux kill-window -t "$session":1
 			tmux move-window -s "$session":2 -t "$session":1
@@ -51,13 +51,13 @@ tm ()
 		## FIXME: make panes save pwd hist:
 		for j in "$window_dir"/*/; do
 			P=__tmux_session_path="$j"
-			tmux split-window -t "$session:$w_nb" "$S $P $W zsh"
+			tmux split-window -t "$session:$w_nb" "$S $W $P zsh"
 		done
 		tmux select-layout -t "$session:$w_nb" even-horizontal
 		w_nb=$(( $w_nb + 1 ))
 	done
 
-	tmux attach -t $session
+	tmux attach -t "$session"
 }
 
 tm_save ()
@@ -67,6 +67,9 @@ tm_save ()
 	local save="$session_dir/.save/`date '+%F_%T'`"
 	local w
 	local i
+	local id
+	local IFS
+	local OIFS
 
 	setopt local_options null_glob
 
@@ -76,7 +79,7 @@ tm_save ()
 	echo
 
 	OIFS="$IFS"
-	local IFS=$'\n'
+	IFS=$'\n'
 
 	window_list=$(tmux list-windows -t $session -F "#{window_index}:#{window_name}")
 
@@ -112,12 +115,12 @@ tm_save ()
 	done
 
 	IFS="$OIFS"
-	local IFS=$'\n'
 }
 
 tm_load_pane_history ()
 {
 	local line
+
 	while read -r line
 	do
 		print -rS "$line"
@@ -127,37 +130,70 @@ tm_load_pane_history ()
 }
 
 tm_load_filter_history () {
-	# fill history with 10 mru filtered commands:
+	# FIXME: fill history with 10 mru filtered commands: from all machines... heh. interesting idea, see if it stands the test of time
 	local filter_path="$__tmux_session_path/history_filter"
 	local line
-	echo $__tmux_session_path
 
 
 	filter=$(cat "$filter_path" 2> /dev/null)
 	if [ -z "$filter" ]; then
 		filter="(vlc|mpv).*"$(echo "$__tmux_window" | sed -re 's/\s+/.{,5}/g')
 	fi
-	egrep -i "$filter" $HISTFILE | tail -n 10 | while read -r line; do
+
+	egrep -i "$filter" ~/conf/zsh/history/* | tail -n 10 | while read -r line; do
 		print -rS "$line"
 	done
 
-	echo "loaded $filter history"
+	echo "loaded filter history: $filter"
 }
 
 tm_load_history ()
 {
 	local filter_history_path="$__tmux_session_path/filter_history"
 	local pane_history_path="$__tmux_session_path/pane_history"
-	local session_dir="$SESSION_SAVE_DIR/$__tmux_session/global_history_settings"
+	# might use this for other settings?
+	local session_global_settings_file="$SESSION_SAVE_DIR/$__tmux_session/settings"
+	local session_history_settings=""
 	local needs_refresh=no
+	local filter=no
+	local hist=no
+	local window_exclude=""
+	local excluded=
 
-	if [ -r "$pane_history_path" ]; then
+	if [ -r "$session_global_settings_file" ]; then
+		session_history_settings=$(cat "$session_global_settings_file")
+	fi
+
+	case $session_history_settings in
+		filter*)
+			filter=yes
+			pane_exclude=$(echo $session_history_settings | cut -d: -f2)
+			;;
+		pane*)
+			hist=yes
+			pane_exclude=$(echo $session_history_settings | cut -d: -f2)
+			;;
+		both*)
+			filter=yes
+			hist=yes
+			pane_exclude=$(echo $session_history_settings | cut -d: -f2)
+			;;
+	esac
+
+	excluded=$(echo $pane_exclude | egrep "(^|:)$__tmux_window($|:)")
+
+	# not sure what order makes most sense if both filter & pane history are enabled.
+	if [[ -r "$pane_history_path" || ( $hist = yes && -z "$excluded" ) ]]; then
 		tm_load_pane_history
 		needs_refresh=yes
 	fi
-	if [ -r "$filter_history_path" ]; then
+	if [[ -r "$filter_history_path" || ( $filter = yes && -z "$excluded" ) ]]; then
 		tm_load_filter_history
 		needs_refresh=yes
 	fi
-	#zle send-break # ugly but works
+
+	if [ $needs_refresh = yes ]; then
+		return 1
+	fi
+	return 0
 }

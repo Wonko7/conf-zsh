@@ -39,7 +39,7 @@ setopt INC_APPEND_HISTORY
 # Don't record an entry that was just recorded again.
 setopt HIST_IGNORE_DUPS
 # Delete old recorded entry if new entry is a duplicate.
-setopt HIST_IGNORE_ALL_DUPS
+#setopt HIST_IGNORE_ALL_DUPS
 # Do not display a line previously found.
 setopt HIST_FIND_NO_DUPS
 # Don't record an entry starting with a space.
@@ -151,13 +151,14 @@ bindkey -M vicmd v edit-command-line
 ##########################################
 
 setopt HIST_IGNORE_DUPS
-setopt HIST_IGNORE_ALL_DUPS
+#setopt HIST_IGNORE_ALL_DUPS seems to make things unavailable in some cases?
 setopt HIST_IGNORE_SPACE
 setopt HIST_REDUCE_BLANKS
 setopt HIST_NO_STORE
 setopt APPEND_HISTORY
 
 SAVEHIST=100000
+HISTSIZE=$SAVEHIST
 HISTFILE=~/conf/zsh/history/$(hostname).history
 
 ##########################################
@@ -329,29 +330,36 @@ print_greeting ()
 
 print_separator ()
 {
-  print -nP "%F{9}"$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
-  #echo ${COLOR_CYAN}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
-  #echo ${COLOR_RED}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
+	print -nP "%F{9}"$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
+	#echo ${COLOR_CYAN}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
+	#echo ${COLOR_RED}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
 }
 
 
 bload lol
 if [ ! -z "$__tmux_session" ]; then
 	print_greeting
-        print_separator
+	print_separator
 
 	export __tmux_session_path="$__tmux_session_path"
-        export __tmux_session="$__tmux_session"
-        export __tmux_window="$__tmux_window"
+	export __tmux_session="$__tmux_session"
+	export __tmux_window="$__tmux_window"
 
 	local l_pwd="$__tmux_session_path/pwd"
+	local l_init="$__tmux_session_path/init.sh"
 	local dir
 
-	if [ -e "$l_pwd" ]; then
+	if [ -r "$l_pwd" ]; then
 		dir=$(cat "$l_pwd")
 		cd "$dir"
 	fi
-	# history & init.sh are taken care of in line-init.
+
+	if [ -r "$l_init" ]; then
+		source "$l_init"
+	fi
+
+	# history is taken care of in line-init.
+	zle -N zle-line-init _tm-exec-init
 
 elif [ ! -z "$LOAD_TMUX_SESSION"  ]; then
 	unset INIT_TMUX_SESSION # probably wasn't set, just playing it safe?
@@ -365,16 +373,10 @@ fi
 # exec source init.sh without fucking history up:
 function _tm-exec-init
 {
-	local l_init="$__tmux_session_path/init.sh"
-
-	tm_load_history
-	if [ -r "$l_init" ]; then
-		source "$l_init"
-		zle -D zle-line-init
-		zle send-break # ugly but works
+	tm_load_history || reset_prompt=1
+	# smoother than zle -D zle-line-init, works followed by enter and by ctrl-c:
+	_tm-exec-init (){}
+	if [ "$reset_prompt" = 1 ]; then
+		zle send-break
 	fi
-	zle -D zle-line-init
-	echo should never be called again
 }
-
-zle -N zle-line-init _tm-exec-init

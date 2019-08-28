@@ -313,9 +313,17 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 
 
 ##########################################
+###  init stuff... should be elsewhere  ##
+##########################################
+
+# should be once per session, but has to be called without X, so not in user-session.
+# could be in systemd user stuff.
+gpgconf --create-socketdir
+
+
+##########################################
 ###  GREETING/TMUX  ######################
 ##########################################
-#
 
 print_greeting ()
 {

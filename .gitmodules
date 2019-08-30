@@ -1,12 +1,12 @@
 [submodule "bundle/completions"]
 	path = bundle/completions
-	url = git@github.com:zsh-users/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions
 [submodule "bundle/autosuggestions"]
 	path = bundle/autosuggestions
-	url = git@github.com:zsh-users/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
 [submodule "bundle/syntax-highlighting"]
 	path = bundle/syntax-highlighting
-	url = git@github.com:zsh-users/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting
 [submodule "bookmarks"]
 	path = bookmarks
 	url = git@github.com:Wonko7/private-zsh-bookmarks.git
@@ -15,7 +15,7 @@
 	url = git@github.com:Wonko7/private-tmux-sessions.git
 [submodule "bundle/neofetch"]
 	path = bundle/neofetch
-	url = git@github.com:dylanaraps/neofetch
+	url = https://github.com/dylanaraps/neofetch
 [submodule "history"]
 	path = history
 	url = git@github.com:Wonko7/private-zsh-history.git

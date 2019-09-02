@@ -97,6 +97,10 @@ tm_save ()
 		mkdir -p "$session_dir"
 	fi
 
+	if [ -e $save/settings ]; then
+		cp $save/settings $session_dir/settings
+	fi
+
 	i=0
 	for w in $window_list; do
 		i=$(( i + 1 ))
@@ -106,10 +110,10 @@ tm_save ()
 		mkdir -p "$window_dir"
 		tmux send-keys -t "$session:$id".0 SPACE fc SPACE -ln \> \""$window_dir"\"/history ENTER
 		tmux send-keys -t "$session:$id".0 SPACE pwd \> \""$window_dir"\"/pwd ENTER
-		for init in "$save/"*":$name/init.sh"; do
-			echo $session $name OVERWRITING init with $init
+		for file in "$save/"*":$name"/{init.sh,*_history}; do
+			echo $session $name OVERWRITING $file
 			echo $session $name OVERWRITING init with $init >> "$session_dir/log"
-			cp "$init" "$window_dir"/init.sh
+			cp "$file" "$window_dir"/
 		done
 		echo saved $name to $window_dir
 	done

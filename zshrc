@@ -255,6 +255,7 @@ _bindkey_sudo () {
 }
 zle -N _bindkey_xclip
 zle -N _bindkey_sudo
+zle -N tm_switch_window
 
 #bindkey -M viins '^i' $fzf_default_completion
 bindkey -M viins jj vi-cmd-mode
@@ -267,8 +268,8 @@ bindkey -M viins '^I' complete-word
 bindkey -M viins '^g' complete-glob
 #bindkey -M viins '^I' expand-or-complete-prefix
 bindkey -M viins '^x' _bindkey_xclip
-bindkey -M viins '^o' _bindkey_sudo
-#bindkey -M viins '^s' _bindkey_sudo
+#bindkey -M viins '^o' _bindkey_sudo
+bindkey -M viins '^o' tm_switch_window # who has time for prefix keys anyway?
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh

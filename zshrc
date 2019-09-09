@@ -350,6 +350,7 @@ bload lol
 if [ ! -z "$__tmux_session" ]; then
 	print_greeting
 	print_separator
+	echo "zshrc: window"
 
 	export __tmux_session_path="$__tmux_session_path"
 	export __tmux_session="$__tmux_session"
@@ -375,8 +376,11 @@ elif [ ! -z "$LOAD_TMUX_SESSION"  ]; then
 	unset INIT_TMUX_SESSION # probably wasn't set, just playing it safe?
 	local t="$LOAD_TMUX_SESSION"
 	unset LOAD_TMUX_SESSION
+	echo "zshrc: here we goooo, new session, calling tm $t"
 	tm "$t"
+	echo "done"
 else
+	echo "zshrc: naked"
 	print_greeting
 fi
 

@@ -24,9 +24,12 @@ tm ()
 	fi
 
 	## attach or create:
+	echo creating session $session
 	if tmux has-session -t="$session"; then
+		echo found $session
 		tmux attach -t "$session"
 	fi
+	echo really creating: $session
 
 	## create session:
 	tmux new -d -s "$session"
@@ -57,7 +60,9 @@ tm ()
 		w_nb=$(( $w_nb + 1 ))
 	done
 
+	echo "done, attaching"
 	tmux attach -t "$session"
+	echo "this should be the end!"
 }
 
 tm_save ()

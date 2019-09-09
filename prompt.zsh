@@ -26,6 +26,7 @@ COL_MAG_TO_SHELL="$PR_RESET%F{magenta}"
 COL_OR="${PR_RESET}%K{9}%F{white}"
 COL_OR_TO_MAG="${PR_RESET}%F{9}%K{magenta}"
 COL_OR_TO_SHELL="${PR_RESET}%F{9}"
+COL_ALT_FG_VCS="%F{black}"
 if [ "$REMOTE_SESSION" = 1 ]; then
   COL_BL="${PR_RESET}%F{white}%K{240}"
   COL_BL_TO_MAG="${PR_RESET}%F{240}%K{52}"
@@ -35,6 +36,7 @@ if [ "$REMOTE_SESSION" = 1 ]; then
   COL_MAG_TO_SHELL="${PR_RESET}%F{52}"
   COL_OR="${PR_RESET}%K{124}%F{white}"
   COL_OR_TO_SHELL="${PR_RESET}%F{124}"
+  COL_ALT_FG_VCS="%F{240}"
 fi
 
 # set formats
@@ -56,8 +58,8 @@ FMT_PATH="%R
 # you should disable it, if you work with large repositories
 zstyle ':vcs_info:*:*:*'      check-for-changes true
 # 🌩 🗲 🗱🟉 🌩 💡
-zstyle ':vcs_info:*:*:*'      unstagedstr       "%F{black}👾%f"
-zstyle ':vcs_info:*:*:*'      stagedstr         "%F{black}✘%f"
+zstyle ':vcs_info:*:*:*'      unstagedstr       "${COL_ALT_FG_VCS}👾%f"
+zstyle ':vcs_info:*:*:*'      stagedstr         "${COL_ALT_FG_VCS}✘%f"
 zstyle ':vcs_info:*:prompt:*' actionformats     ""		"$FMT_PATH"
 zstyle ':vcs_info:*:prompt:*' formats           ""		"$FMT_PATH"
 zstyle ':vcs_info:*:prompt:*' nvcsformats       ""		"%~"
@@ -114,7 +116,7 @@ function precmd()
   if [ -z $h ]; then
     local vcs_prompt="${root} ${COL_BL_TO_SHELL}${PR_RESET}"
   elif [ "$gs" = "." ]; then
-    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b %F{black}$h$utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b ${COL_ALT_FG_VCS}$h$utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
   else
     local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h$utf8_state ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
   fi

@@ -26,6 +26,7 @@ tm ()
 	## attach or create:
 	if tmux has-session -t="$session"; then
 		tmux attach -t "$session"
+		return 0
 	fi
 
 	## create session:

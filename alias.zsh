@@ -95,22 +95,7 @@ force_session ()
 	else
 		export REMOTE_SESSION=0
 	fi
-
-	tmux setenv REMOTE_SESSION $REMOTE_SESSION
-	tmux source-file ~/.tmux.conf
-	source ~/conf/zsh/prompt.zsh
-}
-
-detect_remote_session ()
-{
-	if [ -z "$SSH_CLIENT" ]; then
-		echo 1
-		export REMOTE_SESSION=0
-	else
-		echo 2
-		export REMOTE_SESSION=1
-	fi
-	echo $SSH_CLIENT
+        export PINENTRY_USER_DATA=$REMOTE_SESSION
 
 	tmux setenv REMOTE_SESSION $REMOTE_SESSION
 	tmux source-file ~/.tmux.conf

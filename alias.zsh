@@ -95,7 +95,7 @@ force_session ()
 	else
 		export REMOTE_SESSION=0
 	fi
-        export PINENTRY_USER_DATA=$REMOTE_SESSION
+	export PINENTRY_USER_DATA=$REMOTE_SESSION
 
 	tmux setenv REMOTE_SESSION $REMOTE_SESSION
 	tmux source-file ~/.tmux.conf
@@ -104,11 +104,11 @@ force_session ()
 
 catcert ()
 {
-        address=$1
-        port=`[ -z "$2" ] && echo 443 || echo $2`
-        echo "$address:$port"
-        echo "Running: echo | openssl s_client -showcerts -servername $address -connect $address:$port 2>/dev/null | openssl x509 -inform pem -noout -text"
-        echo | openssl s_client -showcerts -servername $address -connect $address:$port 2>/dev/null | openssl x509 -inform pem -noout -text
+	address=$1
+	port=`[ -z "$2" ] && echo 443 || echo $2`
+	echo "$address:$port"
+	echo "Running: echo | openssl s_client -showcerts -servername $address -connect $address:$port 2>/dev/null | openssl x509 -inform pem -noout -text"
+	echo | openssl s_client -showcerts -servername $address -connect $address:$port 2>/dev/null | openssl x509 -inform pem -noout -text
 }
 
 print_colors ()

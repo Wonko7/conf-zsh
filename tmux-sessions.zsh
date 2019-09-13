@@ -24,7 +24,7 @@ tm ()
 	fi
 
 	## attach or create:
-	if tmux has-session -t="$session"; then
+	if tmux has-session -t="$session" 2> /dev/null; then
 		tmux attach -t "$session"
 		return 0
 	fi

@@ -20,6 +20,14 @@ export PINENTRY_USER_DATA=0
 case $HOST in
   yggdrasill)
     export CONCURRENCY_LEVEL=7
+    ## X stuff;
+    export GDK_SCALE=3
+    export GDK_DPI_SCALE=0.4
+    ;;
+  daban-urnud)
+    ## X stuff;
+    export GDK_SCALE=2
+    export GDK_DPI_SCALE=0.5
     ;;
   nostromo|undefined|underage)
     export REMOTE_SESSION=1
@@ -55,8 +63,6 @@ export XDG_CACHE_HOME=$HOME/.cache
 export XDG_DATA_HOME=$HOME/.local/share
 ## X stuff;
 export QT_QPA_PLATFORMTHEME="lxqt"
-export GDK_SCALE=3
-export GDK_DPI_SCALE=0.4
 export GPG_TTY=$(tty)
 
 # solarized dark colors:

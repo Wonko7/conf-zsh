@@ -26,8 +26,8 @@ case $HOST in
     ;;
   daban-urnud)
     ## X stuff;
-    export GDK_SCALE=2
-    export GDK_DPI_SCALE=0.5
+    export GDK_SCALE=1
+    export GDK_DPI_SCALE=1
     ;;
   nostromo|undefined|underage)
     export REMOTE_SESSION=1

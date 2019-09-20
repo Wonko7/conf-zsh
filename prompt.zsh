@@ -118,7 +118,7 @@ function precmd()
   elif [ "$gs" = "." ]; then
     local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b ${COL_ALT_FG_VCS}$h$utf8_state ${COL_MAG_TO_SHELL}${PR_RESET}"
   else
-    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b $h$utf8_state ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
+    local vcs_prompt="${root} ${COL_BL_TO_MAG}${COL_MAG} $b ${COL_ALT_FG_VCS}$h$utf8_state ${COL_MAG_TO_BL}${COL_BL} $gs ${COL_BL_TO_SHELL}${PR_RESET}"
   fi
 
   PROMPT="

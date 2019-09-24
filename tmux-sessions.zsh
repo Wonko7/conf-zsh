@@ -142,7 +142,7 @@ tm_load_filter_history () {
 		filter="(vlc|mpv).*"$(echo "$__tmux_window" | sed -re 's/\s+/.{,5}/g')
 	fi
 
-	egrep -i "$filter" ~/conf/zsh/history/$(hostname).history | tail -n 10 | while read -r line; do
+	egrep -i "$filter" $HISTFILE | tail -n 10 | while read -r line; do
 		print -rS "$line"
 	done
 

@@ -18,7 +18,7 @@ fi
 HISTFILE=~/conf/private/history/$(hostname).history
 if [ ! -r $HISTFILE ]; then
   echo WARNING, had to create $HISTFILE
-  mkdir $(dirname $HISTFILE)
+  mkdir -p $(dirname $HISTFILE)
   touch $HISTFILE
 fi
 

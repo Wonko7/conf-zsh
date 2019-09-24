@@ -1,6 +1,26 @@
 #!/usr/bin/env zsh
 
-export BOOKMARK_SAVE_DIR=~/conf/zsh/bookmarks/
+export BOOKMARK_SAVE_DIR=~/conf/private/bookmarks
+if [ ! -d $BOOKMARK_SAVE_DIR ]; then
+  export BOOKMARK_SAVE_DIR=~/conf/zsh/bookmarks
+fi
+
+export TMUX_SESSION_SAVE_DIR=~/conf/private/tmux-sessions
+if [ ! -d $TMUX_SESSION_SAVE_DIR ]; then
+  export TMUX_SESSION_SAVE_DIR=~/conf/zsh/tmux-sessions
+fi
+
+export PASSWORD_STORE_DIR=~/conf/private/pass
+if [ ! -d $PASSWORD_STORE_DIR ]; then
+  export PASSWORD_STORE_DIR=~/.password-store
+fi
+
+HISTFILE=~/conf/private/history/$(hostname).history
+if [ ! -r $HISTFILE ]; then
+  echo WARNING, had to create $HISTFILE
+  mkdir $(dirname $HISTFILE)
+  touch $HISTFILE
+fi
 
 #umask 002
 umask u=rwx,g=rwx,o=

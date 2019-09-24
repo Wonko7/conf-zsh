@@ -4,7 +4,6 @@ if [ -z "$bmlist" ]; then
 	bmlist=""
 fi
 
-export BOOKMARK_SAVE_DIR=~/conf/zsh/bookmarks
 BOOKMARK_ERROR_COLOR=$COLOR_DARK_RED
 BOOKMARK_BM_COLUMN_COLOR=$COLOR_RED
 BOOKMARK_SYM_COLUMN_COLOR=$COLOR_BLUE

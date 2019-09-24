@@ -1,8 +1,5 @@
 #! /usr/bin/env zsh
 
-SESSION_SAVE_DIR=~/conf/zsh/tmux-sessions
-
-
 tm ()
 {
 	local dir
@@ -16,7 +13,7 @@ tm ()
 	setopt local_options null_glob
 
 	## select session
-	local session_dir="$SESSION_SAVE_DIR/$session"
+	local session_dir="$TMUX_SESSION_SAVE_DIR/$session"
 
 	if [ ! -d "$session_dir" ]; then
 		echo $COLOR_DARK_RED No such session: $COLOR_NEUTRAL $session
@@ -64,7 +61,7 @@ tm ()
 tm_save ()
 {
 	local session=$(tmux display-message -p '#S')
-	local session_dir="$SESSION_SAVE_DIR/$session"
+	local session_dir="$TMUX_SESSION_SAVE_DIR/$session"
 	local save="$session_dir/.save/`date '+%F_%T'`"
 	local w
 	local i
@@ -157,7 +154,7 @@ tm_load_history ()
 	local filter_history_path="$__tmux_session_path/filter_history"
 	local pane_history_path="$__tmux_session_path/pane_history"
 	# might use this for other settings?
-	local session_global_settings_file="$SESSION_SAVE_DIR/$__tmux_session/settings"
+	local session_global_settings_file="$TMUX_SESSION_SAVE_DIR/$__tmux_session/settings"
 	local session_history_settings=""
 	local needs_refresh=no
 	local filter=no

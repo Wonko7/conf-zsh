@@ -1,0 +1,53 @@
+export bookmarks="/home/wjc/conf/zsh/bookmarks"
+export conf="/home/wjc/conf"
+export dl="/home/wjc/downloads"
+export docs="/home/wjc/docs"
+export downloads="/home/wjc/downloads"
+export ergo="/home/wjc/conf/ergo"
+export kconf="/home/wjc/conf/kernel-config"
+export layman="/var/lib/layman"
+export linux="/usr/src/linux"
+export loverlays="/home/wjc/work/gentoo/overlays"
+export misc="/home/wjc/conf/misc"
+export nostromo="/mnt/nostromo"
+export overlays="/usr/local/overlays"
+export pass="~/.password-store"
+export portage="/etc/portage"
+export private="/home/wjc/conf/private"
+export systemd="/etc/systemd"
+export tmuxsessions="/home/wjc/conf/zsh/tmux-sessions"
+export tree="/usr/portage"
+export vim="/home/wjc/conf/vim"
+export vbundle="/home/wjc/conf/vim/bundle"
+export work="/home/wjc/work"
+export world="/var/lib/portage/world"
+export xmonad="/home/wjc/conf/xmonad"
+export zhistory="/home/wjc/conf/private/history"
+export zsh="/home/wjc/conf/zsh"
+bmlist="
+bookmarks
+conf
+dl
+docs
+downloads
+ergo
+kconf
+layman
+linux
+loverlays
+misc
+nostromo
+overlays
+pass
+portage
+private
+systemd
+tmuxsessions
+tree
+vim
+vbundle
+work
+world
+xmonad
+zhistory
+zsh"

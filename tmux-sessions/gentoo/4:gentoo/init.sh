@@ -1,0 +1,2 @@
+cd $portage
+git st

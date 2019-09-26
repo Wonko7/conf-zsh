@@ -306,20 +306,6 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 #ZSH_HIGHLIGHT_STYLES[redirection]=none,bg=none
 #ZSH_HIGHLIGHT_STYLES[comment]=fg=black,bold,bg=none
 
-# FIXME testing stuff:
-# chpwd() {
-#   ls
-# }
-
-
-##########################################
-###  init stuff... should be elsewhere  ##
-##########################################
-
-# should be once per session, but has to be called without X, so not in user-session.
-# could be in systemd user stuff.
-gpgconf --create-socketdir
-
 
 ##########################################
 ###  GREETING/TMUX  ######################

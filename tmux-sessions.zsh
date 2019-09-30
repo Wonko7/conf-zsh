@@ -68,6 +68,7 @@ tm_save ()
 	local id
 	local IFS
 	local OIFS
+	local update_windows=$1 # -z. yeah, this could be more elaborate if needed?
 
 	setopt local_options null_glob
 
@@ -84,7 +85,8 @@ tm_save ()
 	for w in $window_list; do
 		local id="$(echo $w | cut -d: -f1)"
 		local name="$(echo $w | cut -d: -f2)"
-		tmux send-keys -t "$session:$id".0 C-C
+		# never was a good idea:
+		# tmux send-keys -t "$session:$id".0 C-C
 	done
 
 	if [ -d "$session_dir" ]; then
@@ -95,8 +97,8 @@ tm_save ()
 		mkdir -p "$session_dir"
 	fi
 
-	if [ -e $save/settings ]; then
-		cp $save/settings $session_dir/settings
+	if [ -e "$save/settings" ]; then
+		cp "$save/settings" "$session_dir/settings"
 	fi
 
 	i=0
@@ -106,13 +108,19 @@ tm_save ()
 		local name="$(echo $w | cut -d: -f2)"
 		local window_dir="$session_dir/$i:$name" # not using id because there can be gaps in tmux windows
 		mkdir -p "$window_dir"
-		tmux send-keys -t "$session:$id".0 SPACE fc SPACE -ln \> \""$window_dir"\"/history ENTER
-		tmux send-keys -t "$session:$id".0 SPACE pwd \> \""$window_dir"\"/pwd ENTER
 		for file in "$save/"*":$name"/{init.sh,*_history}; do
 			echo $session $name OVERWRITING $file
 			echo $session $name OVERWRITING init with $init >> "$session_dir/log"
 			cp "$file" "$window_dir"/
 		done
+		# touch empty history on empty dir!!
+		if [ -z "$(ls -A \"$window_dir\")" ]; then
+			touch "$window_dir"/history
+		fi
+		if [ -z "$update_windows" ]; then
+			tmux send-keys -t "$session:$id".0 SPACE fc SPACE -ln \> \""$window_dir"\"/history ENTER
+			tmux send-keys -t "$session:$id".0 SPACE pwd \> \""$window_dir"\"/pwd ENTER
+		fi
 		echo saved $name to $window_dir
 	done
 

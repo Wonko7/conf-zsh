@@ -17,7 +17,6 @@ alias h="history 0 | rg "
 
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
-alias t="tree -AC"
 
 alias eu="emerge --with-bdeps=y --complete-graph=y --keep-going --verbose-conflicts -uDNaAv "
 alias dmesg="dmesg -He"
@@ -52,17 +51,19 @@ function ds {
 alias ncdu="ncdu --confirm-quit"
 
 if [ -x "$(which exa)" ]; then
-  alias ls="exa"
-  alias ll="exa -l"
-  alias la="exa -la"
-  alias lla="exa -la"
-  alias lsd="exa -la --sort=date"
+  alias ls="exa --group-directories-first"
+  alias ll="exa -l --group-directories-first"
+  alias la="exa -la --group-directories-first"
+  alias lla="exa -la --group-directories-first"
+  alias lsd="exa -la --sort=date --group-directories-first"
+  alias t="exa --group-directories-first --tree"
 else
   alias ls="ls --color=auto"
   alias ll="ls -l --color=auto"
   alias la="ls -A --color=auto"
   alias lla="ls -lA --color=auto"
   alias lsd="ls -lAc --color=auto"
+  alias t="tree -AC"
 fi
 
 alias rm='rm -i'

@@ -104,19 +104,18 @@ tm_save ()
 	i=0
 	for w in $window_list; do
 		i=$(( i + 1 ))
+		zero_padded_i=$(printf '%02d' i )
 		local id="$(echo $w | cut -d: -f1)"
 		local name="$(echo $w | cut -d: -f2)"
-		local window_dir="$session_dir/$i:$name" # not using id because there can be gaps in tmux windows
+		local window_dir="$session_dir/$zero_padded_i:$name" # not using id because there can be gaps in tmux windows
 		mkdir -p "$window_dir"
 		for file in "$save/"*":$name"/{init.sh,*_history}; do
 			echo $session $name OVERWRITING $file
 			echo $session $name OVERWRITING init with $init >> "$session_dir/log"
 			cp "$file" "$window_dir"/
 		done
-		# touch empty history on empty dir!!
-		if [ -z "$(ls -A \"$window_dir\")" ]; then
-			touch "$window_dir"/history
-		fi
+		touch "$window_dir"/history # git hates empty folders
+
 		if [ -z "$update_windows" ]; then
 			tmux send-keys -t "$session:$id".0 SPACE fc SPACE -ln \> \""$window_dir"\"/history ENTER
 			tmux send-keys -t "$session:$id".0 SPACE pwd \> \""$window_dir"\"/pwd ENTER

@@ -1,6 +1,6 @@
 # Key bindings
 # ------------
-if which sk; then
+if which sk > /dev/null; then
 
 # CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {

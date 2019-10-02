@@ -1,6 +1,6 @@
 # Key bindings
 # ------------
-if [[ $- == *i* ]]; then
+if which sk; then
 
 # CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
@@ -17,14 +17,13 @@ __fsel() {
   return $ret
 }
 
-() {
-  # FIXME: add SKIM_TMUX=1 to conf
-  [ -n "$TMUX_PANE" ] && [ "${SKIM_TMUX:-0}" != 0 ] && [ ${LINES:-40} -gt 15 ]
+__sk_use_tmux__ () {
+  [ -n "$TMUX_PANE" ] && [ "${SKIM_TMUX:-0}" != 0 ]
 }
 
 __skcmd() {
   __sk_use_tmux__ &&
-    echo "sk-tmux -d${SKIM_TMUX_HEIGHT:-50%}" || echo "sk"
+    echo "sk-tmux -d${SKIM_HEIGHT:-50} $SKIM_DEFAULT_OPTS" || echo "sk $SKIM_DEFAULT_OPTS --height=${SKIM_HEIGHT:-50}"
 }
 
 sk-file-widget() {
@@ -55,4 +54,10 @@ sk-history-widget() {
 zle     -N   sk-history-widget
 bindkey '^R' sk-history-widget
 
+alias sk="\$(__skcmd)"
+
+else
+  echo Could not find sk!
+  # meh:
+  source ~/.fzf.zsh
 fi

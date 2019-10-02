@@ -35,6 +35,10 @@ export BLOCK_SIZE=human-readable
 export CONCURRENCY_LEVEL=3
 
 export FZF_DEFAULT_OPTS='--reverse --inline-info'
+export SKIM_TMUX=1
+export SKIM_HEIGHT=50%
+export SKIM_DEFAULT_OPTS=" --exact --tiebreak=index --layout=reverse "
+
 export PINENTRY_USER_DATA=0
 
 case $HOST in

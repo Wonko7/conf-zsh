@@ -203,7 +203,7 @@ bindkey '^b' autosuggest-execute
 source ~/conf/zsh/bundle/autosuggestions/zsh-autosuggestions.zsh
 source ~/conf/zsh/bundle/syntax-highlighting/zsh-syntax-highlighting.zsh
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -221,16 +221,8 @@ if [ ! -z $kube_for_life ]; then
   fi
 fi
 
-export FZF_COMPLETION_TRIGGER=''
-#export FZF_DEFAULT_COMMAND='fd --type f --exclude .git --exclude node_modules'
-_fzf_compgen_path() {
-  fd --hidden --follow --exclude ".git" . "$1"
-}
-_fzf_compgen_dir() {
-  fd --type d --hidden --follow --exclude ".git" . "$1"
-}
-
-# whyyyy FIXME test this
+# FIXME: why do I need this again?
+#     Access to internal hash tables via special associative arrays.
 zmodload zsh/parameter
 
 

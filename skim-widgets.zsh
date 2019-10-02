@@ -4,12 +4,13 @@ if which sk; then
 
 # CTRL-T - Paste the selected file path(s) into the command line
 __fsel() {
-  local cmd="${SKIM_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
-    -o -type f -print \
-    -o -type d -print \
-    -o -type l -print 2> /dev/null | cut -b3-"}"
+  #local cmd="${SKIM_CTRL_T_COMMAND:-"command find -L . -mindepth 1 \\( -path '*/\\.*' -o -fstype 'sysfs' -o -fstype 'devfs' -o -fstype 'devtmpfs' -o -fstype 'proc' \\) -prune \
+  #  -o -type f -print \
+  #  -o -type d -print \
+  #  -o -type l -print 2> /dev/null | cut -b3-"}"
+  local cmd="git ls-tree -r --name-only HEAD || fd --type f || rg --files || find . " # cut?
   setopt localoptions pipefail 2> /dev/null
-  eval "$cmd" | SKIM_DEFAULT_OPTS="--height ${SKIM_TMUX_HEIGHT:-50%} --reverse $SKIM_DEFAULT_OPTS $SKIM_CTRL_T_OPTS" $(__skcmd) -m "$@" | while read item; do
+  eval "$cmd" | $(__skcmd) -m "$@" | while read item; do
     echo -n "${(q)item} "
   done
   local ret=$?

@@ -208,7 +208,12 @@ tm_load_history ()
 }
 
 tm_switch_window () {
-	local win=$(tmux list-windows -F '#I:#W' | fzf-tmux | cut -d: -f1)
+	if which sk-tmux > /dev/null; then
+		skim=sk-tmux
+	else
+		skim=fzf-tmux
+	fi
+	local win=$(tmux list-windows -F '#I:#W' | $skim | cut -d: -f1)
 	# local session=$(tmux display-message -p '#S')
 	tmux select-window -t "$__tmux_session:$win"
 }

@@ -215,7 +215,6 @@ if [ ! -z $kube_for_life ]; then
       source <($i completion zsh)
     fi
   done
-
   if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
     source /usr/bin/aws_zsh_completer.sh
   fi
@@ -252,7 +251,7 @@ zle -N tm_switch_window
 bindkey -M viins jj vi-cmd-mode
 bindkey -M vicmd '^n' history-incremental-search-forward
 bindkey -M vicmd '^r' history-incremental-search-backward
-bindkey -M viins '^F' fzf-completion
+#bindkey -M viins '^F' fzf-completion
 bindkey -M viins '^I' complete-word
 #bindkey -M viins '^g' expand-or-complete-prefix
 #bindkey -M viins '^g' expand-or-complete

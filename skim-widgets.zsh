@@ -24,7 +24,7 @@ __sk_use_tmux__ () {
 
 __skcmd() {
   __sk_use_tmux__ &&
-    echo "sk-tmux -d${SKIM_HEIGHT:-50} $SKIM_DEFAULT_OPTS $@ " || echo "sk $SKIM_DEFAULT_OPTS --height=${SKIM_HEIGHT:-50} $@ "
+    echo "sk-tmux -d${SKIM_HEIGHT:-50} $@ " || echo "sk --height=${SKIM_HEIGHT:-50} $@ "
 }
 
 sk-file-widget() {
@@ -58,7 +58,7 @@ sk-history-widget() {
 zle     -N   sk-history-widget
 bindkey '^R' sk-history-widget
 
-alias sk="\$(__skcmd)"
+#alias sk="\$(__skcmd)"
 
 else
   echo Could not find sk!

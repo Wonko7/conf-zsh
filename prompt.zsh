@@ -108,7 +108,8 @@ function precmd()
 
   if [ ! -z "$bookmark" ]; then
     local br=$(dirname "$gR")
-    local root="${COL_MAG} $br ${COL_MAG_TO_BL}${COL_BL} $bookmark"
+    local bn=$(basename "$gR")
+    local root="${COL_MAG} $br ${COL_MAG_TO_BL}${COL_BL} $bn"
   else
     local root="${COL_BL} $gR"
   fi

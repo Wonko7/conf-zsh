@@ -24,7 +24,7 @@ __sk_use_tmux__ () {
 
 __skcmd() {
   __sk_use_tmux__ &&
-    echo "sk-tmux -d${SKIM_HEIGHT:-50} $SKIM_DEFAULT_OPTS" || echo "sk $SKIM_DEFAULT_OPTS --height=${SKIM_HEIGHT:-50}"
+    echo "sk-tmux -d${SKIM_HEIGHT:-50} $SKIM_DEFAULT_OPTS $@ " || echo "sk $SKIM_DEFAULT_OPTS --height=${SKIM_HEIGHT:-50} $@ "
 }
 
 sk-file-widget() {
@@ -40,8 +40,11 @@ bindkey '^T' sk-file-widget
 sk-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail 2> /dev/null
-  selected=( $(fc -rl 1 | $(__skcmd --query=${(qqq)LBUFFER}) ) )
+  # IF you want to use whatever text was present on the prompt as initial query,
+  # use what's in this: ${(qqq)LBUFFER} as __skcmd's --query
+  # I always end up deleting it, so this is ignores it.
 
+  selected=( $(fc -rl 1 | $(__skcmd)) )
   local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]

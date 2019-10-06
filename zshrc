@@ -123,7 +123,7 @@ compglob () {
 zstyle ':completion:*' completer _complete _prefix _approximate
 zstyle ':completion:*:match:*' original only
 #zstyle ':completion:*:approximate:*' max-errors 1 numeric
-zstyle ':completion:*:correct:*' insert-unambiguous true
+#zstyle ':completion:*:correct:*' insert-unambiguous true
 # poor man's fuzzy completion:
 zstyle ':completion:*' matcher-list '' \
   'm:{a-z\-}={A-Z\_}' \
@@ -255,11 +255,12 @@ bindkey -M vicmd '^r' history-incremental-search-backward
 bindkey -M viins '^I' complete-word
 #bindkey -M viins '^g' expand-or-complete-prefix
 #bindkey -M viins '^g' expand-or-complete
-bindkey -M viins '^g' complete-glob
+#bindkey -M viins '^g' complete-glob
 #bindkey -M viins '^I' expand-or-complete-prefix
 bindkey -M viins '^x' _bindkey_xclip
 #bindkey -M viins '^o' _bindkey_sudo
-bindkey -M viins '^o' tm_switch_window # who has time for prefix keys anyway?
+#bindkey -M viins '^o' tm_switch_window # who has time for prefix keys anyway?
+bindkey -M viins '^g' tm_switch_window
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
 #source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh

@@ -35,7 +35,7 @@ tm ()
 
 		S=__tmux_session=\"$session\"
 		W=__tmux_window=\"$w\"
-		P=__tmux_session_path=\"$window_dir\"
+		P=__tmux_window_session_path=\"$window_dir\"
 
 		tmux neww -a -t "$session" -n "$w" "$S $W $P zsh"
 
@@ -48,7 +48,7 @@ tm ()
 
 		## FIXME: make panes save pwd hist:
 		for j in "$window_dir"/*/; do
-			P=__tmux_session_path="$j"
+			P=__tmux_window_session_path="$j"
 			tmux split-window -t "$session:$w_nb" "$S $W $P zsh"
 		done
 		tmux select-layout -t "$session:$w_nb" even-horizontal
@@ -140,7 +140,7 @@ tm_load_pane_history ()
 
 tm_load_filter_history () {
 	# FIXME: fill history with 10 mru filtered commands: from all machines... heh. interesting idea, see if it stands the test of time
-	local filter_path="$__tmux_session_path/history_filter"
+	local filter_path="$__tmux_window_session_path/history_filter"
 	local line
 
 
@@ -158,8 +158,8 @@ tm_load_filter_history () {
 
 tm_load_history ()
 {
-	local filter_history_path="$__tmux_session_path/filter_history"
-	local pane_history_path="$__tmux_session_path/pane_history"
+	local filter_history_path="$__tmux_window_session_path/filter_history"
+	local pane_history_path="$__tmux_window_session_path/pane_history"
 	# might use this for other settings?
 	local session_global_settings_file="$TMUX_SESSION_SAVE_DIR/$__tmux_session/settings"
 	local session_history_settings=""
@@ -216,4 +216,29 @@ tm_switch_window () {
 	local win=$(tmux list-windows -F '#I:#W' | $skim | cut -d: -f1)
 	# local session=$(tmux display-message -p '#S')
 	tmux select-window -t "$__tmux_session:$win"
+}
+
+tm_init ()
+{
+	export __tmux_window_session_path="$__tmux_window_session_path"
+	export __tmux_session="$__tmux_session"
+	export __tmux_window="$__tmux_window"
+
+	local g_init="$TMUX_SESSION_SAVE_DIR/$session/init.sh" # FIXME could do better names than that.
+	local l_pwd="$__tmux_window_session_path/pwd"
+	local l_init="$__tmux_window_session_path/init.sh"
+	local dir
+
+	if [ -r "$l_pwd" ]; then
+		dir=$(cat "$l_pwd")
+		cd "$dir"
+	fi
+
+	if [ -r "$g_init" ]; then
+		source "$g_init"
+	fi
+
+	if [ -r "$l_init" ]; then
+		source "$l_init"
+	fi
 }

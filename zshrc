@@ -328,22 +328,7 @@ if [ ! -z "$__tmux_session" ]; then
 	print_greeting
 	print_separator
 
-	export __tmux_session_path="$__tmux_session_path"
-	export __tmux_session="$__tmux_session"
-	export __tmux_window="$__tmux_window"
-
-	local l_pwd="$__tmux_session_path/pwd"
-	local l_init="$__tmux_session_path/init.sh"
-	local dir
-
-	if [ -r "$l_pwd" ]; then
-		dir=$(cat "$l_pwd")
-		cd "$dir"
-	fi
-
-	if [ -r "$l_init" ]; then
-		source "$l_init"
-	fi
+	tm_init
 
 	# history is taken care of in line-init.
 	zle -N zle-line-init _tm-exec-init

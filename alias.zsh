@@ -25,15 +25,9 @@ alias cal="cal -m"
 alias ip="ip -c -h"
 
 alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}'"
-alias frg="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --files-with-matches"
-alias urg="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --unrestricted"
-function rgfd {
-  rg $1 $(fd $2)
-}
-function urgfd {
-  rg $1 $(fd -HIu $2)
-}
-
+alias rgf="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --files-with-matches"
+alias rgu="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --unrestricted"
+alias rgr="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --no-filename --no-line-number"
 
 alias psack="ps aux | ack "
 alias psrg="ps aux | rg "

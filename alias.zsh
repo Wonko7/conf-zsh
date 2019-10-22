@@ -91,15 +91,6 @@ force_session ()
 		export REMOTE_SESSION=0
 	fi
 	export PINENTRY_USER_DATA=$REMOTE_SESSION
-
-	if [ ! -z "$__tmux_session" ]; then
-		echo Setting remote for tmux $__tmux_session
-		tmux setenv -t "$__tmux_session" REMOTE_SESSION $REMOTE_SESSION
-	else
-		echo Setting remote for tmux globally
-		tmux setenv REMOTE_SESSION $REMOTE_SESSION
-	fi
-	tmux source-file ~/.tmux.conf
 	source ~/conf/zsh/prompt.zsh
 }
 

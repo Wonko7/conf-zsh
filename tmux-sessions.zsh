@@ -80,14 +80,7 @@ tm_save ()
 	OIFS="$IFS"
 	IFS=$'\n'
 
-	window_list=$(tmux list-windows -t $session -F "#{window_index}:#{window_name}")
-
-	for w in $window_list; do
-		local id="$(echo $w | cut -d: -f1)"
-		local name="$(echo $w | cut -d: -f2)"
-		# never was a good idea:
-		# tmux send-keys -t "$session:$id".0 C-C
-	done
+	window_list=$(tmux list-windows -t $session -F "#{window_index}")
 
 	if [ -d "$session_dir" ]; then
 		mkdir -p "$save"
@@ -117,6 +110,7 @@ tm_save ()
 		touch "$window_dir"/history # git hates empty folders
 
 		if [ -z "$update_windows" ]; then
+			# FIXME .0 is unneeded, isn't it?
 			tmux send-keys -t "$session:$id".0 SPACE fc SPACE -ln \> \""$window_dir"\"/history ENTER
 			tmux send-keys -t "$session:$id".0 SPACE pwd \> \""$window_dir"\"/pwd ENTER
 		fi
@@ -241,4 +235,31 @@ tm_init ()
 	if [ -r "$l_init" ]; then
 		source "$l_init"
 	fi
+}
+
+tm_force_session ()
+{
+	local id tmux_session current_id session_type
+	session_type=$1
+
+	force_session $session_type
+
+	if [ ! -z "$__tmux_session" ]; then
+		tmux_session=$__tmux_session
+	else
+		tmux_session=$(tmux display-message -p '#S')
+	fi
+
+	tmux setenv -t "$tmux_session" REMOTE_SESSION $REMOTE_SESSION
+	echo Setting remote for tmux $tmux_session
+
+	tmux source-file ~/.tmux.conf
+
+	current_id=$(tmux display-message -p '#I')
+	for id in $(tmux list-windows -t "$tmux_session" -F "#{window_index}"); do
+		if [ $id = $current_id ]; then
+			continue
+		fi
+		tmux send-keys -t "$tmux_session:$id" SPACE force_session SPACE $session_type ENTER
+	done
 }

@@ -13,7 +13,12 @@ alias mute="pactl set-sink-volume 0 30%; pactl set-sink-volume 1 20%; pactl set-
 # might change this:
 alias m=mute
 
-alias h="history 0 | rg "
+#alias h="history 0 | rg "
+function h ()
+{
+	# sorts by command number, non consistent. sync them? go extended and get date and sort? <- overkill, right?
+	rg --no-heading -n "$@" $zhistory/ | sed -re 's|^.*/([^:]+)\.history:([^:]+):|\2:\1\t|g' | sort -n
+}
 
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
@@ -33,15 +38,6 @@ alias psack="ps aux | ack "
 alias psrg="ps aux | rg "
 alias psc='ps xawf -eo pid,user,cgroup,args'
 
-function ds {
-	if [ -z "$@" ]; then
-		arg="."
-	else
-		arg="$@"
-	fi
-	find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
-}
-
 alias ncdu="ncdu --confirm-quit"
 
 if [ -x "$(which exa)" ]; then
@@ -51,6 +47,8 @@ if [ -x "$(which exa)" ]; then
   alias lla="exa -la --group-directories-first"
   alias lsd="exa -la --sort=date --group-directories-first"
   alias t="exa --group-directories-first --tree"
+  alias ds="exa --group-directories-first -ld */"
+  alias lds="exa --group-directories-first -ld */"
 else
   alias ls="ls --color=auto"
   alias ll="ls -l --color=auto"
@@ -58,6 +56,16 @@ else
   alias lla="ls -lA --color=auto"
   alias lsd="ls -lAc --color=auto"
   alias t="tree -AC"
+  function ds ()
+  {
+	  if [ -z "$@" ]; then
+		  arg="."
+	  else
+		  arg="$@"
+	  fi
+	  find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
+  }
+
 fi
 
 alias rm='rm -i'

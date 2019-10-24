@@ -80,7 +80,7 @@ tm_save ()
 	OIFS="$IFS"
 	IFS=$'\n'
 
-	window_list=$(tmux list-windows -t $session -F "#{window_index}")
+	window_list=$(tmux list-windows -t $session -F "#{window_index}:#{window_name}")
 
 	if [ -d "$session_dir" ]; then
 		mkdir -p "$save"

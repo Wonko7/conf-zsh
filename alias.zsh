@@ -78,8 +78,23 @@ alias tarc='tar -cavf '
 alias tarx='tar -xavf '
 alias tart='tar -tavf '
 
-alias am="udisksctl mount --block-device "
-alias aum="udisksctl unmount --block-device "
+#alias am="udisksctl mount --block-device "
+#alias aum="udisksctl unmount --block-device "
+
+function am () {
+	udisksctl mount --block-device $@
+}
+
+function aum () {
+	udisksctl unmount --block-device $@
+}
+
+function _lsblk_completion () {
+	reply=($(lsblk -o PATH -l --noheading))
+}
+
+compctl -K _lsblk_completion aum
+compctl -K _lsblk_completion am
 
 alias sudo='command sudo '
 alias sudop='command sudo -u portage '

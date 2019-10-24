@@ -209,16 +209,17 @@ export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 alias nvm_load='$NVM_DIR/nvm.sh && $NVM_DIR/bash_completion'
-if [ ! -z $kube_for_life ]; then
-  for i in kubectl kops kompose; do
-    if [ -x "`which $i`" ]; then
-      source <($i completion zsh)
-    fi
-  done
-  if [ -r "/usr/bin/aws_zsh_completer.sh" ]; then
-    source /usr/bin/aws_zsh_completer.sh
-  fi
-fi
+
+kube_for_life() {
+	for i in kubectl kops kompose; do
+		if [ -x "`which $i`" ]; then
+			source <($i completion zsh)
+		fi
+	done
+	source /usr/bin/aws_zsh_completer.sh 2> /dev/null
+	# FIXME: I should not need to source this, something is broken:
+	source /usr/share/zsh/site-functions/_aws 2> /dev/null
+}
 
 # FIXME: why do I need this again?
 #     Access to internal hash tables via special associative arrays.

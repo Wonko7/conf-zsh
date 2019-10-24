@@ -323,7 +323,11 @@ print_separator ()
 }
 
 
-bload lol
+if [ -d $BOOKMARK_SAVE_DIR/$HOST ]; then
+  bload $HOST
+else
+  bload lol
+fi
 if [ ! -z "$__tmux_session" ]; then
 	print_greeting
 	print_separator

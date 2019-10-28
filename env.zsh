@@ -72,12 +72,11 @@ PATH="/usr/sbin:$PATH"
 # my local stuff:
 PATH="$HOME/local/bin:$PATH"
 PATH="$HOME/local/sbin:$PATH"
-PATH="$HOME/work/local/bin:$PATH"
-PATH="$HOME/work/local/sbin:$PATH"
-PATH="$NPM_PACKAGES/bin:$PATH"
 # dev:
+PATH="$NPM_PACKAGES/bin:$PATH"
 PATH="./node_modules/.bin:$PATH"
-PATH="$PATH:$GOPATH/bin"
+PATH="$GOPATH/bin:$PATH"
+PATH="$HOME/.cargo/bin:$PATH"
 
 export PATH="$PATH"
 

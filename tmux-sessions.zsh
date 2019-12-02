@@ -215,10 +215,11 @@ tm_switch_window () {
 tm_init ()
 {
 	export __tmux_window_session_path="$__tmux_window_session_path"
+	export __tmux_session_path="$TMUX_SESSION_SAVE_DIR/$__tmux_session"
 	export __tmux_session="$__tmux_session"
 	export __tmux_window="$__tmux_window"
 
-	local g_init="$TMUX_SESSION_SAVE_DIR/$session/init.sh" # FIXME could do better names than that.
+	local g_init="$TMUX_SESSION_SAVE_DIR/$__tmux_session/init.sh"
 	local l_pwd="$__tmux_window_session_path/pwd"
 	local l_init="$__tmux_window_session_path/init.sh"
 	local dir

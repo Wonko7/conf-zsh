@@ -44,7 +44,7 @@ sk-history-widget() {
   # use what's in this: ${(qqq)LBUFFER} as __skcmd's --query
   # I always end up deleting it, so this is ignores it.
 
-  selected=( $(fc -rl 1 | $(__skcmd)) )
+  selected=( $(fc -rl 1 | $(__skcmd --exact)) )
   local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]

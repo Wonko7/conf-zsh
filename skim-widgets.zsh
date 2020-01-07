@@ -40,11 +40,8 @@ bindkey '^T' sk-file-widget
 sk-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail 2> /dev/null
-  # IF you want to use whatever text was present on the prompt as initial query,
-  # use what's in this: ${(qqq)LBUFFER} as __skcmd's --query
-  # I always end up deleting it, so this is ignores it.
 
-  selected=( $(fc -rl 1 | $(__skcmd --exact)) )
+  selected=( $(fc -rl 1 | $(__skcmd) --exact --query "${LBUFFER}") )
   local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]

@@ -90,9 +90,9 @@ tm_save ()
 		mkdir -p "$session_dir"
 	fi
 
-	if [ -e "$save/settings" ]; then
-		cp "$save/settings" "$session_dir/settings"
-	fi
+	for file in "$save/"{init.sh,settings}; do
+		cp "$file" "$session_dir"
+	done
 
 	i=0
 	for w in $window_list; do

@@ -329,7 +329,13 @@ if [ -d $BOOKMARK_SAVE_DIR/$HOST ]; then
 else
   bload lol
 fi
-if [ ! -z "$__tmux_session" ]; then
+if [ ! -z "$__tmux_session" -o ! -z $TMUX ]; then
+	if [ -z "$__tmux_session" ]; then # new window inside tmux, we still want tm_init & jump to bookmark if exists:
+		__tmux_session=$(tmux display-message -p '#S:#W')
+		export __tmux_window=$(echo $__tmux_session | cut -d: -f2)
+		export __tmux_session=$(echo $__tmux_session | cut -d: -f1)
+		b $__tmux_window > /dev/null
+	fi
 	print_greeting
 	print_separator
 

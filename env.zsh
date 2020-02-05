@@ -77,6 +77,8 @@ PATH="$NPM_PACKAGES/bin:$PATH"
 PATH="./node_modules/.bin:$PATH"
 PATH="$GOPATH/bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
+# I don't like this:
+PATH="$HOME/.skim/bin:$PATH"
 
 export PATH="$PATH"
 

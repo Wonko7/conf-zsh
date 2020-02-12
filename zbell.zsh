@@ -23,7 +23,7 @@ zmodload zsh/datetime || return
 autoload -Uz add-zsh-hook || return
 
 # initialize zbell_duration if not set
-(( ${+zbell_duration} )) || zbell_duration=15
+(( ${+zbell_duration} )) || zbell_duration=1
 
 # initialize zbell_ignore if not set
 (( ${+zbell_ignore} )) || zbell_ignore=($EDITOR $PAGER vi vim nvim emacs w3m less more most man info watch tail journalctl git g bc sv svp vlc mpv xine gxine gimp okular evince top htop powertop strace gdb mutt tmux screen dispatch-conf pass chromium tig)
@@ -65,7 +65,11 @@ zbell_end() {
 		print -n "\a"
 		local cmd=(${(z)zbell_lastcmd})
 		local args=${cmd:1}
-		notify-send "${cmd[1]}" "${args}"
+		if which notif; then
+			notif --send prio "${cmd[1]}" "${args}"
+		elif which notify-send; then
+			notify-send "${cmd[1]}" "${args}"
+		fi > /dev/null
 	fi
 }
 

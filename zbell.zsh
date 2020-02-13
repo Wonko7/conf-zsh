@@ -69,7 +69,7 @@ zbell_end() {
 			notif --send prio "${cmd[1]}" "${args}"
 		elif which notify-send; then
 			notify-send "${cmd[1]}" "${args}"
-		fi > /dev/null
+		fi > /dev/null 2> /dev/null
 	fi
 }
 

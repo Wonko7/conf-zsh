@@ -66,7 +66,7 @@ zbell_end() {
 		local cmd=(${(z)zbell_lastcmd})
 		local args=${cmd:1}
 		if which notif; then
-			notif --send prio "${cmd[1]}" "${args}"
+			notif send "${cmd[1]}" "${args}"
 		elif which notify-send; then
 			notify-send "${cmd[1]}" "${args}"
 		fi > /dev/null 2> /dev/null

@@ -72,7 +72,7 @@ alias rm='rm -i'
 alias rmf='rm -rf'
 alias rms='echo Stallman was right.'
 
-alias cp="rsync -ha --progress"
+alias cp="rsync -hrlpD --progress"
 
 alias tarc='tar -cavf '
 alias tarx='tar -xavf '
@@ -115,6 +115,13 @@ force_session ()
 	fi
 	export PINENTRY_USER_DATA=$REMOTE_SESSION
 	source ~/conf/zsh/prompt.zsh
+}
+
+"s6-svc-list" () # haha, didn't expect that to work.
+{
+  for s in "$1"/*/; do
+    echo $(basename "$s") $(s6-svstat "$s")
+  done | column -t -o ' '
 }
 
 catcert ()

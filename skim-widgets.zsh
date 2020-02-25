@@ -41,7 +41,7 @@ sk-history-widget() {
   local selected num
   setopt localoptions noglobsubst noposixbuiltins pipefail 2> /dev/null
 
-  selected=( $(fc -rl 1 | $(__skcmd) --exact --query "${LBUFFER}") )
+  selected=( $(fc -rl 1 | $(__skcmd) --query "${LBUFFER}") )
   local ret=$?
   if [ -n "$selected" ]; then
     num=$selected[1]

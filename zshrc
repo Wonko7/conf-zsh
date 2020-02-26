@@ -120,7 +120,7 @@ compglob () {
   compadd ${files}
 }
 
-zstyle ':completion:*' completer _complete _prefix _approximate
+zstyle ':completion:*' completer _complete _prefix #_approximate
 zstyle ':completion:*:match:*' original only
 #zstyle ':completion:*:approximate:*' max-errors 1 numeric
 #zstyle ':completion:*:correct:*' insert-unambiguous true

@@ -323,18 +323,20 @@ print_separator ()
 	#echo ${COLOR_RED}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
 }
 
-
 if [ -d $BOOKMARK_SAVE_DIR/$HOST ]; then
-  bload $HOST
+	bload $HOST
 else
-  bload lol
+	bload lol
 fi
+
 if [ ! -z "$__tmux_session" -o ! -z $TMUX ]; then
 	if [ -z "$__tmux_session" ]; then # new window inside tmux, we still want tm_init & jump to bookmark if exists:
 		__tmux_session=$(tmux display-message -p '#S:#W')
 		export __tmux_window=$(echo $__tmux_session | cut -d: -f2)
 		export __tmux_session=$(echo $__tmux_session | cut -d: -f1)
-		b $__tmux_window > /dev/null
+		if [ "$__tmux_window" != zsh ]; then ## TODO: can't differentiate between new window's title is command zsh, versus zsh bookmark.
+			b "$__tmux_window" > /dev/null
+		fi
 	fi
 	print_greeting
 	print_separator

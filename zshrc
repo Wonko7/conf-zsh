@@ -323,7 +323,7 @@ print_separator ()
 	#echo ${COLOR_RED}$(head -c $COLUMNS < /dev/zero | sed s/./─/g)${COLOR_RESET} # tr doesn't work on unicode
 }
 
-if [ -d $BOOKMARK_SAVE_DIR/$HOST ]; then
+if [ -d "$BOOKMARK_SAVE_DIR/$HOST" ]; then
 	bload $HOST
 else
 	bload lol

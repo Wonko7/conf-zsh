@@ -7,6 +7,9 @@ alias vv="VIM_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/nvim.sh"
 alias p="popd"
 alias c="dirs -c"
 alias g="git"
+# FIXME: new, not sure which'll stick
+alias cr='cd $gR'
+alias gr='cd $gR'
 alias sc="systemctl"
 alias z="xscreensaver-command --lock"
 alias mute="pactl set-sink-volume 0 30%; pactl set-sink-volume 1 20%; pactl set-sink-mute 1 true; pactl set-sink-mute 0 true"

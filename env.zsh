@@ -14,6 +14,7 @@ export PASSWORD_STORE_DIR=~/conf/private/pass
 if [ ! -d $PASSWORD_STORE_DIR ]; then
   export PASSWORD_STORE_DIR=~/.password-store
 fi
+export PASSWORD_STORE_GENERATED_LENGTH=33
 
 HISTFILE=~/conf/private/history/$(hostname).history
 if [ ! -r $HISTFILE ]; then

@@ -54,7 +54,7 @@ case $HOST in
     export GDK_SCALE=1
     export GDK_DPI_SCALE=1
     ;;
-  nostromo|serenity|redwarf)
+  nostromo|serenity|reddwarf)
     export REMOTE_SESSION=1
     export PINENTRY_USER_DATA=1
     ;;

@@ -49,12 +49,12 @@ case $HOST in
     export GDK_SCALE=3
     export GDK_DPI_SCALE=0.4
     ;;
-  daban-urnud)
+  daban-urnud|rocinante)
     ## X stuff;
     export GDK_SCALE=1
     export GDK_DPI_SCALE=1
     ;;
-  nostromo|undefined|underage)
+  nostromo|serenity|redwarf)
     export REMOTE_SESSION=1
     export PINENTRY_USER_DATA=1
     ;;

@@ -133,8 +133,7 @@ tm_load_pane_history ()
 }
 
 tm_load_filter_history () {
-	# FIXME: fill history with 10 mru filtered commands: from all machines... heh. interesting idea, see if it stands the test of time
-	local filter_path="$__tmux_window_session_path/history_filter"
+	local filter_path="$__tmux_window_session_path/filter_history"
 	local line
 
 

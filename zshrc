@@ -208,7 +208,7 @@ source ~/conf/zsh/bundle/syntax-highlighting/zsh-syntax-highlighting.zsh
 export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-alias nvm_load='$NVM_DIR/nvm.sh && $NVM_DIR/bash_completion'
+alias nvm_load='source $NVM_DIR/nvm.sh && source $NVM_DIR/bash_completion'
 
 kube_for_life() {
 	for i in kubectl kops kompose; do
@@ -365,3 +365,6 @@ function _tm-exec-init
 		zle send-break
 	fi
 }
+
+# opam configuration ocaml_is_life
+test -r /home/wjc/.opam/opam-init/init.zsh && . /home/wjc/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true

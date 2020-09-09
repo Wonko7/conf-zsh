@@ -10,6 +10,11 @@ tm ()
 	local first
 	local session=$1
 
+	if [ -z $session ]; then
+		echo "missing session name"
+		return 1
+	fi
+
 	setopt local_options null_glob
 
 	## select session

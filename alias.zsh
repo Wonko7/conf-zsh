@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-## heh... why the fuck not?
-alias e="emacs -nw"
+alias e="~/conf/misc/scripts/emacs.sh"
+alias ee="EMACS_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/emacs.sh"
 alias v="~/conf/misc/scripts/nvim.sh"
 alias vv="VIM_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/nvim.sh"
 alias p="popd"

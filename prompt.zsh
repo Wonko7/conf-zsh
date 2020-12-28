@@ -93,6 +93,7 @@ function precmd()
   b=$vcs[2]
   h=$vcs[3]
   gs=$vcs[4]
+  t=$(date +%F)
   local utf8_state=$vcs[5]
 
   if [ ! -z $utf8_state ]; then

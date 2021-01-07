@@ -117,3 +117,20 @@ COLOR_DARK_BLACK="\033[0;30;11m"
 export ANSIBLE_NOCOWS=1
 ## because fuck you android-studio vs tiling.
 export _JAVA_AWT_WM_NONREPARENTING=1
+
+# ocaml/besport:
+export MAKEFLAGS=-j5
+export OPAMJOBS=5
+export OPAMDOWNLOADJOBS=15
+
+# bs
+export PGHOST=localhost
+export PGDATABASE=bs
+export PGPORT=3000
+export PGUSER=besport
+export PGPASSWORD=
+export PGCOMMENT_SRC_LOC=on # optional, useful for debugging
+# extremely non-optional! without the custom converters file, you will get extremely
+# misleading information out of Merlin, which is possibly worse than not having Merlin
+# at all:
+# export PGCUSTOM_CONVERTERS_CONFIG=/absolute/path/to/bs/pgocaml_conv.sexp

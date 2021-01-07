@@ -59,7 +59,10 @@ bf ()
 bclear ()
 {
 	#todo; unset all variables
-	export bmlist=
+	for j in $bmlist; do
+		unset $j
+	done
+	unset bmlist
 }
 
 # remove broken bookmarks

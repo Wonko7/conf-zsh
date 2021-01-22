@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
-alias e="~/conf/misc/scripts/emacs.sh"
 alias ee="EMACS_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/emacs.sh"
+alias e="EMACS_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/emacs.sh"
 alias v="~/conf/misc/scripts/nvim.sh"
 alias vv="VIM_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/nvim.sh"
 alias p="popd"
@@ -44,30 +44,30 @@ alias psc='ps xawf -eo pid,user,cgroup,args'
 alias ncdu="ncdu --confirm-quit"
 
 if [ -x "$(which exa)" ]; then
-  alias ls="exa --group-directories-first"
-  alias ll="exa -l --group-directories-first"
-  alias la="exa -la --group-directories-first"
-  alias lla="exa -la --group-directories-first"
-  alias lsd="exa -la --sort=date --group-directories-first"
-  alias t="exa --group-directories-first --tree"
-  alias ds="exa --group-directories-first -ld */"
-  alias lds="exa --group-directories-first -ld */"
+	alias ls="exa --group-directories-first"
+	alias ll="exa -l --group-directories-first"
+	alias la="exa -la --group-directories-first"
+	alias lla="exa -la --group-directories-first"
+	alias lsd="exa -la --sort=date --group-directories-first"
+	alias t="exa --group-directories-first --tree"
+	alias ds="exa --group-directories-first -ld */"
+	alias lds="exa --group-directories-first -ld */"
 else
-  alias ls="ls --color=auto"
-  alias ll="ls -l --color=auto"
-  alias la="ls -A --color=auto"
-  alias lla="ls -lA --color=auto"
-  alias lsd="ls -lAc --color=auto"
-  alias t="tree -AC"
-  function ds ()
-  {
-	  if [ -z "$@" ]; then
-		  arg="."
-	  else
-		  arg="$@"
-	  fi
-	  find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
-  }
+	alias ls="ls --color=auto"
+	alias ll="ls -l --color=auto"
+	alias la="ls -A --color=auto"
+	alias lla="ls -lA --color=auto"
+	alias lsd="ls -lAc --color=auto"
+	alias t="tree -AC"
+	function ds ()
+	{
+		if [ -z "$@" ]; then
+			arg="."
+		else
+			arg="$@"
+		fi
+		find  "$arg" -maxdepth 1 -type d \! -name . -printf '%f/\n' | sort | column
+	}
 
 fi
 
@@ -76,6 +76,7 @@ alias rmf='rm -rf'
 alias rms='echo Stallman was right.'
 
 alias cp="rsync -hrlpD --progress"
+alias pcp="rsync -hrlpD --progress --owner --group"
 
 alias tarc='tar -cavf '
 alias tarx='tar -xavf '
@@ -122,9 +123,9 @@ force_session ()
 
 "s6-svc-list" () # haha, didn't expect that to work.
 {
-  for s in "$1"/*/; do
-    echo $(basename "$s") $(s6-svstat "$s")
-  done | column -t -o ' '
+	for s in "$1"/*/; do
+		echo $(basename "$s") $(s6-svstat "$s")
+	done | column -t -o ' '
 }
 
 catcert ()

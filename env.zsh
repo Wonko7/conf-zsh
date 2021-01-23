@@ -27,7 +27,7 @@ fi
 umask u=rwx,g=rwx,o=
 
 export PAGER="w3m"
-export EDITOR="nvim"
+export EDITOR="vim"
 export USERWM=`which xmonad`
 
 export HOST=$(hostname)

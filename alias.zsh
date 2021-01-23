@@ -2,8 +2,7 @@
 
 alias ee="EMACS_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/emacs.sh"
 alias e="EMACS_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/emacs.sh"
-alias v="~/conf/misc/scripts/nvim.sh"
-alias vv="VIM_SERVER=DANCE_COMMANDER ~/conf/misc/scripts/nvim.sh"
+alias v="vim"
 alias p="popd"
 alias c="dirs -c"
 alias g="git"

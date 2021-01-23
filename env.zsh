@@ -49,7 +49,7 @@ case $HOST in
     export GDK_SCALE=3
     export GDK_DPI_SCALE=0.4
     ;;
-  daban-urnud|rocinante)
+  enterprise|daban-urnud|rocinante)
     ## X stuff;
     export GDK_SCALE=1
     export GDK_DPI_SCALE=1

@@ -112,7 +112,6 @@ COLOR_DARK_PURPLE="\033[0;35;11m"
 COLOR_DARK_CYAN="\033[0;36;11m"
 COLOR_DARK_BLACK="\033[0;30;11m"
 
-## because fuck you:
 ## because fuck you ansible.
 export ANSIBLE_NOCOWS=1
 ## because fuck you android-studio vs tiling.

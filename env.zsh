@@ -42,6 +42,9 @@ export SKIM_DEFAULT_OPTIONS="--tiebreak=index --layout=reverse --exact --case=ig
 
 export PINENTRY_USER_DATA=0
 
+# opam
+export MAKEFLAGS=5
+export OPAMJOBS=5
 case $HOST in
   yggdrasill)
     export CONCURRENCY_LEVEL=7
@@ -53,6 +56,9 @@ case $HOST in
     ## X stuff;
     export GDK_SCALE=1
     export GDK_DPI_SCALE=1
+    # opam
+    export MAKEFLAGS=8
+    export OPAMJOBS=5
     ;;
   nostromo|serenity|reddwarf)
     export REMOTE_SESSION=1
@@ -119,8 +125,8 @@ export ANSIBLE_NOCOWS=1
 export _JAVA_AWT_WM_NONREPARENTING=1
 
 # ocaml/besport:
-export MAKEFLAGS=-j5
-export OPAMJOBS=5
+export MAKEFLAGS=$MAKEFLAGS
+export OPAMJOBS=$OPAMJOBS
 export OPAMDOWNLOADJOBS=15
 
 # bs

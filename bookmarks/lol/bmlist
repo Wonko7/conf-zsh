@@ -2,7 +2,9 @@ bookmarks
 conf
 dl
 docs
+doom
 downloads
+emacs
 ergo
 kconf
 layman
@@ -14,11 +16,12 @@ overlays
 pass
 portage
 private
+s6
 systemd
 tmuxsessions
 tree
-vim
 vbundle
+vim
 work
 world
 xmonad

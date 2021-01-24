@@ -2,7 +2,9 @@ export bookmarks="/home/wjc/conf/zsh/bookmarks"
 export conf="/home/wjc/conf"
 export dl="/home/wjc/downloads"
 export docs="/home/wjc/docs"
+export doom="/home/wjc/conf/doom"
 export downloads="/home/wjc/downloads"
+export emacs="/home/wjc/conf/emacs"
 export ergo="/home/wjc/conf/ergo"
 export kconf="/home/wjc/conf/kernel-config"
 export layman="/var/lib/layman"
@@ -14,22 +16,24 @@ export overlays="/usr/local/overlays"
 export pass="~/.password-store"
 export portage="/etc/portage"
 export private="/home/wjc/conf/private"
+export s6="/home/wjc/conf/s6-services"
 export systemd="/etc/systemd"
 export tmuxsessions="/home/wjc/conf/zsh/tmux-sessions"
 export tree="/usr/portage"
-export vim="/home/wjc/conf/vim"
 export vbundle="/home/wjc/conf/vim/bundle"
+export vim="/home/wjc/conf/vim"
 export work="/home/wjc/work"
 export world="/var/lib/portage/world"
 export xmonad="/home/wjc/conf/xmonad"
 export zhistory="/home/wjc/conf/private/history"
 export zsh="/home/wjc/conf/zsh"
-bmlist="
-bookmarks
+bmlist="bookmarks
 conf
 dl
 docs
+doom
 downloads
+emacs
 ergo
 kconf
 layman
@@ -41,11 +45,12 @@ overlays
 pass
 portage
 private
+s6
 systemd
 tmuxsessions
 tree
-vim
 vbundle
+vim
 work
 world
 xmonad

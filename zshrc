@@ -369,3 +369,4 @@ function _tm-exec-init
 
 # opam configuration ocaml_is_life
 test -r /home/wjc/.opam/opam-init/init.zsh && . /home/wjc/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+# vs eval $(opam env)

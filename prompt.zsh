@@ -58,7 +58,7 @@ FMT_PATH="%R
 # you should disable it, if you work with large repositories
 zstyle ':vcs_info:*:*:*'      check-for-changes true
 # 🌩 🗲 🗱🟉 🌩 💡
-zstyle ':vcs_info:*:*:*'      unstagedstr       "${COL_ALT_FG_VCS}👾%f"
+zstyle ':vcs_info:*:*:*'      unstagedstr       "${COL_ALT_FG_VCS}😱%f"
 zstyle ':vcs_info:*:*:*'      stagedstr         "${COL_ALT_FG_VCS}✘%f"
 zstyle ':vcs_info:*:prompt:*' actionformats     ""		"$FMT_PATH"
 zstyle ':vcs_info:*:prompt:*' formats           ""		"$FMT_PATH"

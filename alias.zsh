@@ -22,6 +22,13 @@ function h ()
 	rg --no-heading -n "$@" $zhistory/ | sed -re 's|^.*/([^:]+)\.history:([^:]+):|\2:\1\t|g' | sort -n
 }
 
+functin n ()
+{
+  local ns=$1
+  shift
+  sudo -E ip netns exec $ns sudo -E -u \#$(id -u) -g \#$(id -g) "$@"
+}
+
 alias grep="grep --color=auto"
 alias egrep="egrep --color=auto"
 

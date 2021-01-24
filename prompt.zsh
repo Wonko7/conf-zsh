@@ -24,6 +24,7 @@ COL_MAG="${PR_RESET}%F{white}%K{magenta}"
 COL_MAG_TO_BL="$PR_RESET%F{magenta}%K{blue}"
 COL_MAG_TO_SHELL="$PR_RESET%F{magenta}"
 COL_OR="${PR_RESET}%K{9}%F{white}"
+COL_BOR="${PR_RESET}%K{9}%F{black}"
 COL_OR_TO_MAG="${PR_RESET}%F{9}%K{magenta}"
 COL_OR_TO_SHELL="${PR_RESET}%F{9}"
 COL_ALT_FG_VCS="%F{black}"
@@ -35,6 +36,7 @@ if [ "$REMOTE_SESSION" = 1 ]; then
   COL_MAG_TO_BL="${PR_RESET}%F{52}%K{240}"
   COL_MAG_TO_SHELL="${PR_RESET}%F{52}"
   COL_OR="${PR_RESET}%K{124}%F{white}"
+  COL_BOR="${PR_RESET}%K{124}%F{white}"
   COL_OR_TO_SHELL="${PR_RESET}%F{124}"
   COL_ALT_FG_VCS="%F{240}"
 fi
@@ -125,7 +127,7 @@ function precmd()
 
   PROMPT="
 ${vcs_prompt}
-${COL_OR} %n@%m ${COL_OR_TO_SHELL}${PR_RESET} "
+${COL_BOR} %n@%m ${COL_OR_TO_SHELL}${PR_RESET} "
 }
 
 prompt_command_execution_time() {

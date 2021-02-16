@@ -38,7 +38,7 @@ alias cal="cal -m"
 
 alias ip="ip -c -h"
 
-alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}'"
+alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}' -M 300"
 alias rgf="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --files-with-matches"
 alias rgu="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --unrestricted"
 alias rgr="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --no-filename --no-line-number"

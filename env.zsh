@@ -83,9 +83,9 @@ PATH="$HOME/local/sbin:$PATH"
 PATH="$NPM_PACKAGES/bin:$PATH"
 PATH="./node_modules/.bin:$PATH"
 PATH="$GOPATH/bin:$PATH"
-PATH="$HOME/.cargo/bin:$PATH"
+#PATH="$HOME/.cargo/bin:$PATH"
 # I don't like this:
-PATH="$HOME/.skim/bin:$PATH"
+#PATH="$HOME/.skim/bin:$PATH"
 
 export PATH="$PATH"
 
@@ -139,3 +139,4 @@ export PGCOMMENT_SRC_LOC=on # optional, useful for debugging
 # misleading information out of Merlin, which is possibly worse than not having Merlin
 # at all:
 # export PGCUSTOM_CONVERTERS_CONFIG=/absolute/path/to/bs/pgocaml_conv.sexp
+export GUIX_EXTRA_PROFILES=/home/wjc/.guix-extra-profiles

@@ -6,6 +6,7 @@ export doom="/home/wjc/conf/doom"
 export downloads="/home/wjc/downloads"
 export emacs="/home/wjc/conf/emacs"
 export ergo="/home/wjc/conf/ergo"
+export guix="/home/wjc/conf/guix"
 export kconf="/home/wjc/conf/kernel-config"
 export layman="/var/lib/layman"
 export linux="/usr/src/linux"
@@ -35,6 +36,7 @@ doom
 downloads
 emacs
 ergo
+guix
 kconf
 layman
 linux

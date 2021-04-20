@@ -4,7 +4,10 @@
 
 autoload -Uz add-zsh-hook
 
+#;:w
+source /etc/profile
 source ~/conf/zsh/env.zsh
+source ~/conf/zsh/guix.zsh
 
 setopt AUTO_LIST
 setopt MARK_DIRS
@@ -192,9 +195,13 @@ HISTSIZE=$SAVEHIST
 ###  SUB CONF  ###########################
 ##########################################
 
-for i in ~/conf/zsh/*.zsh; do
-  source $i
-done
+source /home/wjc/conf/zsh/alias.zsh
+source /home/wjc/conf/zsh/bookmarks.zsh
+source /home/wjc/conf/zsh/prompt.zsh
+source /home/wjc/conf/zsh/skim-widgets.zsh
+source /home/wjc/conf/zsh/tmux-sessions.zsh
+source /home/wjc/conf/zsh/zbell.zsh
+
 
 bindkey '^l' autosuggest-accept
 bindkey '^b' autosuggest-execute

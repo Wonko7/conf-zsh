@@ -52,6 +52,22 @@ sk-history-widget() {
   zle reset-prompt
   return $ret
 }
+
+skim-history-widget() {
+local selected num
+setopt localoptions noglobsubst noposixbuiltins pipefail no_aliases 2> /dev/null
+selected=( $(fc -rl 1 | perl -ne 'print if !$seen{(/^\s*[0-9]+\**\s+(.*)/, $1)}++' |
+  SKIM_DEFAULT_OPTIONS="--height ${SKIM_TMUX_HEIGHT:-40%} $SKIM_DEFAULT_OPTIONS -n2..,.. --tiebreak=index --bind=ctrl-r:toggle-sort $SKIM_CTRL_R_OPTS --query=${(qqq)LBUFFER} --no-multi" $(__skimcmd)) )
+  local ret=$?
+  if [ -n "$selected" ]; then
+    num=$selected[1]
+    if [ -n "$num" ]; then
+      zle vi-fetch-history -n $num
+    fi
+  fi
+  zle reset-prompt
+  return $ret
+}
 zle     -N   sk-history-widget
 bindkey '^R' sk-history-widget
 

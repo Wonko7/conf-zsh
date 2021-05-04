@@ -4,7 +4,6 @@
 
 autoload -Uz add-zsh-hook
 
-#;:w
 source /etc/profile
 source ~/conf/zsh/env.zsh
 source ~/conf/zsh/guix.zsh
@@ -216,7 +215,7 @@ export NVM_DIR="$HOME/.nvm"
 #[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 #[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 alias nvm_load='source $NVM_DIR/nvm.sh && source $NVM_DIR/bash_completion'
-source $NVM_DIR/nvm.sh && source $NVM_DIR/bash_completion
+# source $NVM_DIR/nvm.sh && source $NVM_DIR/bash_completion
 
 kube_for_life() {
 	for i in kubectl kops kompose; do
@@ -272,9 +271,6 @@ bindkey -M viins '^x' _bindkey_xclip
 bindkey -M viins '^g' tm_switch_window
 
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE=fg=23
-#source ~/conf/zsh/syntax-highlighting-dircolors/zsh-syntax-highlighting.zsh
-
-#ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern line)
 
 
 #ZSH_HIGHLIGHT_STYLES[default]=none,bg=none
@@ -315,12 +311,12 @@ ZSH_HIGHLIGHT_STYLES[path_prefix]=fg=blue,bg=none
 print_greeting ()
 {
 	#screenfetch -L
-	~/conf/zsh/bundle/neofetch/neofetch -L
+	neofetch -L 2> /dev/null
 	echo
 	echo "[32m`uname -a`"
 	echo $COLOR_PURPLE
 	#curl -m 1 -s http://www.free-reseau.fr/outils/rss/67 | sed -nre "s/\s*.desc.*>(.*)<.*/\1/p" || echo $COLOR_RED free api down.
-	fortune -a
+	fortune -a 2> /dev/null
 	echo "[m"
 }
 

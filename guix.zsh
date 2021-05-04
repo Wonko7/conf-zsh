@@ -1,10 +1,12 @@
-unset GUIX_PROFILE
 for p in ~/conf/guix/profiles/*; do
-	echo $p
         pn=$(basename $p)
+        #echo $GUIX_EXTRA_PROFILES/$pn/etc/profile
         if [ -e $GUIX_EXTRA_PROFILES/$pn/etc/profile ]; then
+          unset GUIX_PROFILE
+          #echo YES. $GUIX_EXTRA_PROFILES/$pn/etc/profile
           source $GUIX_EXTRA_PROFILES/$pn/etc/profile
-          echo $GUIX_EXTRA_PROFILES/$pn/etc/profile
-          echo $PATH
         fi
 done
+unset GUIX_PROFILE
+
+export PATH="/run/setuid-programs:$PATH"

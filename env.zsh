@@ -59,6 +59,9 @@ case $HOST in
     # opam
     export MAKEFLAGS=8
     export OPAMJOBS=5
+    if [ -z $TERM ]; then
+      export TERM=st-256color
+    fi
     ;;
   nostromo|serenity|reddwarf)
     export REMOTE_SESSION=1

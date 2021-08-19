@@ -245,3 +245,8 @@ ta_mere ()
 		sleep 1
 	done
 }
+
+apply_manifest () {
+  local p=$1
+  guix package --manifest=$guix/profiles/$p/manifest.scm --profile=$GUIX_EXTRA_PROFILES/$p
+}

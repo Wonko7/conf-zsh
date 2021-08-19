@@ -40,11 +40,13 @@ alias ip="ip -c -h"
 
 alias rg="rg -S --type-add 'clj:*.{clj,cljc,cljs}' -M 300"
 alias rgf="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --files-with-matches"
-alias rgu="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --unrestricted"
+alias rgu="rg -S --type-add 'clj:*.{clj,cljc,cljs}' -uuu"
 alias rgr="rg -S --type-add 'clj:*.{clj,cljc,cljs}' --no-filename --no-line-number"
 
+alias fdu="fd -uu"
+
 alias psack="ps aux | ack "
-alias psrg="ps aux | rg "
+alias psrg="ps aux | \rg "
 alias psc='ps xawf -eo pid,user,cgroup,args'
 
 alias ncdu="ncdu --confirm-quit"

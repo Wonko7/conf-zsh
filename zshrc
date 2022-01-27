@@ -65,7 +65,7 @@ setopt ALWAYS_TO_END
 # unusable with bookmarks
 setopt NO_CDABLEVARS
 
-#source ~/conf/zsh/alias.zsh
+source ~/conf/zsh/alias.zsh
 
 ##########################################
 ###  MODIFIERS  ##########################
@@ -194,7 +194,7 @@ HISTSIZE=$SAVEHIST
 ###  SUB CONF  ###########################
 ##########################################
 
-source /home/wjc/conf/zsh/alias.zsh
+#source /home/wjc/conf/zsh/alias.zsh
 source /home/wjc/conf/zsh/bookmarks.zsh
 source /home/wjc/conf/zsh/prompt.zsh
 source /home/wjc/conf/zsh/skim-widgets.zsh

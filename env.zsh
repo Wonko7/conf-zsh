@@ -69,11 +69,12 @@ case $HOST in
     ;;
 esac
 
-
+# guile
+export GUILE_LOAD_PATH="$HOME/conf/guile/src/:$HOME/conf/guix/src:$GUILE_LOAD_PATH"
 
 ## dev lang dependant:
 export GOPATH=$HOME/local/go
-export NPM_PACKAGES="${HOME}/.npm-packages"
+#export NPM_PACKAGES="${HOME}/.npm-packages"
 
 ## path:
 PATH="/sbin:$PATH"
@@ -83,7 +84,7 @@ PATH="/usr/sbin:$PATH"
 PATH="$HOME/local/bin:$PATH"
 PATH="$HOME/local/sbin:$PATH"
 # dev:
-PATH="$NPM_PACKAGES/bin:$PATH"
+#PATH="$NPM_PACKAGES/bin:$PATH"
 PATH="./node_modules/.bin:$PATH"
 PATH="$GOPATH/bin:$PATH"
 #PATH="$HOME/.cargo/bin:$PATH"
